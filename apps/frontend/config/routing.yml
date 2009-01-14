@@ -1,0 +1,39 @@
+# default rules
+homepage:
+  url:   /
+  param: { module: tag, action: index }
+
+register:
+  url:    /register/*
+  param: { module: user, action: register }
+
+login:
+  url:    /login/*
+  param: { module: user, action: login }
+
+logout:
+  url:    /logout/*
+  param: { module: user, action: logout }
+
+tag:
+  url:    /tag/:stripped_tag/*
+  param:  { module: tag, action: show }
+
+add_comment:
+  url:    /tagcomment/add/*
+  param:  { module: tagcomment, action: add }
+
+user_love:
+  url:    /user/love/*
+  param:  { module: user, action: love }
+
+default_symfony:
+  url:   /symfony/:action/*
+  param: { module: default }
+
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

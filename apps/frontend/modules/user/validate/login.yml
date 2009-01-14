@@ -1,0 +1,25 @@
+methods:
+  post: [nickname, password]
+
+names:
+  nickname:
+    required: true
+    required_msg: kullanıcı adınızı girmeniz gerekiyor
+    validators: [nicknameValidator, userValidator]
+  
+  password:
+    required: true
+    required_msg: şifrenizi girmeniz gerekiyor
+
+nicknameValidator:
+  class: sfStringValidator
+  param:
+    min: 5
+    min_error: kullanıcı adınız en az 5 karakter olmalı
+
+userValidator:
+  class: myLoginValidator
+  param:
+    remember: remember
+    password: password
+    login_error: kullanıcı adı veya şifre hatalı

@@ -1,0 +1,72 @@
+methods:
+  post: [nickname, email, password, repassword, firstname, lastname]
+
+names:
+  nickname:
+    required:     true
+    required_msg: required
+    validators:   [userValidator, usernameValidator, usernamestringValidator]
+  
+  email:
+    required:     true
+    required_msg: required
+    validators:   [emailValidator]
+
+  password:
+    required:     true
+    required_msg: required
+
+  repassword:
+    required:     true
+    required_msg: required
+    validators:   [passwordValidator]
+
+  firstname:
+    required:     false
+    validators:   nameValidator
+
+  lastname:
+    required:     false
+    validators:   nameValidator
+
+  
+userValidator:
+  class:            sfPropelUniqueValidator
+  param:
+    class:          User
+    column:         nickname
+    unique_error:   A user with this username already exists.
+
+usernameValidator:  # only space character allowed, but we should trim more than 1 spaces between characters and at the begining and end.
+  class:            sfRegexValidator
+  param:
+    match:          true
+    pattern:        /^[a-zA-Z0-9 ]+$/
+    match_error:    check your nickname
+
+usernamestringValidator:
+  class:            sfStringValidator
+  param:
+    min:            4
+    min_error:      nickname must be 4 characters at least
+    max:            50
+    max_error:      nickname must be 50 characters maximum
+
+emailValidator:
+  class:            sfEmailValidator
+  param:
+    email_error:    check your email
+
+passwordValidator:
+  class:            sfCompareValidator
+  param:
+    check:          password
+    compare_error:  passwords do not match
+
+nameValidator:
+  class:            sfStringValidator
+  param:
+    min:            2
+    min_error:      2 characters min
+    max:            100
+    max_error:      100 characters max

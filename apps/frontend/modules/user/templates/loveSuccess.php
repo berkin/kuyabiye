@@ -1,0 +1,1 @@
+<?php include_partial('tag/love_buttons', array('tag' => $tag)) ?>
