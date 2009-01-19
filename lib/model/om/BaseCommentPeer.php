@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class BaseTagCommentPeer {
+abstract class BaseCommentPeer {
 
 	
 	const DATABASE_NAME = 'propel';
@@ -10,10 +10,10 @@ abstract class BaseTagCommentPeer {
 	const TABLE_NAME = 'tags_comments';
 
 	
-	const CLASS_DEFAULT = 'lib.model.TagComment';
+	const CLASS_DEFAULT = 'lib.model.Comment';
 
 	
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 8;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -38,10 +38,7 @@ abstract class BaseTagCommentPeer {
 	const TREE_RIGHT = 'tags_comments.TREE_RIGHT';
 
 	
-	const TREE_PARENT = 'tags_comments.TREE_PARENT';
-
-	
-	const SCOPE = 'tags_comments.SCOPE';
+	const PARENT_ID = 'tags_comments.PARENT_ID';
 
 	
 	const CREATED_AT = 'tags_comments.CREATED_AT';
@@ -52,31 +49,31 @@ abstract class BaseTagCommentPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'TagsId', 'UsersId', 'Body', 'TreeLeft', 'TreeRight', 'TreeParent', 'Scope', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (TagCommentPeer::ID, TagCommentPeer::TAGS_ID, TagCommentPeer::USERS_ID, TagCommentPeer::BODY, TagCommentPeer::TREE_LEFT, TagCommentPeer::TREE_RIGHT, TagCommentPeer::TREE_PARENT, TagCommentPeer::SCOPE, TagCommentPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'tags_id', 'users_id', 'body', 'tree_left', 'tree_right', 'tree_parent', 'scope', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'TagsId', 'UsersId', 'Body', 'TreeLeft', 'TreeRight', 'ParentId', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (CommentPeer::ID, CommentPeer::TAGS_ID, CommentPeer::USERS_ID, CommentPeer::BODY, CommentPeer::TREE_LEFT, CommentPeer::TREE_RIGHT, CommentPeer::PARENT_ID, CommentPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'tags_id', 'users_id', 'body', 'tree_left', 'tree_right', 'parent_id', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'TagsId' => 1, 'UsersId' => 2, 'Body' => 3, 'TreeLeft' => 4, 'TreeRight' => 5, 'TreeParent' => 6, 'Scope' => 7, 'CreatedAt' => 8, ),
-		BasePeer::TYPE_COLNAME => array (TagCommentPeer::ID => 0, TagCommentPeer::TAGS_ID => 1, TagCommentPeer::USERS_ID => 2, TagCommentPeer::BODY => 3, TagCommentPeer::TREE_LEFT => 4, TagCommentPeer::TREE_RIGHT => 5, TagCommentPeer::TREE_PARENT => 6, TagCommentPeer::SCOPE => 7, TagCommentPeer::CREATED_AT => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'tags_id' => 1, 'users_id' => 2, 'body' => 3, 'tree_left' => 4, 'tree_right' => 5, 'tree_parent' => 6, 'scope' => 7, 'created_at' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'TagsId' => 1, 'UsersId' => 2, 'Body' => 3, 'TreeLeft' => 4, 'TreeRight' => 5, 'ParentId' => 6, 'CreatedAt' => 7, ),
+		BasePeer::TYPE_COLNAME => array (CommentPeer::ID => 0, CommentPeer::TAGS_ID => 1, CommentPeer::USERS_ID => 2, CommentPeer::BODY => 3, CommentPeer::TREE_LEFT => 4, CommentPeer::TREE_RIGHT => 5, CommentPeer::PARENT_ID => 6, CommentPeer::CREATED_AT => 7, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'tags_id' => 1, 'users_id' => 2, 'body' => 3, 'tree_left' => 4, 'tree_right' => 5, 'parent_id' => 6, 'created_at' => 7, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/TagCommentMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.TagCommentMapBuilder');
+		include_once 'lib/model/map/CommentMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.CommentMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = TagCommentPeer::getTableMap();
+			$map = CommentPeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -110,30 +107,28 @@ abstract class BaseTagCommentPeer {
 	
 	public static function alias($alias, $column)
 	{
-		return str_replace(TagCommentPeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(CommentPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(TagCommentPeer::ID);
+		$criteria->addSelectColumn(CommentPeer::ID);
 
-		$criteria->addSelectColumn(TagCommentPeer::TAGS_ID);
+		$criteria->addSelectColumn(CommentPeer::TAGS_ID);
 
-		$criteria->addSelectColumn(TagCommentPeer::USERS_ID);
+		$criteria->addSelectColumn(CommentPeer::USERS_ID);
 
-		$criteria->addSelectColumn(TagCommentPeer::BODY);
+		$criteria->addSelectColumn(CommentPeer::BODY);
 
-		$criteria->addSelectColumn(TagCommentPeer::TREE_LEFT);
+		$criteria->addSelectColumn(CommentPeer::TREE_LEFT);
 
-		$criteria->addSelectColumn(TagCommentPeer::TREE_RIGHT);
+		$criteria->addSelectColumn(CommentPeer::TREE_RIGHT);
 
-		$criteria->addSelectColumn(TagCommentPeer::TREE_PARENT);
+		$criteria->addSelectColumn(CommentPeer::PARENT_ID);
 
-		$criteria->addSelectColumn(TagCommentPeer::SCOPE);
-
-		$criteria->addSelectColumn(TagCommentPeer::CREATED_AT);
+		$criteria->addSelectColumn(CommentPeer::CREATED_AT);
 
 	}
 
@@ -147,9 +142,9 @@ abstract class BaseTagCommentPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(CommentPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT);
+			$criteria->addSelectColumn(CommentPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -157,7 +152,7 @@ abstract class BaseTagCommentPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = TagCommentPeer::doSelectRS($criteria, $con);
+		$rs = CommentPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -169,7 +164,7 @@ abstract class BaseTagCommentPeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = TagCommentPeer::doSelect($critcopy, $con);
+		$objects = CommentPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -178,15 +173,15 @@ abstract class BaseTagCommentPeer {
 	
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return TagCommentPeer::populateObjects(TagCommentPeer::doSelectRS($criteria, $con));
+		return CommentPeer::populateObjects(CommentPeer::doSelectRS($criteria, $con));
 	}
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseTagCommentPeer:addDoSelectRS:addDoSelectRS') as $callable)
+    foreach (sfMixer::getCallables('BaseCommentPeer:addDoSelectRS:addDoSelectRS') as $callable)
     {
-      call_user_func($callable, 'BaseTagCommentPeer', $criteria, $con);
+      call_user_func($callable, 'BaseCommentPeer', $criteria, $con);
     }
 
 
@@ -196,7 +191,7 @@ abstract class BaseTagCommentPeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			TagCommentPeer::addSelectColumns($criteria);
+			CommentPeer::addSelectColumns($criteria);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -208,7 +203,7 @@ abstract class BaseTagCommentPeer {
 	{
 		$results = array();
 	
-				$cls = TagCommentPeer::getOMClass();
+				$cls = CommentPeer::getOMClass();
 		$cls = Propel::import($cls);
 				while($rs->next()) {
 		
@@ -227,9 +222,9 @@ abstract class BaseTagCommentPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(CommentPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT);
+			$criteria->addSelectColumn(CommentPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -237,9 +232,9 @@ abstract class BaseTagCommentPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(TagCommentPeer::TAGS_ID, TagPeer::ID);
+		$criteria->addJoin(CommentPeer::TAGS_ID, TagPeer::ID);
 
-		$rs = TagCommentPeer::doSelectRS($criteria, $con);
+		$rs = CommentPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -255,9 +250,9 @@ abstract class BaseTagCommentPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(CommentPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT);
+			$criteria->addSelectColumn(CommentPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -265,9 +260,9 @@ abstract class BaseTagCommentPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(TagCommentPeer::USERS_ID, UserPeer::ID);
+		$criteria->addJoin(CommentPeer::USERS_ID, UserPeer::ID);
 
-		$rs = TagCommentPeer::doSelectRS($criteria, $con);
+		$rs = CommentPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -285,17 +280,17 @@ abstract class BaseTagCommentPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		TagCommentPeer::addSelectColumns($c);
-		$startcol = (TagCommentPeer::NUM_COLUMNS - TagCommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		CommentPeer::addSelectColumns($c);
+		$startcol = (CommentPeer::NUM_COLUMNS - CommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		TagPeer::addSelectColumns($c);
 
-		$c->addJoin(TagCommentPeer::TAGS_ID, TagPeer::ID);
+		$c->addJoin(CommentPeer::TAGS_ID, TagPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = TagCommentPeer::getOMClass();
+			$omClass = CommentPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -311,12 +306,12 @@ abstract class BaseTagCommentPeer {
 			foreach($results as $temp_obj1) {
 				$temp_obj2 = $temp_obj1->getTag(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addTagComment($obj1); 					break;
+										$temp_obj2->addComment($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initTagComments();
-				$obj2->addTagComment($obj1); 			}
+				$obj2->initComments();
+				$obj2->addComment($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -332,17 +327,17 @@ abstract class BaseTagCommentPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		TagCommentPeer::addSelectColumns($c);
-		$startcol = (TagCommentPeer::NUM_COLUMNS - TagCommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		CommentPeer::addSelectColumns($c);
+		$startcol = (CommentPeer::NUM_COLUMNS - CommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		UserPeer::addSelectColumns($c);
 
-		$c->addJoin(TagCommentPeer::USERS_ID, UserPeer::ID);
+		$c->addJoin(CommentPeer::USERS_ID, UserPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = TagCommentPeer::getOMClass();
+			$omClass = CommentPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -358,12 +353,12 @@ abstract class BaseTagCommentPeer {
 			foreach($results as $temp_obj1) {
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addTagComment($obj1); 					break;
+										$temp_obj2->addComment($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initTagComments();
-				$obj2->addTagComment($obj1); 			}
+				$obj2->initComments();
+				$obj2->addComment($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -377,9 +372,9 @@ abstract class BaseTagCommentPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(CommentPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT);
+			$criteria->addSelectColumn(CommentPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -387,11 +382,11 @@ abstract class BaseTagCommentPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(TagCommentPeer::TAGS_ID, TagPeer::ID);
+		$criteria->addJoin(CommentPeer::TAGS_ID, TagPeer::ID);
 
-		$criteria->addJoin(TagCommentPeer::USERS_ID, UserPeer::ID);
+		$criteria->addJoin(CommentPeer::USERS_ID, UserPeer::ID);
 
-		$rs = TagCommentPeer::doSelectRS($criteria, $con);
+		$rs = CommentPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -409,8 +404,8 @@ abstract class BaseTagCommentPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		TagCommentPeer::addSelectColumns($c);
-		$startcol2 = (TagCommentPeer::NUM_COLUMNS - TagCommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		CommentPeer::addSelectColumns($c);
+		$startcol2 = (CommentPeer::NUM_COLUMNS - CommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		TagPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + TagPeer::NUM_COLUMNS;
@@ -418,16 +413,16 @@ abstract class BaseTagCommentPeer {
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(TagCommentPeer::TAGS_ID, TagPeer::ID);
+		$c->addJoin(CommentPeer::TAGS_ID, TagPeer::ID);
 
-		$c->addJoin(TagCommentPeer::USERS_ID, UserPeer::ID);
+		$c->addJoin(CommentPeer::USERS_ID, UserPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = TagCommentPeer::getOMClass();
+			$omClass = CommentPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -448,13 +443,13 @@ abstract class BaseTagCommentPeer {
 				$temp_obj1 = $results[$j];
 				$temp_obj2 = $temp_obj1->getTag(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addTagComment($obj1); 					break;
+					$temp_obj2->addComment($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initTagComments();
-				$obj2->addTagComment($obj1);
+				$obj2->initComments();
+				$obj2->addComment($obj1);
 			}
 
 
@@ -471,13 +466,13 @@ abstract class BaseTagCommentPeer {
 				$temp_obj1 = $results[$j];
 				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addTagComment($obj1); 					break;
+					$temp_obj3->addComment($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initTagComments();
-				$obj3->addTagComment($obj1);
+				$obj3->initComments();
+				$obj3->addComment($obj1);
 			}
 
 			$results[] = $obj1;
@@ -493,9 +488,9 @@ abstract class BaseTagCommentPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(CommentPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT);
+			$criteria->addSelectColumn(CommentPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -503,9 +498,9 @@ abstract class BaseTagCommentPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(TagCommentPeer::USERS_ID, UserPeer::ID);
+		$criteria->addJoin(CommentPeer::USERS_ID, UserPeer::ID);
 
-		$rs = TagCommentPeer::doSelectRS($criteria, $con);
+		$rs = CommentPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -521,9 +516,9 @@ abstract class BaseTagCommentPeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(CommentPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(TagCommentPeer::COUNT);
+			$criteria->addSelectColumn(CommentPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -531,9 +526,9 @@ abstract class BaseTagCommentPeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(TagCommentPeer::TAGS_ID, TagPeer::ID);
+		$criteria->addJoin(CommentPeer::TAGS_ID, TagPeer::ID);
 
-		$rs = TagCommentPeer::doSelectRS($criteria, $con);
+		$rs = CommentPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -551,13 +546,13 @@ abstract class BaseTagCommentPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		TagCommentPeer::addSelectColumns($c);
-		$startcol2 = (TagCommentPeer::NUM_COLUMNS - TagCommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		CommentPeer::addSelectColumns($c);
+		$startcol2 = (CommentPeer::NUM_COLUMNS - CommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		UserPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(TagCommentPeer::USERS_ID, UserPeer::ID);
+		$c->addJoin(CommentPeer::USERS_ID, UserPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -565,7 +560,7 @@ abstract class BaseTagCommentPeer {
 
 		while($rs->next()) {
 
-			$omClass = TagCommentPeer::getOMClass();
+			$omClass = CommentPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -583,14 +578,14 @@ abstract class BaseTagCommentPeer {
 				$temp_obj1 = $results[$j];
 				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addTagComment($obj1);
+					$temp_obj2->addComment($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initTagComments();
-				$obj2->addTagComment($obj1);
+				$obj2->initComments();
+				$obj2->addComment($obj1);
 			}
 
 			$results[] = $obj1;
@@ -608,13 +603,13 @@ abstract class BaseTagCommentPeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		TagCommentPeer::addSelectColumns($c);
-		$startcol2 = (TagCommentPeer::NUM_COLUMNS - TagCommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		CommentPeer::addSelectColumns($c);
+		$startcol2 = (CommentPeer::NUM_COLUMNS - CommentPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		TagPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + TagPeer::NUM_COLUMNS;
 
-		$c->addJoin(TagCommentPeer::TAGS_ID, TagPeer::ID);
+		$c->addJoin(CommentPeer::TAGS_ID, TagPeer::ID);
 
 
 		$rs = BasePeer::doSelect($c, $con);
@@ -622,7 +617,7 @@ abstract class BaseTagCommentPeer {
 
 		while($rs->next()) {
 
-			$omClass = TagCommentPeer::getOMClass();
+			$omClass = CommentPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -640,14 +635,14 @@ abstract class BaseTagCommentPeer {
 				$temp_obj1 = $results[$j];
 				$temp_obj2 = $temp_obj1->getTag(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addTagComment($obj1);
+					$temp_obj2->addComment($obj1);
 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initTagComments();
-				$obj2->addTagComment($obj1);
+				$obj2->initComments();
+				$obj2->addComment($obj1);
 			}
 
 			$results[] = $obj1;
@@ -664,16 +659,16 @@ abstract class BaseTagCommentPeer {
 	
 	public static function getOMClass()
 	{
-		return TagCommentPeer::CLASS_DEFAULT;
+		return CommentPeer::CLASS_DEFAULT;
 	}
 
 	
 	public static function doInsert($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseTagCommentPeer:doInsert:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseCommentPeer:doInsert:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseTagCommentPeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseCommentPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -689,7 +684,7 @@ abstract class BaseTagCommentPeer {
 			$criteria = clone $values; 		} else {
 			$criteria = $values->buildCriteria(); 		}
 
-		$criteria->remove(TagCommentPeer::ID); 
+		$criteria->remove(CommentPeer::ID); 
 
 				$criteria->setDbName(self::DATABASE_NAME);
 
@@ -703,9 +698,9 @@ abstract class BaseTagCommentPeer {
 		}
 
 		
-    foreach (sfMixer::getCallables('BaseTagCommentPeer:doInsert:post') as $callable)
+    foreach (sfMixer::getCallables('BaseCommentPeer:doInsert:post') as $callable)
     {
-      call_user_func($callable, 'BaseTagCommentPeer', $values, $con, $pk);
+      call_user_func($callable, 'BaseCommentPeer', $values, $con, $pk);
     }
 
     return $pk;
@@ -715,9 +710,9 @@ abstract class BaseTagCommentPeer {
 	public static function doUpdate($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseTagCommentPeer:doUpdate:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseCommentPeer:doUpdate:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseTagCommentPeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseCommentPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -733,8 +728,8 @@ abstract class BaseTagCommentPeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(TagCommentPeer::ID);
-			$selectCriteria->add(TagCommentPeer::ID, $criteria->remove(TagCommentPeer::ID), $comparison);
+			$comparison = $criteria->getComparison(CommentPeer::ID);
+			$selectCriteria->add(CommentPeer::ID, $criteria->remove(CommentPeer::ID), $comparison);
 
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
@@ -743,9 +738,9 @@ abstract class BaseTagCommentPeer {
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
 	
 
-    foreach (sfMixer::getCallables('BaseTagCommentPeer:doUpdate:post') as $callable)
+    foreach (sfMixer::getCallables('BaseCommentPeer:doUpdate:post') as $callable)
     {
-      call_user_func($callable, 'BaseTagCommentPeer', $values, $con, $ret);
+      call_user_func($callable, 'BaseCommentPeer', $values, $con, $ret);
     }
 
     return $ret;
@@ -759,7 +754,7 @@ abstract class BaseTagCommentPeer {
 		}
 		$affectedRows = 0; 		try {
 									$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(TagCommentPeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(CommentPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -772,16 +767,16 @@ abstract class BaseTagCommentPeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(TagCommentPeer::DATABASE_NAME);
+			$con = Propel::getConnection(CommentPeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof TagComment) {
+			$criteria = clone $values; 		} elseif ($values instanceof Comment) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(TagCommentPeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(CommentPeer::ID, (array) $values, Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -800,13 +795,13 @@ abstract class BaseTagCommentPeer {
 	}
 
 	
-	public static function doValidate(TagComment $obj, $cols = null)
+	public static function doValidate(Comment $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(TagCommentPeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(TagCommentPeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(CommentPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(CommentPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -822,11 +817,11 @@ abstract class BaseTagCommentPeer {
 
 		}
 
-		$res =  BasePeer::doValidate(TagCommentPeer::DATABASE_NAME, TagCommentPeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(CommentPeer::DATABASE_NAME, CommentPeer::TABLE_NAME, $columns);
     if ($res !== true) {
         $request = sfContext::getInstance()->getRequest();
         foreach ($res as $failed) {
-            $col = TagCommentPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $col = CommentPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
             $request->setError($col, $failed->getMessage());
         }
     }
@@ -841,12 +836,12 @@ abstract class BaseTagCommentPeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(TagCommentPeer::DATABASE_NAME);
+		$criteria = new Criteria(CommentPeer::DATABASE_NAME);
 
-		$criteria->add(TagCommentPeer::ID, $pk);
+		$criteria->add(CommentPeer::ID, $pk);
 
 
-		$v = TagCommentPeer::doSelect($criteria, $con);
+		$v = CommentPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -863,8 +858,8 @@ abstract class BaseTagCommentPeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(TagCommentPeer::ID, $pks, Criteria::IN);
-			$objs = TagCommentPeer::doSelect($criteria, $con);
+			$criteria->add(CommentPeer::ID, $pks, Criteria::IN);
+			$objs = CommentPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
@@ -872,11 +867,11 @@ abstract class BaseTagCommentPeer {
 } 
 if (Propel::isInit()) {
 			try {
-		BaseTagCommentPeer::getMapBuilder();
+		BaseCommentPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/TagCommentMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.TagCommentMapBuilder');
+			require_once 'lib/model/map/CommentMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.CommentMapBuilder');
 }

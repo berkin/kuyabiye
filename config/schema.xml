@@ -40,7 +40,7 @@
      <column name="created_at" type="timestamp" />
    </table>
 
-   <table name="tags_comments" phpName="TagComment">
+   <table name="tags_comments" phpName="Comment">
      <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true" />
      <column name="tags_id" type="integer" />
      <foreign-key foreignTable="tags">
@@ -51,10 +51,9 @@
        <reference local="users_id" foreign="id"/>
      </foreign-key>
      <column name="body" type="longvarchar" />
-    <column name="tree_left" type="integer"   required="true" /> 
-    <column name="tree_right" type="integer"   required="true" /> 
-    <column name="tree_parent" type="integer"   required="true" /> 
-    <column name="scope" type="integer"   required="true" />
+     <column name="tree_left" type="integer" required="true" /> 
+     <column name="tree_right" type="integer" required="true" /> 
+     <column name="parent_id" type="integer" required="true" />
      <column name="created_at" type="timestamp" />
    </table>
 

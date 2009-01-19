@@ -49,5 +49,4 @@ class myUser extends sfBasicSecurityUser
   {
     return $this->getAttribute('nickname', '', 'subscriber');
   }
- 
 }

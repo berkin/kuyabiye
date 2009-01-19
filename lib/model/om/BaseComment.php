@@ -1,7 +1,7 @@
 <?php
 
 
-abstract class BaseTagComment extends BaseObject  implements Persistent {
+abstract class BaseComment extends BaseObject  implements Persistent {
 
 
 	
@@ -33,11 +33,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 
 	
-	protected $tree_parent;
-
-
-	
-	protected $scope;
+	protected $parent_id;
 
 
 	
@@ -98,17 +94,10 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getTreeParent()
+	public function getParentId()
 	{
 
-		return $this->tree_parent;
-	}
-
-	
-	public function getScope()
-	{
-
-		return $this->scope;
+		return $this->parent_id;
 	}
 
 	
@@ -145,7 +134,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 		if ($this->id !== $v) {
 			$this->id = $v;
-			$this->modifiedColumns[] = TagCommentPeer::ID;
+			$this->modifiedColumns[] = CommentPeer::ID;
 		}
 
 	} 
@@ -161,7 +150,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 		if ($this->tags_id !== $v) {
 			$this->tags_id = $v;
-			$this->modifiedColumns[] = TagCommentPeer::TAGS_ID;
+			$this->modifiedColumns[] = CommentPeer::TAGS_ID;
 		}
 
 		if ($this->aTag !== null && $this->aTag->getId() !== $v) {
@@ -181,7 +170,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 		if ($this->users_id !== $v) {
 			$this->users_id = $v;
-			$this->modifiedColumns[] = TagCommentPeer::USERS_ID;
+			$this->modifiedColumns[] = CommentPeer::USERS_ID;
 		}
 
 		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
@@ -201,7 +190,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 		if ($this->body !== $v) {
 			$this->body = $v;
-			$this->modifiedColumns[] = TagCommentPeer::BODY;
+			$this->modifiedColumns[] = CommentPeer::BODY;
 		}
 
 	} 
@@ -217,7 +206,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 		if ($this->tree_left !== $v) {
 			$this->tree_left = $v;
-			$this->modifiedColumns[] = TagCommentPeer::TREE_LEFT;
+			$this->modifiedColumns[] = CommentPeer::TREE_LEFT;
 		}
 
 	} 
@@ -233,12 +222,12 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 		if ($this->tree_right !== $v) {
 			$this->tree_right = $v;
-			$this->modifiedColumns[] = TagCommentPeer::TREE_RIGHT;
+			$this->modifiedColumns[] = CommentPeer::TREE_RIGHT;
 		}
 
 	} 
 	
-	public function setTreeParent($v)
+	public function setParentId($v)
 	{
 
 		
@@ -247,25 +236,9 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->tree_parent !== $v) {
-			$this->tree_parent = $v;
-			$this->modifiedColumns[] = TagCommentPeer::TREE_PARENT;
-		}
-
-	} 
-	
-	public function setScope($v)
-	{
-
-		
-		
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->scope !== $v) {
-			$this->scope = $v;
-			$this->modifiedColumns[] = TagCommentPeer::SCOPE;
+		if ($this->parent_id !== $v) {
+			$this->parent_id = $v;
+			$this->modifiedColumns[] = CommentPeer::PARENT_ID;
 		}
 
 	} 
@@ -282,7 +255,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 		}
 		if ($this->created_at !== $ts) {
 			$this->created_at = $ts;
-			$this->modifiedColumns[] = TagCommentPeer::CREATED_AT;
+			$this->modifiedColumns[] = CommentPeer::CREATED_AT;
 		}
 
 	} 
@@ -303,19 +276,17 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 			$this->tree_right = $rs->getInt($startcol + 5);
 
-			$this->tree_parent = $rs->getInt($startcol + 6);
+			$this->parent_id = $rs->getInt($startcol + 6);
 
-			$this->scope = $rs->getInt($startcol + 7);
-
-			$this->created_at = $rs->getTimestamp($startcol + 8, null);
+			$this->created_at = $rs->getTimestamp($startcol + 7, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 9; 
+						return $startcol + 8; 
 		} catch (Exception $e) {
-			throw new PropelException("Error populating TagComment object", $e);
+			throw new PropelException("Error populating Comment object", $e);
 		}
 	}
 
@@ -323,7 +294,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	public function delete($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseTagComment:delete:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseComment:delete:pre') as $callable)
     {
       $ret = call_user_func($callable, $this, $con);
       if ($ret)
@@ -338,12 +309,12 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(TagCommentPeer::DATABASE_NAME);
+			$con = Propel::getConnection(CommentPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
-			TagCommentPeer::doDelete($this, $con);
+			CommentPeer::doDelete($this, $con);
 			$this->setDeleted(true);
 			$con->commit();
 		} catch (PropelException $e) {
@@ -352,7 +323,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 		}
 	
 
-    foreach (sfMixer::getCallables('BaseTagComment:delete:post') as $callable)
+    foreach (sfMixer::getCallables('BaseComment:delete:post') as $callable)
     {
       call_user_func($callable, $this, $con);
     }
@@ -362,7 +333,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	public function save($con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseTagComment:save:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseComment:save:pre') as $callable)
     {
       $affectedRows = call_user_func($callable, $this, $con);
       if (is_int($affectedRows))
@@ -372,7 +343,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
     }
 
 
-    if ($this->isNew() && !$this->isColumnModified(TagCommentPeer::CREATED_AT))
+    if ($this->isNew() && !$this->isColumnModified(CommentPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
     }
@@ -382,14 +353,14 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 		}
 
 		if ($con === null) {
-			$con = Propel::getConnection(TagCommentPeer::DATABASE_NAME);
+			$con = Propel::getConnection(CommentPeer::DATABASE_NAME);
 		}
 
 		try {
 			$con->begin();
 			$affectedRows = $this->doSave($con);
 			$con->commit();
-    foreach (sfMixer::getCallables('BaseTagComment:save:post') as $callable)
+    foreach (sfMixer::getCallables('BaseComment:save:post') as $callable)
     {
       call_user_func($callable, $this, $con, $affectedRows);
     }
@@ -426,12 +397,12 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 						if ($this->isModified()) {
 				if ($this->isNew()) {
-					$pk = TagCommentPeer::doInsert($this, $con);
+					$pk = CommentPeer::doInsert($this, $con);
 					$affectedRows += 1; 										 										 
 					$this->setId($pk);  
 					$this->setNew(false);
 				} else {
-					$affectedRows += TagCommentPeer::doUpdate($this, $con);
+					$affectedRows += CommentPeer::doUpdate($this, $con);
 				}
 				$this->resetModified(); 			}
 
@@ -485,7 +456,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 			}
 
 
-			if (($retval = TagCommentPeer::doValidate($this, $columns)) !== true) {
+			if (($retval = CommentPeer::doValidate($this, $columns)) !== true) {
 				$failureMap = array_merge($failureMap, $retval);
 			}
 
@@ -500,7 +471,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	
 	public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = TagCommentPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = CommentPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->getByPosition($pos);
 	}
 
@@ -527,12 +498,9 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 				return $this->getTreeRight();
 				break;
 			case 6:
-				return $this->getTreeParent();
+				return $this->getParentId();
 				break;
 			case 7:
-				return $this->getScope();
-				break;
-			case 8:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -543,7 +511,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	
 	public function toArray($keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = TagCommentPeer::getFieldNames($keyType);
+		$keys = CommentPeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getTagsId(),
@@ -551,9 +519,8 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 			$keys[3] => $this->getBody(),
 			$keys[4] => $this->getTreeLeft(),
 			$keys[5] => $this->getTreeRight(),
-			$keys[6] => $this->getTreeParent(),
-			$keys[7] => $this->getScope(),
-			$keys[8] => $this->getCreatedAt(),
+			$keys[6] => $this->getParentId(),
+			$keys[7] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -561,7 +528,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	
 	public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
 	{
-		$pos = TagCommentPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+		$pos = CommentPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 		return $this->setByPosition($pos, $value);
 	}
 
@@ -588,12 +555,9 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 				$this->setTreeRight($value);
 				break;
 			case 6:
-				$this->setTreeParent($value);
+				$this->setParentId($value);
 				break;
 			case 7:
-				$this->setScope($value);
-				break;
-			case 8:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -601,7 +565,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	
 	public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
 	{
-		$keys = TagCommentPeer::getFieldNames($keyType);
+		$keys = CommentPeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setTagsId($arr[$keys[1]]);
@@ -609,25 +573,23 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setBody($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setTreeLeft($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setTreeRight($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setTreeParent($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setScope($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
+		if (array_key_exists($keys[6], $arr)) $this->setParentId($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setCreatedAt($arr[$keys[7]]);
 	}
 
 	
 	public function buildCriteria()
 	{
-		$criteria = new Criteria(TagCommentPeer::DATABASE_NAME);
+		$criteria = new Criteria(CommentPeer::DATABASE_NAME);
 
-		if ($this->isColumnModified(TagCommentPeer::ID)) $criteria->add(TagCommentPeer::ID, $this->id);
-		if ($this->isColumnModified(TagCommentPeer::TAGS_ID)) $criteria->add(TagCommentPeer::TAGS_ID, $this->tags_id);
-		if ($this->isColumnModified(TagCommentPeer::USERS_ID)) $criteria->add(TagCommentPeer::USERS_ID, $this->users_id);
-		if ($this->isColumnModified(TagCommentPeer::BODY)) $criteria->add(TagCommentPeer::BODY, $this->body);
-		if ($this->isColumnModified(TagCommentPeer::TREE_LEFT)) $criteria->add(TagCommentPeer::TREE_LEFT, $this->tree_left);
-		if ($this->isColumnModified(TagCommentPeer::TREE_RIGHT)) $criteria->add(TagCommentPeer::TREE_RIGHT, $this->tree_right);
-		if ($this->isColumnModified(TagCommentPeer::TREE_PARENT)) $criteria->add(TagCommentPeer::TREE_PARENT, $this->tree_parent);
-		if ($this->isColumnModified(TagCommentPeer::SCOPE)) $criteria->add(TagCommentPeer::SCOPE, $this->scope);
-		if ($this->isColumnModified(TagCommentPeer::CREATED_AT)) $criteria->add(TagCommentPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(CommentPeer::ID)) $criteria->add(CommentPeer::ID, $this->id);
+		if ($this->isColumnModified(CommentPeer::TAGS_ID)) $criteria->add(CommentPeer::TAGS_ID, $this->tags_id);
+		if ($this->isColumnModified(CommentPeer::USERS_ID)) $criteria->add(CommentPeer::USERS_ID, $this->users_id);
+		if ($this->isColumnModified(CommentPeer::BODY)) $criteria->add(CommentPeer::BODY, $this->body);
+		if ($this->isColumnModified(CommentPeer::TREE_LEFT)) $criteria->add(CommentPeer::TREE_LEFT, $this->tree_left);
+		if ($this->isColumnModified(CommentPeer::TREE_RIGHT)) $criteria->add(CommentPeer::TREE_RIGHT, $this->tree_right);
+		if ($this->isColumnModified(CommentPeer::PARENT_ID)) $criteria->add(CommentPeer::PARENT_ID, $this->parent_id);
+		if ($this->isColumnModified(CommentPeer::CREATED_AT)) $criteria->add(CommentPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
 	}
@@ -635,9 +597,9 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	
 	public function buildPkeyCriteria()
 	{
-		$criteria = new Criteria(TagCommentPeer::DATABASE_NAME);
+		$criteria = new Criteria(CommentPeer::DATABASE_NAME);
 
-		$criteria->add(TagCommentPeer::ID, $this->id);
+		$criteria->add(CommentPeer::ID, $this->id);
 
 		return $criteria;
 	}
@@ -668,9 +630,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
 		$copyObj->setTreeRight($this->tree_right);
 
-		$copyObj->setTreeParent($this->tree_parent);
-
-		$copyObj->setScope($this->scope);
+		$copyObj->setParentId($this->parent_id);
 
 		$copyObj->setCreatedAt($this->created_at);
 
@@ -693,7 +653,7 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 	public function getPeer()
 	{
 		if (self::$peer === null) {
-			self::$peer = new TagCommentPeer();
+			self::$peer = new CommentPeer();
 		}
 		return self::$peer;
 	}
@@ -759,9 +719,9 @@ abstract class BaseTagComment extends BaseObject  implements Persistent {
 
   public function __call($method, $arguments)
   {
-    if (!$callable = sfMixer::getCallable('BaseTagComment:'.$method))
+    if (!$callable = sfMixer::getCallable('BaseComment:'.$method))
     {
-      throw new sfException(sprintf('Call to undefined method BaseTagComment::%s', $method));
+      throw new sfException(sprintf('Call to undefined method BaseComment::%s', $method));
     }
 
     array_unshift($arguments, $this);

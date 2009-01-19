@@ -56,10 +56,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastUserToTagCriteria = null;
 
 	
-	protected $collTagComments;
+	protected $collComments;
 
 	
-	protected $lastTagCommentCriteria = null;
+	protected $lastCommentCriteria = null;
 
 	
 	protected $alreadyInSave = false;
@@ -439,8 +439,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collTagComments !== null) {
-				foreach($this->collTagComments as $referrerFK) {
+			if ($this->collComments !== null) {
+				foreach($this->collComments as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -504,8 +504,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collTagComments !== null) {
-					foreach($this->collTagComments as $referrerFK) {
+				if ($this->collComments !== null) {
+					foreach($this->collComments as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -708,8 +708,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addUserToTag($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getTagComments() as $relObj) {
-				$copyObj->addTagComment($relObj->copy($deepCopy));
+			foreach($this->getComments() as $relObj) {
+				$copyObj->addComment($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -913,17 +913,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
-	public function initTagComments()
+	public function initComments()
 	{
-		if ($this->collTagComments === null) {
-			$this->collTagComments = array();
+		if ($this->collComments === null) {
+			$this->collComments = array();
 		}
 	}
 
 	
-	public function getTagComments($criteria = null, $con = null)
+	public function getComments($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseTagCommentPeer.php';
+				include_once 'lib/model/om/BaseCommentPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -932,36 +932,36 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collTagComments === null) {
+		if ($this->collComments === null) {
 			if ($this->isNew()) {
-			   $this->collTagComments = array();
+			   $this->collComments = array();
 			} else {
 
-				$criteria->add(TagCommentPeer::USERS_ID, $this->getId());
+				$criteria->add(CommentPeer::USERS_ID, $this->getId());
 
-				TagCommentPeer::addSelectColumns($criteria);
-				$this->collTagComments = TagCommentPeer::doSelect($criteria, $con);
+				CommentPeer::addSelectColumns($criteria);
+				$this->collComments = CommentPeer::doSelect($criteria, $con);
 			}
 		} else {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(TagCommentPeer::USERS_ID, $this->getId());
+				$criteria->add(CommentPeer::USERS_ID, $this->getId());
 
-				TagCommentPeer::addSelectColumns($criteria);
-				if (!isset($this->lastTagCommentCriteria) || !$this->lastTagCommentCriteria->equals($criteria)) {
-					$this->collTagComments = TagCommentPeer::doSelect($criteria, $con);
+				CommentPeer::addSelectColumns($criteria);
+				if (!isset($this->lastCommentCriteria) || !$this->lastCommentCriteria->equals($criteria)) {
+					$this->collComments = CommentPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastTagCommentCriteria = $criteria;
-		return $this->collTagComments;
+		$this->lastCommentCriteria = $criteria;
+		return $this->collComments;
 	}
 
 	
-	public function countTagComments($criteria = null, $distinct = false, $con = null)
+	public function countComments($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'lib/model/om/BaseTagCommentPeer.php';
+				include_once 'lib/model/om/BaseCommentPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -970,23 +970,23 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(TagCommentPeer::USERS_ID, $this->getId());
+		$criteria->add(CommentPeer::USERS_ID, $this->getId());
 
-		return TagCommentPeer::doCount($criteria, $distinct, $con);
+		return CommentPeer::doCount($criteria, $distinct, $con);
 	}
 
 	
-	public function addTagComment(TagComment $l)
+	public function addComment(Comment $l)
 	{
-		$this->collTagComments[] = $l;
+		$this->collComments[] = $l;
 		$l->setUser($this);
 	}
 
 
 	
-	public function getTagCommentsJoinTag($criteria = null, $con = null)
+	public function getCommentsJoinTag($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseTagCommentPeer.php';
+				include_once 'lib/model/om/BaseCommentPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -995,26 +995,26 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collTagComments === null) {
+		if ($this->collComments === null) {
 			if ($this->isNew()) {
-				$this->collTagComments = array();
+				$this->collComments = array();
 			} else {
 
-				$criteria->add(TagCommentPeer::USERS_ID, $this->getId());
+				$criteria->add(CommentPeer::USERS_ID, $this->getId());
 
-				$this->collTagComments = TagCommentPeer::doSelectJoinTag($criteria, $con);
+				$this->collComments = CommentPeer::doSelectJoinTag($criteria, $con);
 			}
 		} else {
 									
-			$criteria->add(TagCommentPeer::USERS_ID, $this->getId());
+			$criteria->add(CommentPeer::USERS_ID, $this->getId());
 
-			if (!isset($this->lastTagCommentCriteria) || !$this->lastTagCommentCriteria->equals($criteria)) {
-				$this->collTagComments = TagCommentPeer::doSelectJoinTag($criteria, $con);
+			if (!isset($this->lastCommentCriteria) || !$this->lastCommentCriteria->equals($criteria)) {
+				$this->collComments = CommentPeer::doSelectJoinTag($criteria, $con);
 			}
 		}
-		$this->lastTagCommentCriteria = $criteria;
+		$this->lastCommentCriteria = $criteria;
 
-		return $this->collTagComments;
+		return $this->collComments;
 	}
 
 

@@ -39,6 +39,13 @@ class tagActions extends sfActions
     {
       $this->lovers = UserPeer::getLovers($counts, $this->tag->getID());
     }
+    
+    $response = $this->getContext()->getResponse();
+    $response->addJavascript('tools');
+    $this->comments = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId());
+    
+    $this->token = myTools::generate_random_key();
+    $this->setFlash('token', $this->token);
   }
 
   public function executeCreate()

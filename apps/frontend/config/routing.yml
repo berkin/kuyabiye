@@ -20,8 +20,8 @@ tag:
   param:  { module: tag, action: show }
 
 add_comment:
-  url:    /tagcomment/add/*
-  param:  { module: tagcomment, action: add }
+  url:    /comment/add/*
+  param:  { module: comment, action: add }
 
 user_love:
   url:    /user/love/*

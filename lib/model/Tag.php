@@ -16,7 +16,7 @@ class Tag extends BaseTag
     $this->setStrippedTag(myTools::stripText($tag));
   }
   
-  public function getTagComments($criteria = null, $con = null)
+  public function getCommentsJoinUser($criteria = null, $con = null)
   {
     if (is_null($criteria))
     {
@@ -28,8 +28,17 @@ class Tag extends BaseTag
       $criteria = clone $criteria;
     }
     
-    $criteria->addDescendingOrderByColumn(TagCommentPeer::CREATED_AT);
+    $criteria->addAlias("parent_comment", CommentPeer::TABLE_NAME);
+    
+    // this don't allow to calculate depth also
+    $criteria->add("parent_comment.id", CommentPeer::ID . " = parent_comment.id", Criteria::CUSTOM);
+    $criteria->add(CommentPeer::TREE_LEFT, CommentPeer::TREE_LEFT . " between parent_comment.tree_left and parent_comment.tree_right", Criteria::CUSTOM);
+    // depth criteria with group by
+    // $criteria->addSelectColumn("COUNT(parent_comment.tree_left) as depth");
+    // $criteria->addGroupByColumn('parent_comment.tree_left');
+    $criteria->addAscendingOrderByColumn(CommentPeer::TREE_LEFT);
    
-    return parent::getTagComments($criteria, $con);
+    return parent::getCommentsJoinUser($criteria, $con);
   }
 }
+

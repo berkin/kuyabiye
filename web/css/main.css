@@ -223,11 +223,24 @@ ul#tag_cloud li.tag_popularity_4
   text-align: right;
 }
 
-ul.comments {
+.comments {
   padding: 5px 0;
 }
 
-ul.comments li.comment {
-  padding: 4px 2px; 
-  margin: 0 20px;
+.comments .comment {
+  border-left: 3px solid #e3e3e3;
+  padding: 0 6px; 
+  margin: 10px 5px;
+}
+
+.comments .indent-2 {
+  margin-left: 20px;
+}
+
+.comments .indent-3 {
+  margin-left: 40px;
+}
+
+.comments .indent-4 {
+  margin-left: 60px;
 }

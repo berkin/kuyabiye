@@ -1,1 +1,0 @@
-<?php include_partial('tagcomment/comment', array('comment' => $comment)) ?>
