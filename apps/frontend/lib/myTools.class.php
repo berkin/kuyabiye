@@ -23,7 +23,36 @@ class myTools
  
     return $text;    
   }
-  
+
+  // code derived from http://php.vrana.cz/vytvoreni-pratelskeho-url.php
+  static public function slugify($text)
+  {
+    // replace non letter or digits by -
+    $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+   
+    // trim
+    $text = trim($text, '-');
+   
+    // transliterate
+    if (function_exists('iconv'))
+    {
+      $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+    }
+   
+    // lowercase
+    $text = strtolower($text);
+   
+    // remove unwanted characters
+    $text = preg_replace('~[^-\w]+~', '', $text);
+   
+    if (empty($text))
+    {
+      return 'n-a';
+    }
+   
+    return $text;
+  }
+
   public static function getLimitOfLovers($counts)
   {
     // get only lovers limit
@@ -32,8 +61,16 @@ class myTools
     $limits = array();
     if ( $total != 0 )
     {
-      $limits['lovers'] = round( ($counts[1]/$total) * sfConfig::get('app_tag_max_lovers') );
-      $limits['haters'] = sfConfig::get('app_tag_max_lovers') - $limits['lovers'];
+      if ( isset($counts[1]) )
+      {
+        $limits['lovers'] = round( ($counts[1]/$total) * sfConfig::get('app_tag_max_lovers') );
+        $limits['haters'] = sfConfig::get('app_tag_max_lovers') - $limits['lovers'];
+      }
+      else
+      {
+        $limits['haters'] = round( ($counts[0]/$total) * sfConfig::get('app_tag_max_lovers') );
+        $limits['lovers'] = sfConfig::get('app_tag_max_lovers') - $limits['haters'];
+      }
     }
     
     return $limits;

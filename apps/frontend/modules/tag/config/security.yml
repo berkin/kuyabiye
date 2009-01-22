@@ -1,4 +1,4 @@
-create:
+add:
   is_secure: on
   credentials: subscriber
 

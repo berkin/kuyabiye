@@ -58,5 +58,5 @@ if ( $sf_user->isAuthenticated() ) {
 - comment sisteminde transaction veya locktable bi guvenlik lazim<br />
 - bu comment save() methoduna bu commentpeer::updateCommentsTree methodunu eklemyi denedin olmadi ama deneyebilirsin yine:P<br \>
 - comment pager<br />
-- comment'i lib/model/comment.php bunda commentjoinuser methodunu override etmeye çalýþmýþtýn, þu http://trac.symfony-project.org/wiki/ApplyingCustomJoinsInDoSelect article a bak hydrate filanla startcolumn bunlarla deneyebilirsin.<br />
-- reply de login vs. ayrýca bos gondermeyi engelle
+- comment'i lib/model/comment.php bunda commentjoinuser methodunu override etmeye Ã§alÄ±ÅŸabilin http://trac.symfony-project.org/wiki/ApplyingCustomJoinsInDoSelect article a bak hydrate filanla startcolumn bunlarla deneyebilirsin.<br />
+- reply de login vs. ayrÄ±ca bos gondermeyi engelle

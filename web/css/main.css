@@ -244,3 +244,14 @@ ul#tag_cloud li.tag_popularity_4
 .comments .indent-4 {
   margin-left: 60px;
 }
+
+#search  form {
+  text-align: right;
+}
+
+#related-search {
+  margin: 10px 0;
+}
+#related-search li {
+  margin: 0 0 0 20px;
+}

@@ -13,7 +13,26 @@ class Tag extends BaseTag
   {
     parent::setTag($tag);
     
-    $this->setStrippedTag(myTools::stripText($tag));
+    $slug = myTools::slugify($tag);
+    
+    $search = $slug;
+    $i = 1;
+    do {
+      $i++;
+      
+      $c = new Criteria();
+      $c->add(TagPeer::STRIPPED_TAG, $search);
+      $found = TagPeer::doSelectOne($c);
+      if ( !$found )
+      {
+        break;
+      }
+      else {
+        $search = $slug . '-' . $i;
+      }
+    } while ( $i > 1);
+    
+    $this->setStrippedTag($search);
   }
   
   public function getCommentsJoinUser($criteria = null, $con = null)

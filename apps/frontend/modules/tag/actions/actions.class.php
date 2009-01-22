@@ -47,51 +47,77 @@ class tagActions extends sfActions
     $this->token = myTools::generate_random_key();
     $this->setFlash('token', $this->token);
   }
-
-  public function executeCreate()
+  
+  public function executeSearch()
   {
-    $this->tag = new Tag();
-   
-    $this->setTemplate('edit');
-  }
-
-  public function executeEdit()
-  {
-    $this->tag = TagPeer::retrieveByPk($this->getRequestParameter('id'));
-    $this->forward404Unless($this->tag);
-  }
-
-  public function executeUpdate()
-  {
-    if (!$this->getRequestParameter('id'))
+    if ( $this->getRequest()->getMethod() != sfRequest::POST ) 
     {
-      $tag = new Tag();
-    }
-    else
+      //redirect get requests
+      $this->forward404();
+    } 
+    
+    $this->search = $this->getRequestParameter('search');
+    
+    $c = new Criteria();
+    $c->add(TagPeer::TAG, $this->search);
+    $tag = TagPeer::doSelectOne($c);
+    if ( $tag )
     {
-      $tag = TagPeer::retrieveByPk($this->getRequestParameter('id'));
-      $this->forward404Unless($tag);
+      $this->redirect('@tag?stripped_tag=' . $tag->getStrippedTag());
+    }
+    
+    $conn = Propel::getConnection();
+    $query = 'SELECT ' . TagPeer::TAG . ', ' . TagPeer::STRIPPED_TAG . ' FROM ' . TagPeer::TABLE_NAME . ' 
+                WHERE ' . TagPeer::TAG . ' SOUNDS LIKE ? 
+                LIMIT ?;';
+              
+    $stmt = $conn->prepareStatement($query);
+    $stmt->setString(1, $this->search);
+    $stmt->setInt(2, 20);
+    $rs = $stmt->executeQuery();
+
+    $this->sounds = array();
+    while ( $rs->next() ) 
+    {
+      $this->sounds[] = array('tag' => $rs->getString('TAG'),
+                              'stripped_tag' => $rs->getString('STRIPPED_TAG'));
+    }
+  }
+  
+  public function executeAdd()
+  {
+    if ( $this->getRequest()->getMethod() != sfRequest::GET ) 
+    {
+      //redirect get requests
+      $this->forward404();
+    }
+    
+    $c = new Criteria();
+    $c->add(TagPeer::TAG, $this->getRequestParameter('search'));
+    $search = TagPeer::doSelectOne($c);
+    if ( $search )
+    {
+      $this->redirect('@tag?stripped_tag=' . $search->getStrippedTag());
     }
 
-    $tag->setId($this->getRequestParameter('id'));
-    $tag->setTag($this->getRequestParameter('tag'));
-    $tag->setStrippedTag($this->getRequestParameter('stripped_tag'));
-    $tag->setCreatedBy($this->getRequestParameter('created_by'));
-
+    $tag = new Tag();
+    $tag->setTag($this->getRequestParameter('search'));
+    $tag->setCreatedBy($this->getUser()->getSubscriberId());
     $tag->save();
-
-    return $this->redirect('tag/show?id='.$tag->getId());
+    
+    $user_tag = new UserToTag();
+    $user_tag->setUser($this->getUser()->getSubscriber());
+    $user_tag->setTag($tag);
+    $user_tag->setLove($this->getRequestParameter('loves'));
+    $user_tag->save();
+    
+    $this->redirect('@tag?stripped_tag=' . $tag->getStrippedTag());
+    return sfView::NONE;
   }
-
-  public function executeDelete()
+  
+  public function handleErrorSearch()
   {
-    $tag = TagPeer::retrieveByPk($this->getRequestParameter('id'));
-
-    $this->forward404Unless($tag);
-
-    $tag->delete();
-
-    return $this->redirect('tag/list');
+    $this->search = $this->getRequestParameter('search');
   }
   
 }

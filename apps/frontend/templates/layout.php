@@ -25,6 +25,12 @@
     </ul>
     <h1><?php echo link_to('kuyabiye', '@homepage') ?></h1>
   </div>
+  <div id="search">
+    <?php echo form_tag('@tag_search', 'method=post') ?>
+    <?php echo input_tag('search') ?>
+    <?php echo submit_tag('submit') ?>
+    </form>
+  </div>
  
   <div id="content">
     <div id="content_main">

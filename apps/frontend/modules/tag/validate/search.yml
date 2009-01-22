@@ -1,0 +1,14 @@
+methods:
+  post: [search]
+
+names:
+  search:
+    required: true
+    required_msg: required
+    validators: [searchValidator]
+
+searchValidator:
+  class: sfStringValidator
+  param:
+    min: 2
+    min_error: en az 2 karakter olmalı
