@@ -49,4 +49,11 @@ class myUser extends sfBasicSecurityUser
   {
     return $this->getAttribute('nickname', '', 'subscriber');
   }
+  
+  public function getSubscriberByNick($nick)
+  {
+    $c = new Criteria;
+    $c->add(UserPeer::NICKNAME, $nick);
+    return UserPeer::doSelectOne($c);
+  }
 }

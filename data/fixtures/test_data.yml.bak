@@ -1,0 +1,101 @@
+User:
+  berkin:
+    nickname:   berkin
+    email:      berkin@kuyabiye.com
+    password:   32141809
+    first_name: Berkin Berkcan
+    last_name:  Çırak
+
+  kuyabiye:
+    nickname:   kuyabiye
+    email:      info@kuyabiye.com
+    password:   32141809
+    first_name: Site
+    last_name:  Admin
+
+  gilbert:
+    nickname:   gilbert
+    email:      gulberk@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+
+Message:
+  m1:
+    sender: kuyabiye
+    recipent: berkin
+    title: kanka hayırsız çıktın sen... 
+    body: bak sölemedi deme, çok kırıldım sana... Bu üç nokta ne anlama gelior anladın sen...
+  m2:
+    sender: gilbert
+    recipent: berkin
+    title: gilbertcan çok özledim seni yaa
+    body: gel gel sarışınım gel, takulak mı takulak mı haaa
+
+Tag:
+  issiz-adam:
+    tag:          ıssız adam
+    stripped_tag: issiz-adam
+    created_by:   berkin
+
+  fight-club:
+    tag:          fight club
+    stripped_tag: fight-club
+    created_by:   gilbert
+
+  elif-safak:
+    tag:          elif şafak
+    stripped_tag: elif-safak
+    created_by:   berkin
+
+Comment:
+  c1:
+    tags_id: issiz-adam
+    users_id: berkin
+    body: farklı gözlerle izledim, nasıl güzel bi film
+    tree_left: 1
+    tree_right: 8
+
+  c2:
+    tags_id: issiz-adam
+    users_id: gilbert
+    body: erkek oyuncu adı neydi unuttum ama gerçekten çok başarılıydı, bayan oyuncu bana çok yapmacık geldi. cem hünalın yanında sönük kalmıştı. aaa ismini hatırlıyorum, eheheh:)
+    tree_left: 2
+    tree_right: 5
+
+  c3:
+    tags_id: issiz-adam
+    users_id: gilbert
+    body: sen ne anlarsin filmden, ben cok tatlıyım. piki konusmuyom.
+    tree_left: 3
+    tree_right: 4
+
+  c4:
+    tags_id: issiz-adam
+    users_id: kuyabiye
+    body: sen ne sölersen söle adam yapmış filmi arkadaşım.
+    tree_left: 6
+    tree_right: 7
+  
+  c5:
+    tags_id: issiz-adam
+    users_id: berkin
+    body: inanamıyorum size ya, ne sığ adamlarsınız, sizi gidi godikler. böle bi tartışmanın içinde olmaktan hicap duydum ayrıca daha önce hiç hicap duymamıştım
+    tree_left: 9
+    tree_right: 10
+
+  c6:
+    tags_id: issiz-adam
+    users_id: gilbert
+    body: tatlıyım ben, tatlıyım, tatlıyım :O:):)
+    tree_left: 11
+    tree_right: 14
+
+  c7:
+    tags_id: issiz-adam
+    users_id: berkin
+    body: en tatlı sensin, canum benim, çok seviyorum seni
+    tree_left: 12
+    tree_right: 13
+
+

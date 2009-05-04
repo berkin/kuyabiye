@@ -1,0 +1,75 @@
+# default rules
+homepage:
+  url:   /
+  param: { module: tag, action: index }
+
+register:
+  url:    /register/*
+  param: { module: user, action: register }
+
+login:
+  url:    /login/*
+  param: { module: user, action: login }
+
+logout:
+  url:    /logout/*
+  param: { module: user, action: logout }
+
+tag_add:
+  url:    /tag/add/*
+  param:  { module: tag, action: add }
+
+tag_search:
+  url:    /tag/search/*
+  param:  { module: tag, action: search }
+
+tag:
+  url:    /tag/:stripped_tag/*
+  param:  { module: tag, action: show }
+
+add_comment:
+  url:    /comment/add/*
+  param:  { module: comment, action: add }
+
+user_profile:
+  url:    /user/show/*
+  param:  { module: user, action: show }
+
+user_love:
+  url:    /user/love/*
+  param:  { module: user, action: love }
+
+user_notr:
+  url:    /user/notr/*
+  param:  { module: user, action: notr }
+
+friends:
+  url:    /friends/*
+  param:  { module: friend, action: list }
+
+friend_request:
+  url:    /friend/add/*
+  param:  { module: friend, action: add }
+
+friend_request_list:
+  url:    /friend/requests/*
+  param:  { module: friend, action: request }
+
+messages:
+  url:    /messages/*
+  param:  { module: message, action: index }
+
+message_read:
+  url:    /message/read/*
+  param:  { module: message, action: read }
+
+default_symfony:
+  url:   /symfony/:action/*
+  param: { module: default }
+
+default_index:
+  url:   /:module
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

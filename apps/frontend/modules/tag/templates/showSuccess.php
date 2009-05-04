@@ -4,7 +4,7 @@
 
 use_helper('Date', 'Validation', 'User');
 ?>
-<h1><?php echo $tag->getTag() ?><span>(<?php echo link_to($tag->getUser()->getNickname(), 'user/profile?nick=' . $tag->getUser()->getNickname()) ?> ekledi)</span></h1>
+<h1><?php echo $tag->getTag() ?><span>(<?php echo link_to($tag->getUser()->getNickname(), '@user_profile?nick=' . $tag->getUser()->getNickname()) ?> ekledi)</span></h1>
 <div class="right gray size10"><?php echo time_ago_in_words($tag->getCreatedAt('U')) ?> ago</div>
 <div class="tag-actions" id="love_<?php echo $tag->getId() ?>">
   <?php include_partial('love_buttons', array('tag' => $tag)); ?>
@@ -33,6 +33,7 @@ if ( $sf_user->isAuthenticated() ) {
 <?php } ?>
 </div>
 
+<?php if ( $sf_user->isAuthenticated() ) { ?>
 <br /><br />
 <h1>yorum ekle</h1>
   <div class="form-row">
@@ -44,7 +45,7 @@ if ( $sf_user->isAuthenticated() ) {
     <label for="submit">&nbsp;</label>
     <?php echo submit_tag('send!') ?>
   </div>
-<?php if ( $sf_user->isAuthenticated() ) { ?>
+
 </form>  
 <?php } ?>
 <?php if ( !$sf_user->isAuthenticated() ) { ?>

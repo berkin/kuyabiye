@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database name="propel" package="lib.model" defaultIdMethod="native" noXsd="true">
+
+  <table name="friends" phpName="Friend">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="user_from" type="INTEGER" />
+      <foreign-key foreignTable="users">
+        <reference local="user_from" foreign="id"/>
+      </foreign-key>
+    <column name="user_to" type="INTEGER" />
+      <foreign-key foreignTable="users">
+        <reference local="user_to" foreign="id"/>
+      </foreign-key>
+    <column name="status" type="TINYINT" />
+  </table>
+
+  <table name="tags" phpName="Tag">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="tag" type="VARCHAR" size="64" />
+    <column name="stripped_tag" type="VARCHAR" size="100" />
+    <column name="created_by" type="INTEGER" />
+      <foreign-key foreignTable="users">
+        <reference local="created_by" foreign="id"/>
+      </foreign-key>
+    <column name="lovers" type="INTEGER" default="0" />
+    <column name="haters" type="INTEGER" default="0" />
+    <column name="created_at" type="TIMESTAMP" />
+    <unique name="unique_stripped_tag">
+      <unique-column name="stripped_tag" />
+    </unique>
+  </table>
+
+  <table name="tags_comments" phpName="Comment">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="tags_id" type="INTEGER" />
+      <foreign-key foreignTable="tags">
+        <reference local="tags_id" foreign="id"/>
+      </foreign-key>
+    <column name="users_id" type="INTEGER" />
+      <foreign-key foreignTable="users">
+        <reference local="users_id" foreign="id"/>
+      </foreign-key>
+    <column name="body" type="LONGVARCHAR" />
+    <column name="tree_left" type="INTEGER" required="true" />
+    <column name="tree_right" type="INTEGER" required="true" />
+    <column name="parent_id" type="INTEGER" required="true" />
+    <column name="created_at" type="TIMESTAMP" />
+  </table>
+
+  <table name="users" phpName="User">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="nickname" type="VARCHAR" size="50" />
+    <column name="email" type="VARCHAR" size="255" />
+    <column name="sha1_password" type="VARCHAR" size="40" />
+    <column name="salt" type="VARCHAR" size="32" />
+    <column name="remember_key" type="VARCHAR" size="255" />
+    <column name="first_name" type="VARCHAR" size="100" />
+    <column name="last_name" type="VARCHAR" size="100" />
+    <column name="created_at" type="TIMESTAMP" />
+  </table>
+
+  <table name="users_to_tags" phpName="UserToTag">
+    <column name="users_id" type="INTEGER" required="true" primaryKey="true" />
+      <foreign-key foreignTable="users">
+        <reference local="users_id" foreign="id"/>
+      </foreign-key>
+    <column name="tags_id" type="INTEGER" required="true" primaryKey="true" />
+      <foreign-key foreignTable="tags">
+        <reference local="tags_id" foreign="id"/>
+      </foreign-key>
+    <column name="love" type="TINYINT" />
+    <column name="created_at" type="TIMESTAMP" />
+  </table>
+
+  <table name="messages" phpName="Message">
+    <column name="id" type="integer" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="sender" type="integer" />
+      <foreign-key foreignTable="users">
+        <reference local="sender" foreign="id"/>
+      </foreign-key>
+    <column name="recipent" type="integer" />
+      <foreign-key foreignTable="users">
+        <reference local="recipent" foreign="id"/>
+      </foreign-key>
+    <column name="sender_folder" required="true" default="1" type="tinyint" />
+    <column name="recipent_folder" required="true" default="0" type="tinyint" />
+    <column name="title" type="varchar" size="255" />
+    <column name="body" type="longvarchar" />
+    <column name="conversation" type="integer" required="true" autoIncrement="true" />
+    <column name="read" type="tinyint" required="true" default="0" size="1" />
+    <column name="created_at" type="timestamp" />
+  </table>
+
+</database>

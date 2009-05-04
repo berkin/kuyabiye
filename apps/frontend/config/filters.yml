@@ -1,12 +1,17 @@
 
-rememberFilter:
-  class: rememberFilter
 
 rendering: ~
 web_debug: ~
 security:  ~
 
 # generally, you will want to insert your own filters here
+rememberFilter:
+  class: rememberFilter
+
+csrf:
+  class: sfCSRFFilter
+  param:
+    secret: berkin10caro
 
 cache:     ~
 common:    ~

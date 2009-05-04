@@ -14,6 +14,28 @@ a:hover
   text-decoration: underline;
 }
 
+a.user {
+  padding: 0 10px 0;
+}
+
+.friend-request a {
+  color: red;
+  font-size: 10px;
+  padding: 0 5px 0 0;
+}
+
+.page {
+  margin: 0 0 0 10px;
+}
+
+.message {
+  margin: 10px 0 0;
+}
+
+.m10 {
+  padding: 0 0 0 10px
+}
+
 body, td
 { 
   margin: 0;
@@ -184,6 +206,7 @@ div#footer
 ul#tag_cloud
 {
   list-style: none;
+  margin: 0 5px;
 }
  
 ul#tag_cloud li

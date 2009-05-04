@@ -44,10 +44,28 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $created_at;
 
 	
+	protected $collFriendsRelatedByUserFrom;
+
+	
+	protected $lastFriendRelatedByUserFromCriteria = null;
+
+	
+	protected $collFriendsRelatedByUserTo;
+
+	
+	protected $lastFriendRelatedByUserToCriteria = null;
+
+	
 	protected $collTags;
 
 	
 	protected $lastTagCriteria = null;
+
+	
+	protected $collComments;
+
+	
+	protected $lastCommentCriteria = null;
 
 	
 	protected $collUserToTags;
@@ -56,10 +74,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastUserToTagCriteria = null;
 
 	
-	protected $collComments;
+	protected $collMessagesRelatedBySender;
 
 	
-	protected $lastCommentCriteria = null;
+	protected $lastMessageRelatedBySenderCriteria = null;
+
+	
+	protected $collMessagesRelatedByRecipent;
+
+	
+	protected $lastMessageRelatedByRecipentCriteria = null;
 
 	
 	protected $alreadyInSave = false;
@@ -423,8 +447,32 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
+			if ($this->collFriendsRelatedByUserFrom !== null) {
+				foreach($this->collFriendsRelatedByUserFrom as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collFriendsRelatedByUserTo !== null) {
+				foreach($this->collFriendsRelatedByUserTo as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collTags !== null) {
 				foreach($this->collTags as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collComments !== null) {
+				foreach($this->collComments as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -439,8 +487,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collComments !== null) {
-				foreach($this->collComments as $referrerFK) {
+			if ($this->collMessagesRelatedBySender !== null) {
+				foreach($this->collMessagesRelatedBySender as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collMessagesRelatedByRecipent !== null) {
+				foreach($this->collMessagesRelatedByRecipent as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -488,8 +544,32 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			}
 
 
+				if ($this->collFriendsRelatedByUserFrom !== null) {
+					foreach($this->collFriendsRelatedByUserFrom as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collFriendsRelatedByUserTo !== null) {
+					foreach($this->collFriendsRelatedByUserTo as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collTags !== null) {
 					foreach($this->collTags as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collComments !== null) {
+					foreach($this->collComments as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -504,8 +584,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collComments !== null) {
-					foreach($this->collComments as $referrerFK) {
+				if ($this->collMessagesRelatedBySender !== null) {
+					foreach($this->collMessagesRelatedBySender as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collMessagesRelatedByRecipent !== null) {
+					foreach($this->collMessagesRelatedByRecipent as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -700,16 +788,32 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($deepCopy) {
 									$copyObj->setNew(false);
 
+			foreach($this->getFriendsRelatedByUserFrom() as $relObj) {
+				$copyObj->addFriendRelatedByUserFrom($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getFriendsRelatedByUserTo() as $relObj) {
+				$copyObj->addFriendRelatedByUserTo($relObj->copy($deepCopy));
+			}
+
 			foreach($this->getTags() as $relObj) {
 				$copyObj->addTag($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getComments() as $relObj) {
+				$copyObj->addComment($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getUserToTags() as $relObj) {
 				$copyObj->addUserToTag($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getComments() as $relObj) {
-				$copyObj->addComment($relObj->copy($deepCopy));
+			foreach($this->getMessagesRelatedBySender() as $relObj) {
+				$copyObj->addMessageRelatedBySender($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getMessagesRelatedByRecipent() as $relObj) {
+				$copyObj->addMessageRelatedByRecipent($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -735,6 +839,146 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			self::$peer = new UserPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function initFriendsRelatedByUserFrom()
+	{
+		if ($this->collFriendsRelatedByUserFrom === null) {
+			$this->collFriendsRelatedByUserFrom = array();
+		}
+	}
+
+	
+	public function getFriendsRelatedByUserFrom($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseFriendPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collFriendsRelatedByUserFrom === null) {
+			if ($this->isNew()) {
+			   $this->collFriendsRelatedByUserFrom = array();
+			} else {
+
+				$criteria->add(FriendPeer::USER_FROM, $this->getId());
+
+				FriendPeer::addSelectColumns($criteria);
+				$this->collFriendsRelatedByUserFrom = FriendPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(FriendPeer::USER_FROM, $this->getId());
+
+				FriendPeer::addSelectColumns($criteria);
+				if (!isset($this->lastFriendRelatedByUserFromCriteria) || !$this->lastFriendRelatedByUserFromCriteria->equals($criteria)) {
+					$this->collFriendsRelatedByUserFrom = FriendPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastFriendRelatedByUserFromCriteria = $criteria;
+		return $this->collFriendsRelatedByUserFrom;
+	}
+
+	
+	public function countFriendsRelatedByUserFrom($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseFriendPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(FriendPeer::USER_FROM, $this->getId());
+
+		return FriendPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addFriendRelatedByUserFrom(Friend $l)
+	{
+		$this->collFriendsRelatedByUserFrom[] = $l;
+		$l->setUserRelatedByUserFrom($this);
+	}
+
+	
+	public function initFriendsRelatedByUserTo()
+	{
+		if ($this->collFriendsRelatedByUserTo === null) {
+			$this->collFriendsRelatedByUserTo = array();
+		}
+	}
+
+	
+	public function getFriendsRelatedByUserTo($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseFriendPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collFriendsRelatedByUserTo === null) {
+			if ($this->isNew()) {
+			   $this->collFriendsRelatedByUserTo = array();
+			} else {
+
+				$criteria->add(FriendPeer::USER_TO, $this->getId());
+
+				FriendPeer::addSelectColumns($criteria);
+				$this->collFriendsRelatedByUserTo = FriendPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(FriendPeer::USER_TO, $this->getId());
+
+				FriendPeer::addSelectColumns($criteria);
+				if (!isset($this->lastFriendRelatedByUserToCriteria) || !$this->lastFriendRelatedByUserToCriteria->equals($criteria)) {
+					$this->collFriendsRelatedByUserTo = FriendPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastFriendRelatedByUserToCriteria = $criteria;
+		return $this->collFriendsRelatedByUserTo;
+	}
+
+	
+	public function countFriendsRelatedByUserTo($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseFriendPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(FriendPeer::USER_TO, $this->getId());
+
+		return FriendPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addFriendRelatedByUserTo(Friend $l)
+	{
+		$this->collFriendsRelatedByUserTo[] = $l;
+		$l->setUserRelatedByUserTo($this);
 	}
 
 	
@@ -805,6 +1049,111 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 		$this->collTags[] = $l;
 		$l->setUser($this);
+	}
+
+	
+	public function initComments()
+	{
+		if ($this->collComments === null) {
+			$this->collComments = array();
+		}
+	}
+
+	
+	public function getComments($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseCommentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collComments === null) {
+			if ($this->isNew()) {
+			   $this->collComments = array();
+			} else {
+
+				$criteria->add(CommentPeer::USERS_ID, $this->getId());
+
+				CommentPeer::addSelectColumns($criteria);
+				$this->collComments = CommentPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(CommentPeer::USERS_ID, $this->getId());
+
+				CommentPeer::addSelectColumns($criteria);
+				if (!isset($this->lastCommentCriteria) || !$this->lastCommentCriteria->equals($criteria)) {
+					$this->collComments = CommentPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastCommentCriteria = $criteria;
+		return $this->collComments;
+	}
+
+	
+	public function countComments($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseCommentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(CommentPeer::USERS_ID, $this->getId());
+
+		return CommentPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addComment(Comment $l)
+	{
+		$this->collComments[] = $l;
+		$l->setUser($this);
+	}
+
+
+	
+	public function getCommentsJoinTag($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseCommentPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collComments === null) {
+			if ($this->isNew()) {
+				$this->collComments = array();
+			} else {
+
+				$criteria->add(CommentPeer::USERS_ID, $this->getId());
+
+				$this->collComments = CommentPeer::doSelectJoinTag($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(CommentPeer::USERS_ID, $this->getId());
+
+			if (!isset($this->lastCommentCriteria) || !$this->lastCommentCriteria->equals($criteria)) {
+				$this->collComments = CommentPeer::doSelectJoinTag($criteria, $con);
+			}
+		}
+		$this->lastCommentCriteria = $criteria;
+
+		return $this->collComments;
 	}
 
 	
@@ -913,17 +1262,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
-	public function initComments()
+	public function initMessagesRelatedBySender()
 	{
-		if ($this->collComments === null) {
-			$this->collComments = array();
+		if ($this->collMessagesRelatedBySender === null) {
+			$this->collMessagesRelatedBySender = array();
 		}
 	}
 
 	
-	public function getComments($criteria = null, $con = null)
+	public function getMessagesRelatedBySender($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseCommentPeer.php';
+				include_once 'lib/model/om/BaseMessagePeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -932,36 +1281,36 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collComments === null) {
+		if ($this->collMessagesRelatedBySender === null) {
 			if ($this->isNew()) {
-			   $this->collComments = array();
+			   $this->collMessagesRelatedBySender = array();
 			} else {
 
-				$criteria->add(CommentPeer::USERS_ID, $this->getId());
+				$criteria->add(MessagePeer::SENDER, $this->getId());
 
-				CommentPeer::addSelectColumns($criteria);
-				$this->collComments = CommentPeer::doSelect($criteria, $con);
+				MessagePeer::addSelectColumns($criteria);
+				$this->collMessagesRelatedBySender = MessagePeer::doSelect($criteria, $con);
 			}
 		} else {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(CommentPeer::USERS_ID, $this->getId());
+				$criteria->add(MessagePeer::SENDER, $this->getId());
 
-				CommentPeer::addSelectColumns($criteria);
-				if (!isset($this->lastCommentCriteria) || !$this->lastCommentCriteria->equals($criteria)) {
-					$this->collComments = CommentPeer::doSelect($criteria, $con);
+				MessagePeer::addSelectColumns($criteria);
+				if (!isset($this->lastMessageRelatedBySenderCriteria) || !$this->lastMessageRelatedBySenderCriteria->equals($criteria)) {
+					$this->collMessagesRelatedBySender = MessagePeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastCommentCriteria = $criteria;
-		return $this->collComments;
+		$this->lastMessageRelatedBySenderCriteria = $criteria;
+		return $this->collMessagesRelatedBySender;
 	}
 
 	
-	public function countComments($criteria = null, $distinct = false, $con = null)
+	public function countMessagesRelatedBySender($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'lib/model/om/BaseCommentPeer.php';
+				include_once 'lib/model/om/BaseMessagePeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -970,23 +1319,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(CommentPeer::USERS_ID, $this->getId());
+		$criteria->add(MessagePeer::SENDER, $this->getId());
 
-		return CommentPeer::doCount($criteria, $distinct, $con);
+		return MessagePeer::doCount($criteria, $distinct, $con);
 	}
 
 	
-	public function addComment(Comment $l)
+	public function addMessageRelatedBySender(Message $l)
 	{
-		$this->collComments[] = $l;
-		$l->setUser($this);
+		$this->collMessagesRelatedBySender[] = $l;
+		$l->setUserRelatedBySender($this);
 	}
 
+	
+	public function initMessagesRelatedByRecipent()
+	{
+		if ($this->collMessagesRelatedByRecipent === null) {
+			$this->collMessagesRelatedByRecipent = array();
+		}
+	}
 
 	
-	public function getCommentsJoinTag($criteria = null, $con = null)
+	public function getMessagesRelatedByRecipent($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseCommentPeer.php';
+				include_once 'lib/model/om/BaseMessagePeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -995,26 +1351,54 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collComments === null) {
+		if ($this->collMessagesRelatedByRecipent === null) {
 			if ($this->isNew()) {
-				$this->collComments = array();
+			   $this->collMessagesRelatedByRecipent = array();
 			} else {
 
-				$criteria->add(CommentPeer::USERS_ID, $this->getId());
+				$criteria->add(MessagePeer::RECIPENT, $this->getId());
 
-				$this->collComments = CommentPeer::doSelectJoinTag($criteria, $con);
+				MessagePeer::addSelectColumns($criteria);
+				$this->collMessagesRelatedByRecipent = MessagePeer::doSelect($criteria, $con);
 			}
 		} else {
-									
-			$criteria->add(CommentPeer::USERS_ID, $this->getId());
+						if (!$this->isNew()) {
+												
 
-			if (!isset($this->lastCommentCriteria) || !$this->lastCommentCriteria->equals($criteria)) {
-				$this->collComments = CommentPeer::doSelectJoinTag($criteria, $con);
+				$criteria->add(MessagePeer::RECIPENT, $this->getId());
+
+				MessagePeer::addSelectColumns($criteria);
+				if (!isset($this->lastMessageRelatedByRecipentCriteria) || !$this->lastMessageRelatedByRecipentCriteria->equals($criteria)) {
+					$this->collMessagesRelatedByRecipent = MessagePeer::doSelect($criteria, $con);
+				}
 			}
 		}
-		$this->lastCommentCriteria = $criteria;
+		$this->lastMessageRelatedByRecipentCriteria = $criteria;
+		return $this->collMessagesRelatedByRecipent;
+	}
 
-		return $this->collComments;
+	
+	public function countMessagesRelatedByRecipent($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMessagePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MessagePeer::RECIPENT, $this->getId());
+
+		return MessagePeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addMessageRelatedByRecipent(Message $l)
+	{
+		$this->collMessagesRelatedByRecipent[] = $l;
+		$l->setUserRelatedByRecipent($this);
 	}
 
 

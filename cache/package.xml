@@ -1,45 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.6.1" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
- <name>sfPropelActAsNestedSetBehaviorPlugin</name>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.6.0" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>sfCSRFPlugin</name>
  <channel>pear.symfony-project.com</channel>
- <summary>Propel nested set behavior</summary>
- <description>The sfPropelActAsNestedSetBehaviorPlugin is a symfony plugin that provides nested set capabilities to Propel objects.</description>
+ <summary>Protection against Cross Site Request Forgeries.</summary>
+ <description>Protection against Cross Site Request Forgeries.</description>
  <lead>
-  <name>Tristan Rivoallan</name>
-  <user>trivoallan</user>
-  <email>tristan@rivoallan.net</email>
+  <name>Fabien POTENCIER</name>
+  <user>fabpot</user>
+  <email>fabien.potencier@symfony-project.com</email>
   <active>yes</active>
  </lead>
- <developer>
-  <name>Gordon Franke</name>
-  <user>trivoallan</user>
-  <email>gimler@arcor.de</email>
-  <active>yes</active>
- </developer>
- <date>2007-07-23</date>
- <time>17:07:27</time>
+ <date>2007-06-26</date>
+ <time>16:59:26</time>
  <version>
-  <release>0.9.1</release>
-  <api>0.9.1</api>
+  <release>1.0.1</release>
+  <api>1.0.0</api>
  </version>
  <stability>
-  <release>beta</release>
-  <api>beta</api>
+  <release>stable</release>
+  <api>stable</api>
  </stability>
- <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
+ <license uri="http://www.symfony-project.com/license">MIT license</license>
  <notes>-</notes>
  <contents>
   <dir name="/">
-   <file md5sum="4f1e417f9750e3045d74de181cf6593f" name="config/config.php" role="data"/>
-   <file md5sum="04f523ba9b780bb6a4b478b9539907b0" name="lib/sfPropelActAsNestedSetBehavior.class.php" role="data"/>
-   <file md5sum="9ba2782426afd8e79d2195c8b0ded484" name="README" role="data"/>
-   <file md5sum="7266a93b753b03bc5f00522e65722b79" name="LICENSE" role="data"/>
+   <file md5sum="cbc95e8dae499836b657f2ce365c991e" name="lib/sfCSRFFilter.class.php" role="data"/>
+   <file md5sum="5b23a3033295453a29c53578525d4bb9" name="README" role="data"/>
+   <file md5sum="c0ab88a4687e9ff8e0fb6c95ca49ed74" name="LICENSE" role="data"/>
   </dir>
  </contents>
  <dependencies>
   <required>
    <php>
-    <min>5.1.0</min>
+    <min>5.0.0</min>
    </php>
    <pearinstaller>
     <min>1.4.1</min>
@@ -48,201 +41,5 @@
   </required>
  </dependencies>
  <phprelease/>
- <changelog>
-  <release>
-   <version>
-    <release>0.9.1</release>
-    <api>0.9.1</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-07-23</date>
-   <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
-   <notes>==== Bugfixes ====
-
- * fixed `getLevel()` cache (gordon franke)
- * fixed scope handling : scope can be any type of data (Jorn.Wagner)
- * `retrieveFirstChild()` and `retrieveLastChild()` missing references to scope node (Olivier.Mansour)
- * fixed postgresql compatibility (Maciej.Filipiak and Krasimir.Angelov)
- * added a note about supported RDBMS (tristan)
- * made roadmap clearer (tristan)
- * removed useless Propel::getConnection (Eric.Fredj)
- * fixed scope handling in `deleteDescendants()` (Piers.Warmers)
- * fixed new `getDescendants()` implementation node level caching (tristan)
-
-==== Enhancements ====
-
- * added new `isDescendantOf()` method (Piers.Warmers)
- * implemented faster getPath() method (francois)
- * implemented faster `getDescendants()` (Jon.Collins)</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.9.0</release>
-    <api>0.9.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-05-24</date>
-   <license uri="http://www.gnu.org/licenses/lgpl.html">LGPL</license>
-   <notes>* Licence change : MIT -&gt; LGPL
-* Please welcome a new maintainer : Gordan Franke :)
-* tree "dumper" utility method :  `sfPropelActAsNestedSetBehaviorUtils::dumpTree()`
-* add optional select method for getPath|getParent|retrieveParent (gordon)</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.8.2</release>
-    <api>0.8.2</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-04-18</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>* added `getParent()` method (olivier mansour)
-* added `getLevel()` unit tests
-* implemented caching of level in collection retrieval methods : `getDescendants()`, `getChildren()`, `retrieveSiblings()`
-* defined plugin roadmap</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.8.1</release>
-    <api>0.8.1</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-03-22</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>* fixed #1480 : non-abstracted column name (paul markovitch)
-* fixed bug in `getStubFromPeer()`
-* `makeRoot()` should accept non new objects (peter van garderen)
-* `getDescendants()` should not try to get descendants if node is a leaf (peter van garderen)
-* updated unit tests
-* enabled syntax highlighting in README</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.8.0</release>
-    <api>0.8.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-02-19</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>Implemented more methods (+ unit tests) :
- 
- * `insertAsParentOf`
- * `retrieveSiblings`
- * `isEqualTo`
- * `isChildOf`</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.7.0</release>
-    <api>0.7.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-02-19</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>Implemented missing methods (+ unit tests) :
- 
- * `moveToPrevSiblingOf`
- * `moveToNextSiblingOf`
- * `deleteChildren`
- * `deleteDescendants`</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.6.2</release>
-    <api>0.6.2</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-02-19</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>Fixed a bug due to wrong usage of `rtrim`. (Thanks to Krešo Kunjas)</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.6.1</release>
-    <api>0.6.1</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-02-15</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>Fixed minor bug in getPath()</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.6.0</release>
-    <api>0.6.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-02-15</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>Implemented missing node retrieval methods : 
-
- * retrieveFirstChild
- * retrieveLastChild
- * retrieveParent
- * getPath
- 
-Updated docs and unit tests accordingly</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.5.1</release>
-    <api>0.5.1</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-02-14</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>Pear package missed plugin's config.php file</notes>
-  </release>
-  <release>
-   <version>
-    <release>0.5.0</release>
-    <api>0.5.0</api>
-   </version>
-   <stability>
-    <release>beta</release>
-    <api>beta</api>
-   </stability>
-   <date>2007-02-14</date>
-   <license uri="http://www.symfony-project.com/license">MIT license</license>
-   <notes>Initial public release. The behavior is stable and fully unit-tested, but the API is not yet complete. Missing methods :
-
- * retrieveFirstChild
- * retrieveLastChild   
- * moveToPrevSiblingOf
- * moveToNextSiblingOf
- * deleteChildren
- * deleteTree
- * getPath</notes>
-  </release>
- </changelog>
+ <changelog/>
 </package>

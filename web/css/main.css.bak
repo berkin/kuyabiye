@@ -1,0 +1,280 @@
+ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,body,html,p,blockquote,fieldset,input
+{ margin: 0; padding: 0;   text-align: left;
+}
+a img,:link img,:visited img { border: none; }
+
+a:link, a:visited
+{
+  text-decoration: none;
+  color:#6E3291;
+}
+
+a:hover
+{
+  text-decoration: underline;
+}
+
+a.user {
+  padding: 0 10px 0;
+}
+
+.friend-request a {
+  color: red;
+  font-size: 10px;
+  padding: 0 5px 0 0;
+}
+
+.page {
+  margin: 0 0 0 10px;
+}
+
+.message {
+  margin: 10px 0 0;
+}
+
+.m10 {
+padding: 0 0 0 10px
+}
+
+body, td
+{ 
+  margin: 0;
+  padding: 30px 20px;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  background-color: #fff;
+  width: 600px;
+  
+}
+
+body
+{
+  text-align: left;
+}
+.left { float: left; }
+.right { float: rigth; text-align: right;}
+.gray { color: #a3a3a3; }
+.size10 { font-size: 10px }
+.tag-actions { background: #e3e3e3; padding: 6px 5px; margin: 10px 0; }
+.tag-actions a { padding: 0 6px; font-weight: bold; }
+.tag-actions span { padding: 0 6px; font-weight: bold; }
+.lover { color: red; font-weight: bold }
+.hater { color: red; font-weight: bold }
+div#indicator
+{
+  position: absolute;
+  width: 100px;
+  height: 40px;
+  left: 10px;
+  top: 10px;
+  z-index: 900;
+  background: url(../images/indicator.gif) no-repeat 0 0;
+}
+div#header
+{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  width: 600px;
+  height: 46px;
+}
+
+
+div#header ul, div#footer ul
+{
+  list-style: none;
+  display:inline;
+  float:right;
+}
+
+div#header li, div#footer li, div#header form
+{
+  display: inline;
+  list-style: none;
+}
+
+div#header li
+{
+  padding: 0 7px;
+  font-weight: bold;
+  border-right: solid 1px #0066CC;
+}
+
+div#header li.last
+{
+  border-right: none;
+}
+
+div#header .last input
+{
+  border: solid 1px gray;
+  width:70px;
+  background-color: #F4F4F4;
+  vertical-align:sub;
+  margin-top:7px;
+}
+
+div#header .last input:focus, div#header .last input:hover
+{
+  background-color: white;
+}
+
+div#header li :link, div#header li :visited
+{
+  color:#0066CC;
+}
+
+div#header li.last {
+  border: 0;
+}
+
+div#content_main
+{
+  background-color:white;
+}
+
+div#content_main h1
+{
+  padding: 5px;
+  font-size:14px;
+  margin-bottom:10px;
+  color: #B59D7A;
+  border-bottom: 1px solid #B59D7A;
+}
+div#content_main h1 span
+{
+  font-size: 10px;
+  padding: 0 10px;
+  color: #777777;
+}
+div#content_main h2
+{
+  font-size:12px;
+  text-align: left;
+  font-weight: bold;
+  padding: 0 0 0 3px;
+}
+
+div#content_main .interested_block
+{
+  float:left;
+  padding:4px 10px 10px 0;
+  width:60px;
+}
+
+div#content_main .interested_mark
+{
+  font-size: 2em; 
+  font-weight: bold; 
+  width: 30px; 
+  height: 30px; 
+  background-color: #FFE56F; 
+  border: 1px solid #ddd; 
+  text-align: center;
+  margin-left:10px;
+}
+
+div#content_main .question_body
+{
+  margin-top:6px;
+    text-align: left;
+
+}
+
+div#content_main hr
+{
+  background-color:white;
+  border:none;
+  border-top:solid 1px #B59D7A;
+  clear:both;
+  margin-bottom:10px;
+}
+
+div#content_bar { 
+  float: right;
+}
+
+div#footer
+{
+  padding-top: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  width: 780px;
+  background-color: #bbb;
+}
+ul#tag_cloud
+{
+  list-style: none;
+  margin: 0 5px;
+}
+ 
+ul#tag_cloud li
+{
+  list-style: none;
+  display: inline;
+  padding: 0 10px 0 0;
+}
+ 
+ul#tag_cloud li.tag_popularity_1
+{
+  font-size: 60%;
+}
+ 
+ul#tag_cloud li.tag_popularity_2
+{
+  font-size: 100%;
+}
+ 
+ul#tag_cloud li.tag_popularity_3
+{
+  font-size: 130%;
+}
+ 
+ul#tag_cloud li.tag_popularity_4
+{
+  font-size: 160%;
+}
+
+.form-row {
+  padding: 5px 0;
+}
+.form-row label {
+  display: inline-block;
+  padding: 0 15px 0 0;
+  width: 120px;
+  text-align: right;
+}
+
+.comments {
+  padding: 5px 0;
+}
+
+.comments .comment {
+  border-left: 3px solid #e3e3e3;
+  padding: 0 6px; 
+  margin: 10px 5px;
+}
+
+.comments .indent-2 {
+  margin-left: 20px;
+}
+
+.comments .indent-3 {
+  margin-left: 40px;
+}
+
+.comments .indent-4 {
+  margin-left: 60px;
+}
+
+#search  form {
+  text-align: right;
+}
+
+#related-search {
+  margin: 10px 0;
+}
+#related-search li {
+  margin: 0 0 0 20px;
+}

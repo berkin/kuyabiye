@@ -34,11 +34,17 @@ class TagsCommentsMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addForeignKey('TAGS_ID', 'TagsId', 'int', CreoleTypes::INTEGER, 'tags', 'ID', false, null);
+		$tMap->addColumn('TAGS_ID', 'TagsId', 'int', CreoleTypes::INTEGER, false, null);
 
-		$tMap->addForeignKey('USERS_ID', 'UsersId', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
+		$tMap->addColumn('USERS_ID', 'UsersId', 'int', CreoleTypes::INTEGER, false, null);
 
 		$tMap->addColumn('BODY', 'Body', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
+		$tMap->addColumn('TREE_LEFT', 'TreeLeft', 'int', CreoleTypes::INTEGER, true, null);
+
+		$tMap->addColumn('TREE_RIGHT', 'TreeRight', 'int', CreoleTypes::INTEGER, true, null);
+
+		$tMap->addColumn('PARENT_ID', 'ParentId', 'int', CreoleTypes::INTEGER, true, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 

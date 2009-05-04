@@ -1,0 +1,10 @@
+# default values
+all:
+  tag:
+    max_lovers: 10
+  csrf: berkin10caro
+  
+  .array:
+    loves:
+      0: hates
+      1: loves

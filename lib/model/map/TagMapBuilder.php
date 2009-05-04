@@ -40,6 +40,10 @@ class TagMapBuilder {
 
 		$tMap->addForeignKey('CREATED_BY', 'CreatedBy', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
+		$tMap->addColumn('LOVERS', 'Lovers', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('HATERS', 'Haters', 'int', CreoleTypes::INTEGER, false, null);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 

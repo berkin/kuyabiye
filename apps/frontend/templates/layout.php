@@ -16,7 +16,9 @@
     <ul>
       <li><?php echo link_to('about', '@homepage') ?></li>
       <?php if ( $sf_user->isAuthenticated() ) { ?>
-      <li><?php echo link_to($sf_user->getNickname(), 'user/profile'); ?>'s profile</li>
+      <li><?php echo link_to($sf_user->getNickname(), '@user_profile'); ?>'s profile</li>
+      <li><?php echo link_to('arkadaşlar', '@friends'); ?></li>
+      <li><?php echo link_to('mesajlar', '@messages'); ?></li>
       <li class="last"><?php echo link_to('logout', '@logout'); ?></li>
       <?php } else { ?>
       <li><?php echo link_to('login', '@login') ?></li>

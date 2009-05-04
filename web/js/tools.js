@@ -1,4 +1,4 @@
-function showReply(comment_id, depth) {
+﻿function showReply(comment_id, depth) {
   var aHref = 'href-' + comment_id;
   var objHref = $(aHref);
   var commentHolder = 'comment-' + comment_id;

@@ -37,6 +37,8 @@ CREATE TABLE `tags`
 	`tag` VARCHAR(64),
 	`stripped_tag` VARCHAR(100),
 	`created_by` INTEGER,
+	`lovers` INTEGER default 0,
+	`haters` INTEGER default 0,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `unique_stripped_tag` (`stripped_tag`),
@@ -94,6 +96,30 @@ CREATE TABLE `tags_comments`
 	INDEX `tags_comments_FI_2` (`users_id`),
 	CONSTRAINT `tags_comments_FK_2`
 		FOREIGN KEY (`users_id`)
+		REFERENCES `users` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- friends
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `friends`;
+
+
+CREATE TABLE `friends`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_from` INTEGER,
+	`user_to` INTEGER,
+	`status` TINYINT(1) default 0 NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `friends_FI_1` (`user_from`),
+	CONSTRAINT `friends_FK_1`
+		FOREIGN KEY (`user_from`)
+		REFERENCES `users` (`id`),
+	INDEX `friends_FI_2` (`user_to`),
+	CONSTRAINT `friends_FK_2`
+		FOREIGN KEY (`user_to`)
 		REFERENCES `users` (`id`)
 )Type=MyISAM;
 

@@ -36,7 +36,7 @@ class UserToTagMapBuilder {
 
 		$tMap->addForeignPrimaryKey('TAGS_ID', 'TagsId', 'int' , CreoleTypes::INTEGER, 'tags', 'ID', true, null);
 
-		$tMap->addColumn('LOVE', 'Love', 'int', CreoleTypes::TINYINT, false, 1);
+		$tMap->addColumn('LOVE', 'Love', 'int', CreoleTypes::TINYINT, false, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 

@@ -13,7 +13,7 @@ abstract class BaseTagPeer {
 	const CLASS_DEFAULT = 'lib.model.Tag';
 
 	
-	const NUM_COLUMNS = 5;
+	const NUM_COLUMNS = 7;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,6 +32,12 @@ abstract class BaseTagPeer {
 	const CREATED_BY = 'tags.CREATED_BY';
 
 	
+	const LOVERS = 'tags.LOVERS';
+
+	
+	const HATERS = 'tags.HATERS';
+
+	
 	const CREATED_AT = 'tags.CREATED_AT';
 
 	
@@ -40,18 +46,18 @@ abstract class BaseTagPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Tag', 'StrippedTag', 'CreatedBy', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (TagPeer::ID, TagPeer::TAG, TagPeer::STRIPPED_TAG, TagPeer::CREATED_BY, TagPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'tag', 'stripped_tag', 'created_by', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Tag', 'StrippedTag', 'CreatedBy', 'Lovers', 'Haters', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (TagPeer::ID, TagPeer::TAG, TagPeer::STRIPPED_TAG, TagPeer::CREATED_BY, TagPeer::LOVERS, TagPeer::HATERS, TagPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'tag', 'stripped_tag', 'created_by', 'lovers', 'haters', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Tag' => 1, 'StrippedTag' => 2, 'CreatedBy' => 3, 'CreatedAt' => 4, ),
-		BasePeer::TYPE_COLNAME => array (TagPeer::ID => 0, TagPeer::TAG => 1, TagPeer::STRIPPED_TAG => 2, TagPeer::CREATED_BY => 3, TagPeer::CREATED_AT => 4, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'tag' => 1, 'stripped_tag' => 2, 'created_by' => 3, 'created_at' => 4, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Tag' => 1, 'StrippedTag' => 2, 'CreatedBy' => 3, 'Lovers' => 4, 'Haters' => 5, 'CreatedAt' => 6, ),
+		BasePeer::TYPE_COLNAME => array (TagPeer::ID => 0, TagPeer::TAG => 1, TagPeer::STRIPPED_TAG => 2, TagPeer::CREATED_BY => 3, TagPeer::LOVERS => 4, TagPeer::HATERS => 5, TagPeer::CREATED_AT => 6, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'tag' => 1, 'stripped_tag' => 2, 'created_by' => 3, 'lovers' => 4, 'haters' => 5, 'created_at' => 6, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
 	);
 
 	
@@ -112,6 +118,10 @@ abstract class BaseTagPeer {
 		$criteria->addSelectColumn(TagPeer::STRIPPED_TAG);
 
 		$criteria->addSelectColumn(TagPeer::CREATED_BY);
+
+		$criteria->addSelectColumn(TagPeer::LOVERS);
+
+		$criteria->addSelectColumn(TagPeer::HATERS);
 
 		$criteria->addSelectColumn(TagPeer::CREATED_AT);
 

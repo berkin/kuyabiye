@@ -6,8 +6,7 @@
 
 <ul id="tag_cloud">
 <?php foreach ($tags as $tag): ?>
-    <li><?php echo link_to($tag->getTag(), 'tag/show?stripped_tag=' . $tag->getStrippedTag()) ?></li>
+    <li><?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag()) ?></li>
 <?php endforeach; ?>
 </ul>
-<br /><br />
-<?php echo link_to ('create', 'tag/create') ?>
+

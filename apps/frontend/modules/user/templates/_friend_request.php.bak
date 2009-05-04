@@ -1,0 +1,5 @@
+<?php use_helper('User'); ?>
+
+<span id="friend-request">
+<?php echo link_to_friend_request($sf_user, $subscriber) ?>
+</span>

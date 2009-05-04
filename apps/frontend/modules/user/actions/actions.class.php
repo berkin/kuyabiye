@@ -10,6 +10,14 @@
  */
 class userActions extends sfActions
 {
+  public function executeShow()
+  {
+    $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
+    $this->forward404Unless($this->subscriber);
+    
+    $this->tags = $this->subscriber->getUserToTagsJoinTag();
+    $this->comments = $this->subscriber->getCommentsJoinTag();
+  }
 
   public function executeRegister()
   {
@@ -45,26 +53,37 @@ class userActions extends sfActions
   
   public function executeLove()
   {
-    $love = $this->getRequestParameter('loves');
+    $user = $this->getUser()->getSubscriber();
+    
+    $love = ( $this->getRequestParameter('loves') == 1 ) ? 1 : 0;
     $id   = $this->getRequestParameter('id');
     
     $this->tag = TagPeer::retrieveByPK($id);
     $this->forward404Unless($this->tag);
     
-    $user = $this->getUser()->getSubscriber();
     
-    // delete existing love
-    UserToTagPeer::removeLove($user, $this->tag);
-    
-    // insert new love    
-    if ( isset($love) ) 
+    $user_tag = new UserToTag();
+    $user_tag->setUser($user);
+    $user_tag->setTag($this->tag);
+    if ( $this->getRequestParameter('remove') )
     {
-      $user_tag = new UserToTag();
-      $user_tag->setUser($user);
-      $user_tag->setTag($this->tag);
-      $user_tag->setLove($love);
-      $user_tag->save();
+      $flag = $user_tag->delete();
     }
+    else
+    {
+      
+      $c = new Criteria;
+      $c->add(UserToTagPeer::TAGS_ID, $this->tag->getId());
+      $c->add(UserToTagPeer::USERS_ID, $user->getId());
+      $lover = UserToTagPeer::doSelect($c);
+      $new = ( $lover ) ? false : true;
+      
+      $user_tag->setLove($love);
+      $user_tag->setNew($new);
+      $flag = $user_tag->save();
+    }
+    
+    return $flag ? sfView::SUCCESS : sfView::ERROR;
   }
   
   public function handleError()

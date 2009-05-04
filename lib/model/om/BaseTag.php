@@ -25,22 +25,30 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 
 	
+	protected $lovers = 0;
+
+
+	
+	protected $haters = 0;
+
+
+	
 	protected $created_at;
 
 	
 	protected $aUser;
 
 	
-	protected $collUserToTags;
-
-	
-	protected $lastUserToTagCriteria = null;
-
-	
 	protected $collComments;
 
 	
 	protected $lastCommentCriteria = null;
+
+	
+	protected $collUserToTags;
+
+	
+	protected $lastUserToTagCriteria = null;
 
 	
 	protected $alreadyInSave = false;
@@ -74,6 +82,20 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 	{
 
 		return $this->created_by;
+	}
+
+	
+	public function getLovers()
+	{
+
+		return $this->lovers;
+	}
+
+	
+	public function getHaters()
+	{
+
+		return $this->haters;
 	}
 
 	
@@ -167,6 +189,38 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setLovers($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->lovers !== $v || $v === 0) {
+			$this->lovers = $v;
+			$this->modifiedColumns[] = TagPeer::LOVERS;
+		}
+
+	} 
+	
+	public function setHaters($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->haters !== $v || $v === 0) {
+			$this->haters = $v;
+			$this->modifiedColumns[] = TagPeer::HATERS;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -196,13 +250,17 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 			$this->created_by = $rs->getInt($startcol + 3);
 
-			$this->created_at = $rs->getTimestamp($startcol + 4, null);
+			$this->lovers = $rs->getInt($startcol + 4);
+
+			$this->haters = $rs->getInt($startcol + 5);
+
+			$this->created_at = $rs->getTimestamp($startcol + 6, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 5; 
+						return $startcol + 7; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Tag object", $e);
 		}
@@ -317,16 +375,16 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 				}
 				$this->resetModified(); 			}
 
-			if ($this->collUserToTags !== null) {
-				foreach($this->collUserToTags as $referrerFK) {
+			if ($this->collComments !== null) {
+				foreach($this->collComments as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
 				}
 			}
 
-			if ($this->collComments !== null) {
-				foreach($this->collComments as $referrerFK) {
+			if ($this->collUserToTags !== null) {
+				foreach($this->collUserToTags as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -382,16 +440,16 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 			}
 
 
-				if ($this->collUserToTags !== null) {
-					foreach($this->collUserToTags as $referrerFK) {
+				if ($this->collComments !== null) {
+					foreach($this->collComments as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
 					}
 				}
 
-				if ($this->collComments !== null) {
-					foreach($this->collComments as $referrerFK) {
+				if ($this->collUserToTags !== null) {
+					foreach($this->collUserToTags as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -429,6 +487,12 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 				return $this->getCreatedBy();
 				break;
 			case 4:
+				return $this->getLovers();
+				break;
+			case 5:
+				return $this->getHaters();
+				break;
+			case 6:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -445,7 +509,9 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 			$keys[1] => $this->getTag(),
 			$keys[2] => $this->getStrippedTag(),
 			$keys[3] => $this->getCreatedBy(),
-			$keys[4] => $this->getCreatedAt(),
+			$keys[4] => $this->getLovers(),
+			$keys[5] => $this->getHaters(),
+			$keys[6] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -474,6 +540,12 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 				$this->setCreatedBy($value);
 				break;
 			case 4:
+				$this->setLovers($value);
+				break;
+			case 5:
+				$this->setHaters($value);
+				break;
+			case 6:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -487,7 +559,9 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setTag($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setStrippedTag($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setCreatedBy($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setCreatedAt($arr[$keys[4]]);
+		if (array_key_exists($keys[4], $arr)) $this->setLovers($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setHaters($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setCreatedAt($arr[$keys[6]]);
 	}
 
 	
@@ -499,6 +573,8 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(TagPeer::TAG)) $criteria->add(TagPeer::TAG, $this->tag);
 		if ($this->isColumnModified(TagPeer::STRIPPED_TAG)) $criteria->add(TagPeer::STRIPPED_TAG, $this->stripped_tag);
 		if ($this->isColumnModified(TagPeer::CREATED_BY)) $criteria->add(TagPeer::CREATED_BY, $this->created_by);
+		if ($this->isColumnModified(TagPeer::LOVERS)) $criteria->add(TagPeer::LOVERS, $this->lovers);
+		if ($this->isColumnModified(TagPeer::HATERS)) $criteria->add(TagPeer::HATERS, $this->haters);
 		if ($this->isColumnModified(TagPeer::CREATED_AT)) $criteria->add(TagPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -536,18 +612,22 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 		$copyObj->setCreatedBy($this->created_by);
 
+		$copyObj->setLovers($this->lovers);
+
+		$copyObj->setHaters($this->haters);
+
 		$copyObj->setCreatedAt($this->created_at);
 
 
 		if ($deepCopy) {
 									$copyObj->setNew(false);
 
-			foreach($this->getUserToTags() as $relObj) {
-				$copyObj->addUserToTag($relObj->copy($deepCopy));
-			}
-
 			foreach($this->getComments() as $relObj) {
 				$copyObj->addComment($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getUserToTags() as $relObj) {
+				$copyObj->addUserToTag($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -602,111 +682,6 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 			
 		}
 		return $this->aUser;
-	}
-
-	
-	public function initUserToTags()
-	{
-		if ($this->collUserToTags === null) {
-			$this->collUserToTags = array();
-		}
-	}
-
-	
-	public function getUserToTags($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseUserToTagPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collUserToTags === null) {
-			if ($this->isNew()) {
-			   $this->collUserToTags = array();
-			} else {
-
-				$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
-
-				UserToTagPeer::addSelectColumns($criteria);
-				$this->collUserToTags = UserToTagPeer::doSelect($criteria, $con);
-			}
-		} else {
-						if (!$this->isNew()) {
-												
-
-				$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
-
-				UserToTagPeer::addSelectColumns($criteria);
-				if (!isset($this->lastUserToTagCriteria) || !$this->lastUserToTagCriteria->equals($criteria)) {
-					$this->collUserToTags = UserToTagPeer::doSelect($criteria, $con);
-				}
-			}
-		}
-		$this->lastUserToTagCriteria = $criteria;
-		return $this->collUserToTags;
-	}
-
-	
-	public function countUserToTags($criteria = null, $distinct = false, $con = null)
-	{
-				include_once 'lib/model/om/BaseUserToTagPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
-
-		return UserToTagPeer::doCount($criteria, $distinct, $con);
-	}
-
-	
-	public function addUserToTag(UserToTag $l)
-	{
-		$this->collUserToTags[] = $l;
-		$l->setTag($this);
-	}
-
-
-	
-	public function getUserToTagsJoinUser($criteria = null, $con = null)
-	{
-				include_once 'lib/model/om/BaseUserToTagPeer.php';
-		if ($criteria === null) {
-			$criteria = new Criteria();
-		}
-		elseif ($criteria instanceof Criteria)
-		{
-			$criteria = clone $criteria;
-		}
-
-		if ($this->collUserToTags === null) {
-			if ($this->isNew()) {
-				$this->collUserToTags = array();
-			} else {
-
-				$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
-
-				$this->collUserToTags = UserToTagPeer::doSelectJoinUser($criteria, $con);
-			}
-		} else {
-									
-			$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
-
-			if (!isset($this->lastUserToTagCriteria) || !$this->lastUserToTagCriteria->equals($criteria)) {
-				$this->collUserToTags = UserToTagPeer::doSelectJoinUser($criteria, $con);
-			}
-		}
-		$this->lastUserToTagCriteria = $criteria;
-
-		return $this->collUserToTags;
 	}
 
 	
@@ -812,6 +787,111 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		$this->lastCommentCriteria = $criteria;
 
 		return $this->collComments;
+	}
+
+	
+	public function initUserToTags()
+	{
+		if ($this->collUserToTags === null) {
+			$this->collUserToTags = array();
+		}
+	}
+
+	
+	public function getUserToTags($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseUserToTagPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collUserToTags === null) {
+			if ($this->isNew()) {
+			   $this->collUserToTags = array();
+			} else {
+
+				$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
+
+				UserToTagPeer::addSelectColumns($criteria);
+				$this->collUserToTags = UserToTagPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
+
+				UserToTagPeer::addSelectColumns($criteria);
+				if (!isset($this->lastUserToTagCriteria) || !$this->lastUserToTagCriteria->equals($criteria)) {
+					$this->collUserToTags = UserToTagPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastUserToTagCriteria = $criteria;
+		return $this->collUserToTags;
+	}
+
+	
+	public function countUserToTags($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseUserToTagPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
+
+		return UserToTagPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addUserToTag(UserToTag $l)
+	{
+		$this->collUserToTags[] = $l;
+		$l->setTag($this);
+	}
+
+
+	
+	public function getUserToTagsJoinUser($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseUserToTagPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collUserToTags === null) {
+			if ($this->isNew()) {
+				$this->collUserToTags = array();
+			} else {
+
+				$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
+
+				$this->collUserToTags = UserToTagPeer::doSelectJoinUser($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(UserToTagPeer::TAGS_ID, $this->getId());
+
+			if (!isset($this->lastUserToTagCriteria) || !$this->lastUserToTagCriteria->equals($criteria)) {
+				$this->collUserToTags = UserToTagPeer::doSelectJoinUser($criteria, $con);
+			}
+		}
+		$this->lastUserToTagCriteria = $criteria;
+
+		return $this->collUserToTags;
 	}
 
 

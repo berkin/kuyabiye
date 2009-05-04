@@ -36,4 +36,23 @@ class UserToTagPeer extends BaseUserToTagPeer
     
     return $counts;
   }
+  
+  static function updateCountOfLovers($tag)
+  {
+    $conn = Propel::getConnection(self::DATABASE_NAME);
+    $sql = 'UPDATE ' . TagPeer::TABLE_NAME . ' 
+              SET ' . TagPeer::LOVERS . ' = (
+                SELECT COUNT(' . UserToTagPeer::LOVE . ') 
+                  FROM ' . UserToTagPeer::TABLE_NAME  . ' 
+                WHERE ' . UserToTagPeer::TAGS_ID . ' = ' . $tag->getId() . '
+                  AND ' . UserToTagPeer::LOVE . ' = 1), ' .
+                TagPeer::HATERS . ' = (
+                SELECT COUNT(' . UserToTagPeer::LOVE . ') 
+                  FROM ' . UserToTagPeer::TABLE_NAME  . ' 
+                WHERE ' . UserToTagPeer::TAGS_ID . ' = ' . $tag->getId() . '
+                  AND ' . UserToTagPeer::LOVE . ' = 0)
+              WHERE ' . TagPeer::ID . ' = ' . $tag->getId() . ';';
+    $stmt = $conn->prepareStatement($sql);
+    $stmt->executeQuery();
+   }
 }

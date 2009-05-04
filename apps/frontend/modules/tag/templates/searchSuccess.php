@@ -23,3 +23,4 @@ dediğinizden yok ama, bunlar var:
 -tag/add/ ve tag/search var adam search diye tag eklemeye kalkarsa nolcak<br />
 -komşuluk öldü mü, komşuluk oldu mu stripped tagleri aynı?? napcaz<br />
 -boş aramayı engelle, special charackterleri engelle<br />
+-search sqli çok çakma oldu, şu 21.konudaki olayı yap, kelime kelime arasın... senin ki did you mean? gibi bişe oldu
