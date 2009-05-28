@@ -1,41 +1,59 @@
 <?php
 
 
-abstract class BaseMessagePeer {
+abstract class BaseConversationPeer {
 
 	
 	const DATABASE_NAME = 'propel';
 
 	
-	const TABLE_NAME = 'messages';
+	const TABLE_NAME = 'conversations';
 
 	
-	const CLASS_DEFAULT = 'lib.model.Message';
+	const CLASS_DEFAULT = 'lib.model.Conversation';
 
 	
-	const NUM_COLUMNS = 6;
+	const NUM_COLUMNS = 12;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
 
 
 	
-	const ID = 'messages.ID';
+	const ID = 'conversations.ID';
 
 	
-	const CONVERSATION_ID = 'messages.CONVERSATION_ID';
+	const TITLE = 'conversations.TITLE';
 
 	
-	const WRITER = 'messages.WRITER';
+	const SENDER = 'conversations.SENDER';
 
 	
-	const BODY = 'messages.BODY';
+	const RECIPENT = 'conversations.RECIPENT';
 
 	
-	const READ = 'messages.READ';
+	const IS_REPLIED = 'conversations.IS_REPLIED';
 
 	
-	const CREATED_AT = 'messages.CREATED_AT';
+	const SENDER_IS_REPLIED = 'conversations.SENDER_IS_REPLIED';
+
+	
+	const RECIPENT_IS_REPLIED = 'conversations.RECIPENT_IS_REPLIED';
+
+	
+	const SENDER_IS_DELETED = 'conversations.SENDER_IS_DELETED';
+
+	
+	const RECIPENT_IS_DELETED = 'conversations.RECIPENT_IS_DELETED';
+
+	
+	const SENDER_IS_READ = 'conversations.SENDER_IS_READ';
+
+	
+	const RECIPENT_IS_READ = 'conversations.RECIPENT_IS_READ';
+
+	
+	const UPDATED_AT = 'conversations.UPDATED_AT';
 
 	
 	private static $phpNameMap = null;
@@ -43,31 +61,31 @@ abstract class BaseMessagePeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'ConversationId', 'Writer', 'Body', 'Read', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (MessagePeer::ID, MessagePeer::CONVERSATION_ID, MessagePeer::WRITER, MessagePeer::BODY, MessagePeer::READ, MessagePeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'conversation_id', 'writer', 'body', 'read', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'Sender', 'Recipent', 'IsReplied', 'SenderIsReplied', 'RecipentIsReplied', 'SenderIsDeleted', 'RecipentIsDeleted', 'SenderIsRead', 'RecipentIsRead', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID, ConversationPeer::TITLE, ConversationPeer::SENDER, ConversationPeer::RECIPENT, ConversationPeer::IS_REPLIED, ConversationPeer::SENDER_IS_REPLIED, ConversationPeer::RECIPENT_IS_REPLIED, ConversationPeer::SENDER_IS_DELETED, ConversationPeer::RECIPENT_IS_DELETED, ConversationPeer::SENDER_IS_READ, ConversationPeer::RECIPENT_IS_READ, ConversationPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'sender', 'recipent', 'is_replied', 'sender_is_replied', 'recipent_is_replied', 'sender_is_deleted', 'recipent_is_deleted', 'sender_is_read', 'recipent_is_read', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'ConversationId' => 1, 'Writer' => 2, 'Body' => 3, 'Read' => 4, 'CreatedAt' => 5, ),
-		BasePeer::TYPE_COLNAME => array (MessagePeer::ID => 0, MessagePeer::CONVERSATION_ID => 1, MessagePeer::WRITER => 2, MessagePeer::BODY => 3, MessagePeer::READ => 4, MessagePeer::CREATED_AT => 5, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'conversation_id' => 1, 'writer' => 2, 'body' => 3, 'read' => 4, 'created_at' => 5, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'Sender' => 2, 'Recipent' => 3, 'IsReplied' => 4, 'SenderIsReplied' => 5, 'RecipentIsReplied' => 6, 'SenderIsDeleted' => 7, 'RecipentIsDeleted' => 8, 'SenderIsRead' => 9, 'RecipentIsRead' => 10, 'UpdatedAt' => 11, ),
+		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID => 0, ConversationPeer::TITLE => 1, ConversationPeer::SENDER => 2, ConversationPeer::RECIPENT => 3, ConversationPeer::IS_REPLIED => 4, ConversationPeer::SENDER_IS_REPLIED => 5, ConversationPeer::RECIPENT_IS_REPLIED => 6, ConversationPeer::SENDER_IS_DELETED => 7, ConversationPeer::RECIPENT_IS_DELETED => 8, ConversationPeer::SENDER_IS_READ => 9, ConversationPeer::RECIPENT_IS_READ => 10, ConversationPeer::UPDATED_AT => 11, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'sender' => 2, 'recipent' => 3, 'is_replied' => 4, 'sender_is_replied' => 5, 'recipent_is_replied' => 6, 'sender_is_deleted' => 7, 'recipent_is_deleted' => 8, 'sender_is_read' => 9, 'recipent_is_read' => 10, 'updated_at' => 11, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	
 	public static function getMapBuilder()
 	{
-		include_once 'lib/model/map/MessageMapBuilder.php';
-		return BasePeer::getMapBuilder('lib.model.map.MessageMapBuilder');
+		include_once 'lib/model/map/ConversationMapBuilder.php';
+		return BasePeer::getMapBuilder('lib.model.map.ConversationMapBuilder');
 	}
 	
 	public static function getPhpNameMap()
 	{
 		if (self::$phpNameMap === null) {
-			$map = MessagePeer::getTableMap();
+			$map = ConversationPeer::getTableMap();
 			$columns = $map->getColumns();
 			$nameMap = array();
 			foreach ($columns as $column) {
@@ -101,29 +119,41 @@ abstract class BaseMessagePeer {
 	
 	public static function alias($alias, $column)
 	{
-		return str_replace(MessagePeer::TABLE_NAME.'.', $alias.'.', $column);
+		return str_replace(ConversationPeer::TABLE_NAME.'.', $alias.'.', $column);
 	}
 
 	
 	public static function addSelectColumns(Criteria $criteria)
 	{
 
-		$criteria->addSelectColumn(MessagePeer::ID);
+		$criteria->addSelectColumn(ConversationPeer::ID);
 
-		$criteria->addSelectColumn(MessagePeer::CONVERSATION_ID);
+		$criteria->addSelectColumn(ConversationPeer::TITLE);
 
-		$criteria->addSelectColumn(MessagePeer::WRITER);
+		$criteria->addSelectColumn(ConversationPeer::SENDER);
 
-		$criteria->addSelectColumn(MessagePeer::BODY);
+		$criteria->addSelectColumn(ConversationPeer::RECIPENT);
 
-		$criteria->addSelectColumn(MessagePeer::READ);
+		$criteria->addSelectColumn(ConversationPeer::IS_REPLIED);
 
-		$criteria->addSelectColumn(MessagePeer::CREATED_AT);
+		$criteria->addSelectColumn(ConversationPeer::SENDER_IS_REPLIED);
+
+		$criteria->addSelectColumn(ConversationPeer::RECIPENT_IS_REPLIED);
+
+		$criteria->addSelectColumn(ConversationPeer::SENDER_IS_DELETED);
+
+		$criteria->addSelectColumn(ConversationPeer::RECIPENT_IS_DELETED);
+
+		$criteria->addSelectColumn(ConversationPeer::SENDER_IS_READ);
+
+		$criteria->addSelectColumn(ConversationPeer::RECIPENT_IS_READ);
+
+		$criteria->addSelectColumn(ConversationPeer::UPDATED_AT);
 
 	}
 
-	const COUNT = 'COUNT(messages.ID)';
-	const COUNT_DISTINCT = 'COUNT(DISTINCT messages.ID)';
+	const COUNT = 'COUNT(conversations.ID)';
+	const COUNT_DISTINCT = 'COUNT(DISTINCT conversations.ID)';
 
 	
 	public static function doCount(Criteria $criteria, $distinct = false, $con = null)
@@ -132,9 +162,9 @@ abstract class BaseMessagePeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MessagePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MessagePeer::COUNT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -142,7 +172,7 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$rs = MessagePeer::doSelectRS($criteria, $con);
+		$rs = ConversationPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -154,7 +184,7 @@ abstract class BaseMessagePeer {
 	{
 		$critcopy = clone $criteria;
 		$critcopy->setLimit(1);
-		$objects = MessagePeer::doSelect($critcopy, $con);
+		$objects = ConversationPeer::doSelect($critcopy, $con);
 		if ($objects) {
 			return $objects[0];
 		}
@@ -163,15 +193,15 @@ abstract class BaseMessagePeer {
 	
 	public static function doSelect(Criteria $criteria, $con = null)
 	{
-		return MessagePeer::populateObjects(MessagePeer::doSelectRS($criteria, $con));
+		return ConversationPeer::populateObjects(ConversationPeer::doSelectRS($criteria, $con));
 	}
 	
 	public static function doSelectRS(Criteria $criteria, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseMessagePeer:addDoSelectRS:addDoSelectRS') as $callable)
+    foreach (sfMixer::getCallables('BaseConversationPeer:addDoSelectRS:addDoSelectRS') as $callable)
     {
-      call_user_func($callable, 'BaseMessagePeer', $criteria, $con);
+      call_user_func($callable, 'BaseConversationPeer', $criteria, $con);
     }
 
 
@@ -181,7 +211,7 @@ abstract class BaseMessagePeer {
 
 		if (!$criteria->getSelectColumns()) {
 			$criteria = clone $criteria;
-			MessagePeer::addSelectColumns($criteria);
+			ConversationPeer::addSelectColumns($criteria);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -193,7 +223,7 @@ abstract class BaseMessagePeer {
 	{
 		$results = array();
 	
-				$cls = MessagePeer::getOMClass();
+				$cls = ConversationPeer::getOMClass();
 		$cls = Propel::import($cls);
 				while($rs->next()) {
 		
@@ -206,15 +236,15 @@ abstract class BaseMessagePeer {
 	}
 
 	
-	public static function doCountJoinConversation(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUserRelatedBySender(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MessagePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MessagePeer::COUNT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -222,9 +252,9 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$criteria->addJoin(ConversationPeer::SENDER, UserPeer::ID);
 
-		$rs = MessagePeer::doSelectRS($criteria, $con);
+		$rs = ConversationPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -234,15 +264,15 @@ abstract class BaseMessagePeer {
 
 
 	
-	public static function doCountJoinUser(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinUserRelatedByRecipent(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MessagePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MessagePeer::COUNT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -250,9 +280,9 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MessagePeer::WRITER, UserPeer::ID);
+		$criteria->addJoin(ConversationPeer::RECIPENT, UserPeer::ID);
 
-		$rs = MessagePeer::doSelectRS($criteria, $con);
+		$rs = ConversationPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -262,7 +292,7 @@ abstract class BaseMessagePeer {
 
 
 	
-	public static function doSelectJoinConversation(Criteria $c, $con = null)
+	public static function doSelectJoinUserRelatedBySender(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
@@ -270,64 +300,17 @@ abstract class BaseMessagePeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		MessagePeer::addSelectColumns($c);
-		$startcol = (MessagePeer::NUM_COLUMNS - MessagePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		ConversationPeer::addSelectColumns($c);
-
-		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = MessagePeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = ConversationPeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj2 = new $cls();
-			$obj2->hydrate($rs, $startcol);
-
-			$newObject = true;
-			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getConversation(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-										$temp_obj2->addMessage($obj1); 					break;
-				}
-			}
-			if ($newObject) {
-				$obj2->initMessages();
-				$obj2->addMessage($obj1); 			}
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	
-	public static function doSelectJoinUser(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-				if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		MessagePeer::addSelectColumns($c);
-		$startcol = (MessagePeer::NUM_COLUMNS - MessagePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		$startcol = (ConversationPeer::NUM_COLUMNS - ConversationPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		UserPeer::addSelectColumns($c);
 
-		$c->addJoin(MessagePeer::WRITER, UserPeer::ID);
+		$c->addJoin(ConversationPeer::SENDER, UserPeer::ID);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = MessagePeer::getOMClass();
+			$omClass = ConversationPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
 			$obj1 = new $cls();
@@ -341,14 +324,61 @@ abstract class BaseMessagePeer {
 
 			$newObject = true;
 			foreach($results as $temp_obj1) {
-				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getUserRelatedBySender(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-										$temp_obj2->addMessage($obj1); 					break;
+										$temp_obj2->addConversationRelatedBySender($obj1); 					break;
 				}
 			}
 			if ($newObject) {
-				$obj2->initMessages();
-				$obj2->addMessage($obj1); 			}
+				$obj2->initConversationsRelatedBySender();
+				$obj2->addConversationRelatedBySender($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinUserRelatedByRecipent(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConversationPeer::addSelectColumns($c);
+		$startcol = (ConversationPeer::NUM_COLUMNS - ConversationPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UserPeer::addSelectColumns($c);
+
+		$c->addJoin(ConversationPeer::RECIPENT, UserPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConversationPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UserPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUserRelatedByRecipent(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addConversationRelatedByRecipent($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initConversationsRelatedByRecipent();
+				$obj2->addConversationRelatedByRecipent($obj1); 			}
 			$results[] = $obj1;
 		}
 		return $results;
@@ -362,9 +392,9 @@ abstract class BaseMessagePeer {
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MessagePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MessagePeer::COUNT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -372,11 +402,11 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$criteria->addJoin(ConversationPeer::SENDER, UserPeer::ID);
 
-		$criteria->addJoin(MessagePeer::WRITER, UserPeer::ID);
+		$criteria->addJoin(ConversationPeer::RECIPENT, UserPeer::ID);
 
-		$rs = MessagePeer::doSelectRS($criteria, $con);
+		$rs = ConversationPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -394,25 +424,25 @@ abstract class BaseMessagePeer {
 			$c->setDbName(self::DATABASE_NAME);
 		}
 
-		MessagePeer::addSelectColumns($c);
-		$startcol2 = (MessagePeer::NUM_COLUMNS - MessagePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
 		ConversationPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + ConversationPeer::NUM_COLUMNS;
+		$startcol2 = (ConversationPeer::NUM_COLUMNS - ConversationPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		UserPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
 
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$c->addJoin(ConversationPeer::SENDER, UserPeer::ID);
 
-		$c->addJoin(MessagePeer::WRITER, UserPeer::ID);
+		$c->addJoin(ConversationPeer::RECIPENT, UserPeer::ID);
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
 
-			$omClass = MessagePeer::getOMClass();
+			$omClass = ConversationPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -421,7 +451,7 @@ abstract class BaseMessagePeer {
 
 
 					
-			$omClass = ConversationPeer::getOMClass();
+			$omClass = UserPeer::getOMClass();
 
 
 			$cls = Propel::import($omClass);
@@ -431,15 +461,15 @@ abstract class BaseMessagePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getConversation(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getUserRelatedBySender(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addMessage($obj1); 					break;
+					$temp_obj2->addConversationRelatedBySender($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initMessages();
-				$obj2->addMessage($obj1);
+				$obj2->initConversationsRelatedBySender();
+				$obj2->addConversationRelatedBySender($obj1);
 			}
 
 
@@ -454,15 +484,15 @@ abstract class BaseMessagePeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUser(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+				$temp_obj3 = $temp_obj1->getUserRelatedByRecipent(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addMessage($obj1); 					break;
+					$temp_obj3->addConversationRelatedByRecipent($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initMessages();
-				$obj3->addMessage($obj1);
+				$obj3->initConversationsRelatedByRecipent();
+				$obj3->addConversationRelatedByRecipent($obj1);
 			}
 
 			$results[] = $obj1;
@@ -472,15 +502,15 @@ abstract class BaseMessagePeer {
 
 
 	
-	public static function doCountJoinAllExceptConversation(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUserRelatedBySender(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MessagePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MessagePeer::COUNT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -488,9 +518,7 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MessagePeer::WRITER, UserPeer::ID);
-
-		$rs = MessagePeer::doSelectRS($criteria, $con);
+		$rs = ConversationPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -500,15 +528,15 @@ abstract class BaseMessagePeer {
 
 
 	
-	public static function doCountJoinAllExceptUser(Criteria $criteria, $distinct = false, $con = null)
+	public static function doCountJoinAllExceptUserRelatedByRecipent(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
 
 				$criteria->clearSelectColumns()->clearOrderByColumns();
 		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-			$criteria->addSelectColumn(MessagePeer::COUNT_DISTINCT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT_DISTINCT);
 		} else {
-			$criteria->addSelectColumn(MessagePeer::COUNT);
+			$criteria->addSelectColumn(ConversationPeer::COUNT);
 		}
 
 				foreach($criteria->getGroupByColumns() as $column)
@@ -516,9 +544,7 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
-
-		$rs = MessagePeer::doSelectRS($criteria, $con);
+		$rs = ConversationPeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
 			return $rs->getInt(1);
 		} else {
@@ -528,112 +554,58 @@ abstract class BaseMessagePeer {
 
 
 	
-	public static function doSelectJoinAllExceptConversation(Criteria $c, $con = null)
+	public static function doSelectJoinAllExceptUserRelatedBySender(Criteria $c, $con = null)
 	{
 		$c = clone $c;
 
 								if ($c->getDbName() == Propel::getDefaultDB()) {
 			$c->setDbName(self::DATABASE_NAME);
 		}
-
-		MessagePeer::addSelectColumns($c);
-		$startcol2 = (MessagePeer::NUM_COLUMNS - MessagePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
-
-		UserPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + UserPeer::NUM_COLUMNS;
-
-		$c->addJoin(MessagePeer::WRITER, UserPeer::ID);
-
-
-		$rs = BasePeer::doSelect($c, $con);
-		$results = array();
-
-		while($rs->next()) {
-
-			$omClass = MessagePeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
-
-			$omClass = UserPeer::getOMClass();
-
-
-			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUser(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addMessage($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj2->initMessages();
-				$obj2->addMessage($obj1);
-			}
-
-			$results[] = $obj1;
-		}
-		return $results;
-	}
-
-
-	
-	public static function doSelectJoinAllExceptUser(Criteria $c, $con = null)
-	{
-		$c = clone $c;
-
-								if ($c->getDbName() == Propel::getDefaultDB()) {
-			$c->setDbName(self::DATABASE_NAME);
-		}
-
-		MessagePeer::addSelectColumns($c);
-		$startcol2 = (MessagePeer::NUM_COLUMNS - MessagePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 		ConversationPeer::addSelectColumns($c);
-		$startcol3 = $startcol2 + ConversationPeer::NUM_COLUMNS;
-
-		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$startcol2 = (ConversationPeer::NUM_COLUMNS - ConversationPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 
 
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
 		while($rs->next()) {
-
-			$omClass = MessagePeer::getOMClass();
-
-			$cls = Propel::import($omClass);
-			$obj1 = new $cls();
-			$obj1->hydrate($rs);
 
 			$omClass = ConversationPeer::getOMClass();
 
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doSelectJoinAllExceptUserRelatedByRecipent(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConversationPeer::addSelectColumns($c);
+		$startcol2 = (ConversationPeer::NUM_COLUMNS - ConversationPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConversationPeer::getOMClass();
 
 			$cls = Propel::import($omClass);
-			$obj2  = new $cls();
-			$obj2->hydrate($rs, $startcol2);
-
-			$newObject = true;
-			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
-				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getConversation(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
-					$newObject = false;
-					$temp_obj2->addMessage($obj1);
-					break;
-				}
-			}
-
-			if ($newObject) {
-				$obj2->initMessages();
-				$obj2->addMessage($obj1);
-			}
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
 
 			$results[] = $obj1;
 		}
@@ -649,16 +621,16 @@ abstract class BaseMessagePeer {
 	
 	public static function getOMClass()
 	{
-		return MessagePeer::CLASS_DEFAULT;
+		return ConversationPeer::CLASS_DEFAULT;
 	}
 
 	
 	public static function doInsert($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseMessagePeer:doInsert:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseConversationPeer:doInsert:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseMessagePeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseConversationPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -674,7 +646,7 @@ abstract class BaseMessagePeer {
 			$criteria = clone $values; 		} else {
 			$criteria = $values->buildCriteria(); 		}
 
-		$criteria->remove(MessagePeer::ID); 
+		$criteria->remove(ConversationPeer::ID); 
 
 				$criteria->setDbName(self::DATABASE_NAME);
 
@@ -688,9 +660,9 @@ abstract class BaseMessagePeer {
 		}
 
 		
-    foreach (sfMixer::getCallables('BaseMessagePeer:doInsert:post') as $callable)
+    foreach (sfMixer::getCallables('BaseConversationPeer:doInsert:post') as $callable)
     {
-      call_user_func($callable, 'BaseMessagePeer', $values, $con, $pk);
+      call_user_func($callable, 'BaseConversationPeer', $values, $con, $pk);
     }
 
     return $pk;
@@ -700,9 +672,9 @@ abstract class BaseMessagePeer {
 	public static function doUpdate($values, $con = null)
 	{
 
-    foreach (sfMixer::getCallables('BaseMessagePeer:doUpdate:pre') as $callable)
+    foreach (sfMixer::getCallables('BaseConversationPeer:doUpdate:pre') as $callable)
     {
-      $ret = call_user_func($callable, 'BaseMessagePeer', $values, $con);
+      $ret = call_user_func($callable, 'BaseConversationPeer', $values, $con);
       if (false !== $ret)
       {
         return $ret;
@@ -718,8 +690,8 @@ abstract class BaseMessagePeer {
 
 		if ($values instanceof Criteria) {
 			$criteria = clone $values; 
-			$comparison = $criteria->getComparison(MessagePeer::ID);
-			$selectCriteria->add(MessagePeer::ID, $criteria->remove(MessagePeer::ID), $comparison);
+			$comparison = $criteria->getComparison(ConversationPeer::ID);
+			$selectCriteria->add(ConversationPeer::ID, $criteria->remove(ConversationPeer::ID), $comparison);
 
 		} else { 			$criteria = $values->buildCriteria(); 			$selectCriteria = $values->buildPkeyCriteria(); 		}
 
@@ -728,9 +700,9 @@ abstract class BaseMessagePeer {
 		$ret = BasePeer::doUpdate($selectCriteria, $criteria, $con);
 	
 
-    foreach (sfMixer::getCallables('BaseMessagePeer:doUpdate:post') as $callable)
+    foreach (sfMixer::getCallables('BaseConversationPeer:doUpdate:post') as $callable)
     {
-      call_user_func($callable, 'BaseMessagePeer', $values, $con, $ret);
+      call_user_func($callable, 'BaseConversationPeer', $values, $con, $ret);
     }
 
     return $ret;
@@ -744,7 +716,7 @@ abstract class BaseMessagePeer {
 		}
 		$affectedRows = 0; 		try {
 									$con->begin();
-			$affectedRows += BasePeer::doDeleteAll(MessagePeer::TABLE_NAME, $con);
+			$affectedRows += BasePeer::doDeleteAll(ConversationPeer::TABLE_NAME, $con);
 			$con->commit();
 			return $affectedRows;
 		} catch (PropelException $e) {
@@ -757,16 +729,16 @@ abstract class BaseMessagePeer {
 	 public static function doDelete($values, $con = null)
 	 {
 		if ($con === null) {
-			$con = Propel::getConnection(MessagePeer::DATABASE_NAME);
+			$con = Propel::getConnection(ConversationPeer::DATABASE_NAME);
 		}
 
 		if ($values instanceof Criteria) {
-			$criteria = clone $values; 		} elseif ($values instanceof Message) {
+			$criteria = clone $values; 		} elseif ($values instanceof Conversation) {
 
 			$criteria = $values->buildPkeyCriteria();
 		} else {
 						$criteria = new Criteria(self::DATABASE_NAME);
-			$criteria->add(MessagePeer::ID, (array) $values, Criteria::IN);
+			$criteria->add(ConversationPeer::ID, (array) $values, Criteria::IN);
 		}
 
 				$criteria->setDbName(self::DATABASE_NAME);
@@ -785,13 +757,13 @@ abstract class BaseMessagePeer {
 	}
 
 	
-	public static function doValidate(Message $obj, $cols = null)
+	public static function doValidate(Conversation $obj, $cols = null)
 	{
 		$columns = array();
 
 		if ($cols) {
-			$dbMap = Propel::getDatabaseMap(MessagePeer::DATABASE_NAME);
-			$tableMap = $dbMap->getTable(MessagePeer::TABLE_NAME);
+			$dbMap = Propel::getDatabaseMap(ConversationPeer::DATABASE_NAME);
+			$tableMap = $dbMap->getTable(ConversationPeer::TABLE_NAME);
 
 			if (! is_array($cols)) {
 				$cols = array($cols);
@@ -807,11 +779,11 @@ abstract class BaseMessagePeer {
 
 		}
 
-		$res =  BasePeer::doValidate(MessagePeer::DATABASE_NAME, MessagePeer::TABLE_NAME, $columns);
+		$res =  BasePeer::doValidate(ConversationPeer::DATABASE_NAME, ConversationPeer::TABLE_NAME, $columns);
     if ($res !== true) {
         $request = sfContext::getInstance()->getRequest();
         foreach ($res as $failed) {
-            $col = MessagePeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
+            $col = ConversationPeer::translateFieldname($failed->getColumn(), BasePeer::TYPE_COLNAME, BasePeer::TYPE_PHPNAME);
             $request->setError($col, $failed->getMessage());
         }
     }
@@ -826,12 +798,12 @@ abstract class BaseMessagePeer {
 			$con = Propel::getConnection(self::DATABASE_NAME);
 		}
 
-		$criteria = new Criteria(MessagePeer::DATABASE_NAME);
+		$criteria = new Criteria(ConversationPeer::DATABASE_NAME);
 
-		$criteria->add(MessagePeer::ID, $pk);
+		$criteria->add(ConversationPeer::ID, $pk);
 
 
-		$v = MessagePeer::doSelect($criteria, $con);
+		$v = ConversationPeer::doSelect($criteria, $con);
 
 		return !empty($v) > 0 ? $v[0] : null;
 	}
@@ -848,8 +820,8 @@ abstract class BaseMessagePeer {
 			$objs = array();
 		} else {
 			$criteria = new Criteria();
-			$criteria->add(MessagePeer::ID, $pks, Criteria::IN);
-			$objs = MessagePeer::doSelect($criteria, $con);
+			$criteria->add(ConversationPeer::ID, $pks, Criteria::IN);
+			$objs = ConversationPeer::doSelect($criteria, $con);
 		}
 		return $objs;
 	}
@@ -857,11 +829,11 @@ abstract class BaseMessagePeer {
 } 
 if (Propel::isInit()) {
 			try {
-		BaseMessagePeer::getMapBuilder();
+		BaseConversationPeer::getMapBuilder();
 	} catch (Exception $e) {
 		Propel::log('Could not initialize Peer: ' . $e->getMessage(), Propel::LOG_ERR);
 	}
 } else {
-			require_once 'lib/model/map/MessageMapBuilder.php';
-	Propel::registerMapBuilder('lib.model.map.MessageMapBuilder');
+			require_once 'lib/model/map/ConversationMapBuilder.php';
+	Propel::registerMapBuilder('lib.model.map.ConversationMapBuilder');
 }

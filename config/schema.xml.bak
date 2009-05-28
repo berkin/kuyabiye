@@ -86,7 +86,7 @@
     <column name="recipent_folder" required="true" default="0" type="tinyint" />
     <column name="title" type="varchar" size="255" />
     <column name="body" type="longvarchar" />
-    <column name="conversation" type="integer" required="true" autoIncrement="true" />
+    <column name="conversation" type="integer" />
     <column name="read" type="tinyint" required="true" default="0" size="1" />
     <column name="created_at" type="timestamp" />
   </table>

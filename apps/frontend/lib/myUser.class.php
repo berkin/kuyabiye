@@ -56,4 +56,5 @@ class myUser extends sfBasicSecurityUser
     $c->add(UserPeer::NICKNAME, $nick);
     return UserPeer::doSelectOne($c);
   }
+  
 }

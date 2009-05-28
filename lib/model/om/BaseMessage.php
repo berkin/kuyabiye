@@ -13,31 +13,15 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 
 	
-	protected $sender;
+	protected $conversation_id;
 
 
 	
-	protected $recipent;
-
-
-	
-	protected $sender_folder = 1;
-
-
-	
-	protected $recipent_folder = 0;
-
-
-	
-	protected $title;
+	protected $writer;
 
 
 	
 	protected $body;
-
-
-	
-	protected $conversation;
 
 
 	
@@ -48,10 +32,10 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 	protected $created_at;
 
 	
-	protected $aUserRelatedBySender;
+	protected $aConversation;
 
 	
-	protected $aUserRelatedByRecipent;
+	protected $aUser;
 
 	
 	protected $alreadyInSave = false;
@@ -67,38 +51,17 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getSender()
+	public function getConversationId()
 	{
 
-		return $this->sender;
+		return $this->conversation_id;
 	}
 
 	
-	public function getRecipent()
+	public function getWriter()
 	{
 
-		return $this->recipent;
-	}
-
-	
-	public function getSenderFolder()
-	{
-
-		return $this->sender_folder;
-	}
-
-	
-	public function getRecipentFolder()
-	{
-
-		return $this->recipent_folder;
-	}
-
-	
-	public function getTitle()
-	{
-
-		return $this->title;
+		return $this->writer;
 	}
 
 	
@@ -106,13 +69,6 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 	{
 
 		return $this->body;
-	}
-
-	
-	public function getConversation()
-	{
-
-		return $this->conversation;
 	}
 
 	
@@ -161,7 +117,7 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setSender($v)
+	public function setConversationId($v)
 	{
 
 		
@@ -170,18 +126,18 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->sender !== $v) {
-			$this->sender = $v;
-			$this->modifiedColumns[] = MessagePeer::SENDER;
+		if ($this->conversation_id !== $v) {
+			$this->conversation_id = $v;
+			$this->modifiedColumns[] = MessagePeer::CONVERSATION_ID;
 		}
 
-		if ($this->aUserRelatedBySender !== null && $this->aUserRelatedBySender->getId() !== $v) {
-			$this->aUserRelatedBySender = null;
+		if ($this->aConversation !== null && $this->aConversation->getId() !== $v) {
+			$this->aConversation = null;
 		}
 
 	} 
 	
-	public function setRecipent($v)
+	public function setWriter($v)
 	{
 
 		
@@ -190,61 +146,13 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->recipent !== $v) {
-			$this->recipent = $v;
-			$this->modifiedColumns[] = MessagePeer::RECIPENT;
+		if ($this->writer !== $v) {
+			$this->writer = $v;
+			$this->modifiedColumns[] = MessagePeer::WRITER;
 		}
 
-		if ($this->aUserRelatedByRecipent !== null && $this->aUserRelatedByRecipent->getId() !== $v) {
-			$this->aUserRelatedByRecipent = null;
-		}
-
-	} 
-	
-	public function setSenderFolder($v)
-	{
-
-		
-		
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->sender_folder !== $v || $v === 1) {
-			$this->sender_folder = $v;
-			$this->modifiedColumns[] = MessagePeer::SENDER_FOLDER;
-		}
-
-	} 
-	
-	public function setRecipentFolder($v)
-	{
-
-		
-		
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->recipent_folder !== $v || $v === 0) {
-			$this->recipent_folder = $v;
-			$this->modifiedColumns[] = MessagePeer::RECIPENT_FOLDER;
-		}
-
-	} 
-	
-	public function setTitle($v)
-	{
-
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->title !== $v) {
-			$this->title = $v;
-			$this->modifiedColumns[] = MessagePeer::TITLE;
+		if ($this->aUser !== null && $this->aUser->getId() !== $v) {
+			$this->aUser = null;
 		}
 
 	} 
@@ -261,22 +169,6 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		if ($this->body !== $v) {
 			$this->body = $v;
 			$this->modifiedColumns[] = MessagePeer::BODY;
-		}
-
-	} 
-	
-	public function setConversation($v)
-	{
-
-		
-		
-		if ($v !== null && !is_int($v) && is_numeric($v)) {
-			$v = (int) $v;
-		}
-
-		if ($this->conversation !== $v) {
-			$this->conversation = $v;
-			$this->modifiedColumns[] = MessagePeer::CONVERSATION;
 		}
 
 	} 
@@ -320,29 +212,21 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 			$this->id = $rs->getInt($startcol + 0);
 
-			$this->sender = $rs->getInt($startcol + 1);
+			$this->conversation_id = $rs->getInt($startcol + 1);
 
-			$this->recipent = $rs->getInt($startcol + 2);
+			$this->writer = $rs->getInt($startcol + 2);
 
-			$this->sender_folder = $rs->getInt($startcol + 3);
+			$this->body = $rs->getString($startcol + 3);
 
-			$this->recipent_folder = $rs->getInt($startcol + 4);
+			$this->read = $rs->getInt($startcol + 4);
 
-			$this->title = $rs->getString($startcol + 5);
-
-			$this->body = $rs->getString($startcol + 6);
-
-			$this->conversation = $rs->getInt($startcol + 7);
-
-			$this->read = $rs->getInt($startcol + 8);
-
-			$this->created_at = $rs->getTimestamp($startcol + 9, null);
+			$this->created_at = $rs->getTimestamp($startcol + 5, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 10; 
+						return $startcol + 6; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Message object", $e);
 		}
@@ -438,18 +322,18 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aUserRelatedBySender !== null) {
-				if ($this->aUserRelatedBySender->isModified()) {
-					$affectedRows += $this->aUserRelatedBySender->save($con);
+			if ($this->aConversation !== null) {
+				if ($this->aConversation->isModified()) {
+					$affectedRows += $this->aConversation->save($con);
 				}
-				$this->setUserRelatedBySender($this->aUserRelatedBySender);
+				$this->setConversation($this->aConversation);
 			}
 
-			if ($this->aUserRelatedByRecipent !== null) {
-				if ($this->aUserRelatedByRecipent->isModified()) {
-					$affectedRows += $this->aUserRelatedByRecipent->save($con);
+			if ($this->aUser !== null) {
+				if ($this->aUser->isModified()) {
+					$affectedRows += $this->aUser->save($con);
 				}
-				$this->setUserRelatedByRecipent($this->aUserRelatedByRecipent);
+				$this->setUser($this->aUser);
 			}
 
 
@@ -501,15 +385,15 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 
 												
-			if ($this->aUserRelatedBySender !== null) {
-				if (!$this->aUserRelatedBySender->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedBySender->getValidationFailures());
+			if ($this->aConversation !== null) {
+				if (!$this->aConversation->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aConversation->getValidationFailures());
 				}
 			}
 
-			if ($this->aUserRelatedByRecipent !== null) {
-				if (!$this->aUserRelatedByRecipent->validate($columns)) {
-					$failureMap = array_merge($failureMap, $this->aUserRelatedByRecipent->getValidationFailures());
+			if ($this->aUser !== null) {
+				if (!$this->aUser->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUser->getValidationFailures());
 				}
 			}
 
@@ -541,30 +425,18 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 				return $this->getId();
 				break;
 			case 1:
-				return $this->getSender();
+				return $this->getConversationId();
 				break;
 			case 2:
-				return $this->getRecipent();
+				return $this->getWriter();
 				break;
 			case 3:
-				return $this->getSenderFolder();
-				break;
-			case 4:
-				return $this->getRecipentFolder();
-				break;
-			case 5:
-				return $this->getTitle();
-				break;
-			case 6:
 				return $this->getBody();
 				break;
-			case 7:
-				return $this->getConversation();
-				break;
-			case 8:
+			case 4:
 				return $this->getRead();
 				break;
-			case 9:
+			case 5:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -578,15 +450,11 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		$keys = MessagePeer::getFieldNames($keyType);
 		$result = array(
 			$keys[0] => $this->getId(),
-			$keys[1] => $this->getSender(),
-			$keys[2] => $this->getRecipent(),
-			$keys[3] => $this->getSenderFolder(),
-			$keys[4] => $this->getRecipentFolder(),
-			$keys[5] => $this->getTitle(),
-			$keys[6] => $this->getBody(),
-			$keys[7] => $this->getConversation(),
-			$keys[8] => $this->getRead(),
-			$keys[9] => $this->getCreatedAt(),
+			$keys[1] => $this->getConversationId(),
+			$keys[2] => $this->getWriter(),
+			$keys[3] => $this->getBody(),
+			$keys[4] => $this->getRead(),
+			$keys[5] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -606,30 +474,18 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 				$this->setId($value);
 				break;
 			case 1:
-				$this->setSender($value);
+				$this->setConversationId($value);
 				break;
 			case 2:
-				$this->setRecipent($value);
+				$this->setWriter($value);
 				break;
 			case 3:
-				$this->setSenderFolder($value);
-				break;
-			case 4:
-				$this->setRecipentFolder($value);
-				break;
-			case 5:
-				$this->setTitle($value);
-				break;
-			case 6:
 				$this->setBody($value);
 				break;
-			case 7:
-				$this->setConversation($value);
-				break;
-			case 8:
+			case 4:
 				$this->setRead($value);
 				break;
-			case 9:
+			case 5:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -640,15 +496,11 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		$keys = MessagePeer::getFieldNames($keyType);
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-		if (array_key_exists($keys[1], $arr)) $this->setSender($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setRecipent($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setSenderFolder($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setRecipentFolder($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setTitle($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setBody($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setConversation($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setRead($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
+		if (array_key_exists($keys[1], $arr)) $this->setConversationId($arr[$keys[1]]);
+		if (array_key_exists($keys[2], $arr)) $this->setWriter($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setBody($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setRead($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedAt($arr[$keys[5]]);
 	}
 
 	
@@ -657,13 +509,9 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		$criteria = new Criteria(MessagePeer::DATABASE_NAME);
 
 		if ($this->isColumnModified(MessagePeer::ID)) $criteria->add(MessagePeer::ID, $this->id);
-		if ($this->isColumnModified(MessagePeer::SENDER)) $criteria->add(MessagePeer::SENDER, $this->sender);
-		if ($this->isColumnModified(MessagePeer::RECIPENT)) $criteria->add(MessagePeer::RECIPENT, $this->recipent);
-		if ($this->isColumnModified(MessagePeer::SENDER_FOLDER)) $criteria->add(MessagePeer::SENDER_FOLDER, $this->sender_folder);
-		if ($this->isColumnModified(MessagePeer::RECIPENT_FOLDER)) $criteria->add(MessagePeer::RECIPENT_FOLDER, $this->recipent_folder);
-		if ($this->isColumnModified(MessagePeer::TITLE)) $criteria->add(MessagePeer::TITLE, $this->title);
+		if ($this->isColumnModified(MessagePeer::CONVERSATION_ID)) $criteria->add(MessagePeer::CONVERSATION_ID, $this->conversation_id);
+		if ($this->isColumnModified(MessagePeer::WRITER)) $criteria->add(MessagePeer::WRITER, $this->writer);
 		if ($this->isColumnModified(MessagePeer::BODY)) $criteria->add(MessagePeer::BODY, $this->body);
-		if ($this->isColumnModified(MessagePeer::CONVERSATION)) $criteria->add(MessagePeer::CONVERSATION, $this->conversation);
 		if ($this->isColumnModified(MessagePeer::READ)) $criteria->add(MessagePeer::READ, $this->read);
 		if ($this->isColumnModified(MessagePeer::CREATED_AT)) $criteria->add(MessagePeer::CREATED_AT, $this->created_at);
 
@@ -696,19 +544,11 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 	public function copyInto($copyObj, $deepCopy = false)
 	{
 
-		$copyObj->setSender($this->sender);
+		$copyObj->setConversationId($this->conversation_id);
 
-		$copyObj->setRecipent($this->recipent);
-
-		$copyObj->setSenderFolder($this->sender_folder);
-
-		$copyObj->setRecipentFolder($this->recipent_folder);
-
-		$copyObj->setTitle($this->title);
+		$copyObj->setWriter($this->writer);
 
 		$copyObj->setBody($this->body);
-
-		$copyObj->setConversation($this->conversation);
 
 		$copyObj->setRead($this->read);
 
@@ -739,61 +579,61 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 	}
 
 	
-	public function setUserRelatedBySender($v)
+	public function setConversation($v)
 	{
 
 
 		if ($v === null) {
-			$this->setSender(NULL);
+			$this->setConversationId(NULL);
 		} else {
-			$this->setSender($v->getId());
+			$this->setConversationId($v->getId());
 		}
 
 
-		$this->aUserRelatedBySender = $v;
+		$this->aConversation = $v;
 	}
 
 
 	
-	public function getUserRelatedBySender($con = null)
+	public function getConversation($con = null)
 	{
-		if ($this->aUserRelatedBySender === null && ($this->sender !== null)) {
-						include_once 'lib/model/om/BaseUserPeer.php';
+		if ($this->aConversation === null && ($this->conversation_id !== null)) {
+						include_once 'lib/model/om/BaseConversationPeer.php';
 
-			$this->aUserRelatedBySender = UserPeer::retrieveByPK($this->sender, $con);
+			$this->aConversation = ConversationPeer::retrieveByPK($this->conversation_id, $con);
 
 			
 		}
-		return $this->aUserRelatedBySender;
+		return $this->aConversation;
 	}
 
 	
-	public function setUserRelatedByRecipent($v)
+	public function setUser($v)
 	{
 
 
 		if ($v === null) {
-			$this->setRecipent(NULL);
+			$this->setWriter(NULL);
 		} else {
-			$this->setRecipent($v->getId());
+			$this->setWriter($v->getId());
 		}
 
 
-		$this->aUserRelatedByRecipent = $v;
+		$this->aUser = $v;
 	}
 
 
 	
-	public function getUserRelatedByRecipent($con = null)
+	public function getUser($con = null)
 	{
-		if ($this->aUserRelatedByRecipent === null && ($this->recipent !== null)) {
+		if ($this->aUser === null && ($this->writer !== null)) {
 						include_once 'lib/model/om/BaseUserPeer.php';
 
-			$this->aUserRelatedByRecipent = UserPeer::retrieveByPK($this->recipent, $con);
+			$this->aUser = UserPeer::retrieveByPK($this->writer, $con);
 
 			
 		}
-		return $this->aUserRelatedByRecipent;
+		return $this->aUser;
 	}
 
 

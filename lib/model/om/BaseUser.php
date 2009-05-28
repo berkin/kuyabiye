@@ -74,16 +74,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastUserToTagCriteria = null;
 
 	
-	protected $collMessagesRelatedBySender;
+	protected $collConversationsRelatedBySender;
 
 	
-	protected $lastMessageRelatedBySenderCriteria = null;
+	protected $lastConversationRelatedBySenderCriteria = null;
 
 	
-	protected $collMessagesRelatedByRecipent;
+	protected $collConversationsRelatedByRecipent;
 
 	
-	protected $lastMessageRelatedByRecipentCriteria = null;
+	protected $lastConversationRelatedByRecipentCriteria = null;
+
+	
+	protected $collMessages;
+
+	
+	protected $lastMessageCriteria = null;
 
 	
 	protected $alreadyInSave = false;
@@ -487,16 +493,24 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
-			if ($this->collMessagesRelatedBySender !== null) {
-				foreach($this->collMessagesRelatedBySender as $referrerFK) {
+			if ($this->collConversationsRelatedBySender !== null) {
+				foreach($this->collConversationsRelatedBySender as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
 				}
 			}
 
-			if ($this->collMessagesRelatedByRecipent !== null) {
-				foreach($this->collMessagesRelatedByRecipent as $referrerFK) {
+			if ($this->collConversationsRelatedByRecipent !== null) {
+				foreach($this->collConversationsRelatedByRecipent as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
+			if ($this->collMessages !== null) {
+				foreach($this->collMessages as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
 						$affectedRows += $referrerFK->save($con);
 					}
@@ -584,16 +598,24 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
-				if ($this->collMessagesRelatedBySender !== null) {
-					foreach($this->collMessagesRelatedBySender as $referrerFK) {
+				if ($this->collConversationsRelatedBySender !== null) {
+					foreach($this->collConversationsRelatedBySender as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
 					}
 				}
 
-				if ($this->collMessagesRelatedByRecipent !== null) {
-					foreach($this->collMessagesRelatedByRecipent as $referrerFK) {
+				if ($this->collConversationsRelatedByRecipent !== null) {
+					foreach($this->collConversationsRelatedByRecipent as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collMessages !== null) {
+					foreach($this->collMessages as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -808,12 +830,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addUserToTag($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getMessagesRelatedBySender() as $relObj) {
-				$copyObj->addMessageRelatedBySender($relObj->copy($deepCopy));
+			foreach($this->getConversationsRelatedBySender() as $relObj) {
+				$copyObj->addConversationRelatedBySender($relObj->copy($deepCopy));
 			}
 
-			foreach($this->getMessagesRelatedByRecipent() as $relObj) {
-				$copyObj->addMessageRelatedByRecipent($relObj->copy($deepCopy));
+			foreach($this->getConversationsRelatedByRecipent() as $relObj) {
+				$copyObj->addConversationRelatedByRecipent($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getMessages() as $relObj) {
+				$copyObj->addMessage($relObj->copy($deepCopy));
 			}
 
 		} 
@@ -1262,17 +1288,17 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
-	public function initMessagesRelatedBySender()
+	public function initConversationsRelatedBySender()
 	{
-		if ($this->collMessagesRelatedBySender === null) {
-			$this->collMessagesRelatedBySender = array();
+		if ($this->collConversationsRelatedBySender === null) {
+			$this->collConversationsRelatedBySender = array();
 		}
 	}
 
 	
-	public function getMessagesRelatedBySender($criteria = null, $con = null)
+	public function getConversationsRelatedBySender($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseMessagePeer.php';
+				include_once 'lib/model/om/BaseConversationPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1281,36 +1307,36 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collMessagesRelatedBySender === null) {
+		if ($this->collConversationsRelatedBySender === null) {
 			if ($this->isNew()) {
-			   $this->collMessagesRelatedBySender = array();
+			   $this->collConversationsRelatedBySender = array();
 			} else {
 
-				$criteria->add(MessagePeer::SENDER, $this->getId());
+				$criteria->add(ConversationPeer::SENDER, $this->getId());
 
-				MessagePeer::addSelectColumns($criteria);
-				$this->collMessagesRelatedBySender = MessagePeer::doSelect($criteria, $con);
+				ConversationPeer::addSelectColumns($criteria);
+				$this->collConversationsRelatedBySender = ConversationPeer::doSelect($criteria, $con);
 			}
 		} else {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(MessagePeer::SENDER, $this->getId());
+				$criteria->add(ConversationPeer::SENDER, $this->getId());
 
-				MessagePeer::addSelectColumns($criteria);
-				if (!isset($this->lastMessageRelatedBySenderCriteria) || !$this->lastMessageRelatedBySenderCriteria->equals($criteria)) {
-					$this->collMessagesRelatedBySender = MessagePeer::doSelect($criteria, $con);
+				ConversationPeer::addSelectColumns($criteria);
+				if (!isset($this->lastConversationRelatedBySenderCriteria) || !$this->lastConversationRelatedBySenderCriteria->equals($criteria)) {
+					$this->collConversationsRelatedBySender = ConversationPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastMessageRelatedBySenderCriteria = $criteria;
-		return $this->collMessagesRelatedBySender;
+		$this->lastConversationRelatedBySenderCriteria = $criteria;
+		return $this->collConversationsRelatedBySender;
 	}
 
 	
-	public function countMessagesRelatedBySender($criteria = null, $distinct = false, $con = null)
+	public function countConversationsRelatedBySender($criteria = null, $distinct = false, $con = null)
 	{
-				include_once 'lib/model/om/BaseMessagePeer.php';
+				include_once 'lib/model/om/BaseConversationPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1319,30 +1345,30 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(MessagePeer::SENDER, $this->getId());
+		$criteria->add(ConversationPeer::SENDER, $this->getId());
 
-		return MessagePeer::doCount($criteria, $distinct, $con);
+		return ConversationPeer::doCount($criteria, $distinct, $con);
 	}
 
 	
-	public function addMessageRelatedBySender(Message $l)
+	public function addConversationRelatedBySender(Conversation $l)
 	{
-		$this->collMessagesRelatedBySender[] = $l;
+		$this->collConversationsRelatedBySender[] = $l;
 		$l->setUserRelatedBySender($this);
 	}
 
 	
-	public function initMessagesRelatedByRecipent()
+	public function initConversationsRelatedByRecipent()
 	{
-		if ($this->collMessagesRelatedByRecipent === null) {
-			$this->collMessagesRelatedByRecipent = array();
+		if ($this->collConversationsRelatedByRecipent === null) {
+			$this->collConversationsRelatedByRecipent = array();
 		}
 	}
 
 	
-	public function getMessagesRelatedByRecipent($criteria = null, $con = null)
+	public function getConversationsRelatedByRecipent($criteria = null, $con = null)
 	{
-				include_once 'lib/model/om/BaseMessagePeer.php';
+				include_once 'lib/model/om/BaseConversationPeer.php';
 		if ($criteria === null) {
 			$criteria = new Criteria();
 		}
@@ -1351,34 +1377,66 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		if ($this->collMessagesRelatedByRecipent === null) {
+		if ($this->collConversationsRelatedByRecipent === null) {
 			if ($this->isNew()) {
-			   $this->collMessagesRelatedByRecipent = array();
+			   $this->collConversationsRelatedByRecipent = array();
 			} else {
 
-				$criteria->add(MessagePeer::RECIPENT, $this->getId());
+				$criteria->add(ConversationPeer::RECIPENT, $this->getId());
 
-				MessagePeer::addSelectColumns($criteria);
-				$this->collMessagesRelatedByRecipent = MessagePeer::doSelect($criteria, $con);
+				ConversationPeer::addSelectColumns($criteria);
+				$this->collConversationsRelatedByRecipent = ConversationPeer::doSelect($criteria, $con);
 			}
 		} else {
 						if (!$this->isNew()) {
 												
 
-				$criteria->add(MessagePeer::RECIPENT, $this->getId());
+				$criteria->add(ConversationPeer::RECIPENT, $this->getId());
 
-				MessagePeer::addSelectColumns($criteria);
-				if (!isset($this->lastMessageRelatedByRecipentCriteria) || !$this->lastMessageRelatedByRecipentCriteria->equals($criteria)) {
-					$this->collMessagesRelatedByRecipent = MessagePeer::doSelect($criteria, $con);
+				ConversationPeer::addSelectColumns($criteria);
+				if (!isset($this->lastConversationRelatedByRecipentCriteria) || !$this->lastConversationRelatedByRecipentCriteria->equals($criteria)) {
+					$this->collConversationsRelatedByRecipent = ConversationPeer::doSelect($criteria, $con);
 				}
 			}
 		}
-		$this->lastMessageRelatedByRecipentCriteria = $criteria;
-		return $this->collMessagesRelatedByRecipent;
+		$this->lastConversationRelatedByRecipentCriteria = $criteria;
+		return $this->collConversationsRelatedByRecipent;
 	}
 
 	
-	public function countMessagesRelatedByRecipent($criteria = null, $distinct = false, $con = null)
+	public function countConversationsRelatedByRecipent($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseConversationPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ConversationPeer::RECIPENT, $this->getId());
+
+		return ConversationPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addConversationRelatedByRecipent(Conversation $l)
+	{
+		$this->collConversationsRelatedByRecipent[] = $l;
+		$l->setUserRelatedByRecipent($this);
+	}
+
+	
+	public function initMessages()
+	{
+		if ($this->collMessages === null) {
+			$this->collMessages = array();
+		}
+	}
+
+	
+	public function getMessages($criteria = null, $con = null)
 	{
 				include_once 'lib/model/om/BaseMessagePeer.php';
 		if ($criteria === null) {
@@ -1389,16 +1447,89 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$criteria = clone $criteria;
 		}
 
-		$criteria->add(MessagePeer::RECIPENT, $this->getId());
+		if ($this->collMessages === null) {
+			if ($this->isNew()) {
+			   $this->collMessages = array();
+			} else {
+
+				$criteria->add(MessagePeer::WRITER, $this->getId());
+
+				MessagePeer::addSelectColumns($criteria);
+				$this->collMessages = MessagePeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(MessagePeer::WRITER, $this->getId());
+
+				MessagePeer::addSelectColumns($criteria);
+				if (!isset($this->lastMessageCriteria) || !$this->lastMessageCriteria->equals($criteria)) {
+					$this->collMessages = MessagePeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastMessageCriteria = $criteria;
+		return $this->collMessages;
+	}
+
+	
+	public function countMessages($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseMessagePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(MessagePeer::WRITER, $this->getId());
 
 		return MessagePeer::doCount($criteria, $distinct, $con);
 	}
 
 	
-	public function addMessageRelatedByRecipent(Message $l)
+	public function addMessage(Message $l)
 	{
-		$this->collMessagesRelatedByRecipent[] = $l;
-		$l->setUserRelatedByRecipent($this);
+		$this->collMessages[] = $l;
+		$l->setUser($this);
+	}
+
+
+	
+	public function getMessagesJoinConversation($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseMessagePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collMessages === null) {
+			if ($this->isNew()) {
+				$this->collMessages = array();
+			} else {
+
+				$criteria->add(MessagePeer::WRITER, $this->getId());
+
+				$this->collMessages = MessagePeer::doSelectJoinConversation($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(MessagePeer::WRITER, $this->getId());
+
+			if (!isset($this->lastMessageCriteria) || !$this->lastMessageCriteria->equals($criteria)) {
+				$this->collMessages = MessagePeer::doSelectJoinConversation($criteria, $con);
+			}
+		}
+		$this->lastMessageCriteria = $criteria;
+
+		return $this->collMessages;
 	}
 
 

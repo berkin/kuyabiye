@@ -72,8 +72,9 @@
     <column name="created_at" type="TIMESTAMP" />
   </table>
 
-  <table name="messages" phpName="Message">
+  <table name="conversations" phpName="Conversation">
     <column name="id" type="integer" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="title" type="varchar" size="255" />
     <column name="sender" type="integer" />
       <foreign-key foreignTable="users">
         <reference local="sender" foreign="id"/>
@@ -82,11 +83,27 @@
       <foreign-key foreignTable="users">
         <reference local="recipent" foreign="id"/>
       </foreign-key>
-    <column name="sender_folder" required="true" default="1" type="tinyint" />
-    <column name="recipent_folder" required="true" default="0" type="tinyint" />
-    <column name="title" type="varchar" size="255" />
+    <column name="is_replied" type="tinyint" required="true" default="0" size="1" />
+    <column name="sender_is_replied" type="tinyint" required="true" default="0" size="1" />
+    <column name="recipent_is_replied" type="tinyint" required="true" default="0" size="1" />
+    <column name="sender_is_deleted" type="tinyint" required="true" default="0" size="1" />
+    <column name="recipent_is_deleted" type="tinyint" required="true" default="0" size="1" />
+    <column name="sender_is_read" type="tinyint" required="true" default="0" size="1" />
+    <column name="recipent_is_read" type="tinyint" required="true" default="0" size="1" />
+    <column name="updated_at" type="timestamp" />
+  </table>
+
+  <table name="messages" phpName="Message">
+    <column name="id" type="integer" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="conversation_id" type="integer" />
+      <foreign-key foreignTable="conversations">
+        <reference local="conversation_id" foreign="id"/>
+      </foreign-key>
+    <column name="writer" type="integer" />
+      <foreign-key foreignTable="users">
+        <reference local="writer" foreign="id"/>
+      </foreign-key>
     <column name="body" type="longvarchar" />
-    <column name="conversation" type="integer" />
     <column name="read" type="tinyint" required="true" default="0" size="1" />
     <column name="created_at" type="timestamp" />
   </table>

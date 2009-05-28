@@ -124,6 +124,38 @@ CREATE TABLE `users_to_tags`
 )Type=MyISAM;
 
 #-----------------------------------------------------------------------------
+#-- conversations
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `conversations`;
+
+
+CREATE TABLE `conversations`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255),
+	`sender` INTEGER,
+	`recipent` INTEGER,
+	`is_replied` TINYINT(1) default 0 NOT NULL,
+	`sender_is_replied` TINYINT(1) default 0 NOT NULL,
+	`recipent_is_replied` TINYINT(1) default 0 NOT NULL,
+	`sender_is_deleted` TINYINT(1) default 0 NOT NULL,
+	`recipent_is_deleted` TINYINT(1) default 0 NOT NULL,
+	`sender_is_read` TINYINT(1) default 0 NOT NULL,
+	`recipent_is_read` TINYINT(1) default 0 NOT NULL,
+	`updated_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `conversations_FI_1` (`sender`),
+	CONSTRAINT `conversations_FK_1`
+		FOREIGN KEY (`sender`)
+		REFERENCES `users` (`id`),
+	INDEX `conversations_FI_2` (`recipent`),
+	CONSTRAINT `conversations_FK_2`
+		FOREIGN KEY (`recipent`)
+		REFERENCES `users` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
 #-- messages
 #-----------------------------------------------------------------------------
 
@@ -133,23 +165,19 @@ DROP TABLE IF EXISTS `messages`;
 CREATE TABLE `messages`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
-	`sender` INTEGER,
-	`recipent` INTEGER,
-	`sender_folder` TINYINT default 1 NOT NULL,
-	`recipent_folder` TINYINT default 0 NOT NULL,
-	`title` VARCHAR(255),
+	`conversation_id` INTEGER,
+	`writer` INTEGER,
 	`body` TEXT,
-	`conversation` INTEGER,
 	`read` TINYINT(1) default 0 NOT NULL,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`),
-	INDEX `messages_FI_1` (`sender`),
+	INDEX `messages_FI_1` (`conversation_id`),
 	CONSTRAINT `messages_FK_1`
-		FOREIGN KEY (`sender`)
-		REFERENCES `users` (`id`),
-	INDEX `messages_FI_2` (`recipent`),
+		FOREIGN KEY (`conversation_id`)
+		REFERENCES `conversations` (`id`),
+	INDEX `messages_FI_2` (`writer`),
 	CONSTRAINT `messages_FK_2`
-		FOREIGN KEY (`recipent`)
+		FOREIGN KEY (`writer`)
 		REFERENCES `users` (`id`)
 )Type=MyISAM;
 

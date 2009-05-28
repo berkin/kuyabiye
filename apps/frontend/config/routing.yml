@@ -55,6 +55,22 @@ friend_request_list:
   url:    /friend/requests/*
   param:  { module: friend, action: request }
 
+conversations:
+  url:    /mailbox/:folder/*
+  param:  { module: conversation, action: index, folder: inbox, display: true }
+  
+conversation_read:
+  url:    /mail/read/*
+  param:  { module: conversation, action: read }
+  
+conversation_compose:
+  url:    /mail/compose/*
+  param:  { module: conversation, action: compose }
+
+conversation_reply:
+  url:    /mail/reply/*
+  param:  { module: conversation, action: reply }
+  
 messages:
   url:    /messages/*
   param:  { module: message, action: index }

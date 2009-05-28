@@ -29,3 +29,17 @@
     objHref.innerHTML = 'Close';
   }
 }
+
+function selectMessages(selection) {
+  var checkboxes = document.getElementsByName("messages[]");
+  var str = '';
+  for(i=0; i < checkboxes.length; i++) {
+    str = checkboxes[i].className;
+    if ( str.indexOf(selection) != -1 ) {
+      checkboxes[i].checked = 'checked';
+    }
+    else {
+      checkboxes[i].checked = '';            
+    }
+  }         
+}
