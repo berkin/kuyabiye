@@ -222,7 +222,7 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::CONVERSATION);
 
 		$rs = MessagePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -274,7 +274,7 @@ abstract class BaseMessagePeer {
 		$startcol = (MessagePeer::NUM_COLUMNS - MessagePeer::NUM_LAZY_LOAD_COLUMNS) + 1;
 		ConversationPeer::addSelectColumns($c);
 
-		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::CONVERSATION);
 		$rs = BasePeer::doSelect($c, $con);
 		$results = array();
 
@@ -372,7 +372,7 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::CONVERSATION);
 
 		$criteria->addJoin(MessagePeer::WRITER, UserPeer::ID);
 
@@ -403,7 +403,7 @@ abstract class BaseMessagePeer {
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
-		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::CONVERSATION);
 
 		$c->addJoin(MessagePeer::WRITER, UserPeer::ID);
 
@@ -516,7 +516,7 @@ abstract class BaseMessagePeer {
 			$criteria->addSelectColumn($column);
 		}
 
-		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$criteria->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::CONVERSATION);
 
 		$rs = MessagePeer::doSelectRS($criteria, $con);
 		if ($rs->next()) {
@@ -599,7 +599,7 @@ abstract class BaseMessagePeer {
 		ConversationPeer::addSelectColumns($c);
 		$startcol3 = $startcol2 + ConversationPeer::NUM_COLUMNS;
 
-		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::ID);
+		$c->addJoin(MessagePeer::CONVERSATION_ID, ConversationPeer::CONVERSATION);
 
 
 		$rs = BasePeer::doSelect($c, $con);

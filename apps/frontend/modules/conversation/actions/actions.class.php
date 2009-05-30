@@ -16,40 +16,25 @@ class conversationActions extends sfActions
    */
   public function executeIndex()
   {
+
     $response = $this->getContext()->getResponse();
     $response->addJavascript('tools');
 
     $user = $this->getUser()->getSubscriberId();
     $this->folder = $this->getRequestParameter('folder', 'inbox');
     
+    $c = new Criteria();
     if ( $this->folder == 'inbox' )
     {
-      $c = new Criteria();
-      $recipent = $c->getNewCriterion(ConversationPeer::RECIPENT, $user);
-      $recipent->addAnd($c->getNewCriterion(ConversationPeer::RECIPENT_IS_DELETED, 0));
-      $sender = $c->getNewCriterion(ConversationPeer::SENDER, $user);
-      $sender->addAnd($c->getNewCriterion(ConversationPeer::SENDER_IS_DELETED, 0));
-      $sender->addAnd($c->getNewCriterion(ConversationPeer::IS_REPLIED, 1));
-      $sender->addOr($recipent);
-      $c->add($sender);
-      
-      
-      $this->conversations = ConversationPeer::doSelectJoinUserRelatedBySender($c);
+      $c->add(ConversationPeer::RECIPENT, $user);
     }
     else
     {
-      $c = new Criteria();
-      $recipent = $c->getNewCriterion(ConversationPeer::SENDER, $user);
-      $recipent->addAnd($c->getNewCriterion(ConversationPeer::SENDER_IS_DELETED, 0));
-      $sender = $c->getNewCriterion(ConversationPeer::RECIPENT, $user);
-      $sender->addAnd($c->getNewCriterion(ConversationPeer::RECIPENT_IS_DELETED, 0));
-      $sender->addAnd($c->getNewCriterion(ConversationPeer::IS_REPLIED, 1));
-      $sender->addOr($recipent);
-      $c->add($sender);
-      
-      
-      $this->conversations = ConversationPeer::doSelectJoinUserRelatedBySender($c);    
+      $c->add(ConversationPeer::SENDER, $user);
     }
+    $c->add(ConversationPeer::IS_DELETED, 0);    
+    
+    $this->conversations = ConversationPeer::doSelectJoinUserRelatedBySender($c);    
 
   }
   
@@ -59,10 +44,8 @@ class conversationActions extends sfActions
     $this->user = $this->getUser()->getSubscriberId();
     
     $c = new Criteria();
-    $c->add(ConversationPeer::ID, $id);
-    $sender = $c->getNewCriterion(ConversationPeer::SENDER, $this->user);
-    $sender->addOr($c->getNewCriterion(ConversationPeer::RECIPENT, $this->user));
-    $c->add($sender);
+    $c->add(ConversationPeer::CONVERSATION, $id);
+    $c->add(ConversationPeer::RECIPENT, $this->user);
     $this->conversation = ConversationPeer::doSelectOne($c);
     $this->forward404Unless($this->conversation);
     
@@ -70,32 +53,34 @@ class conversationActions extends sfActions
     $c->add(MessagePeer::CONVERSATION_ID, $id);
     $this->messages = MessagePeer::doSelectJoinUser($c);
     $this->forward404Unless($this->messages);
-      
+    
+    $this->conversation->setIsRead(true);
+    $this->conversation->save();
   }
   
   public function executeReply()
   {
     // check sender
-    $conversation = $this->getRequestParameter('conversation');
+    $conversation_id = $this->getRequestParameter('conversation');
     $reply_to = $this->getUser()->getSubscriberByNick($this->getRequestParameter('reply_to'));
     $this->forward404Unless($reply_to);
     
     $this->subscriber = $this->getUser()->getSubscriber();
 
     $c = new Criteria();
-    $c->add(ConversationPeer::ID, $conversation);
-    $sender = $c->getNewCriterion(ConversationPeer::SENDER, $this->subscriber->getId());
-    $sender->addAnd($c->getNewCriterion(ConversationPeer::RECIPENT, $reply_to->getId()));
-    $recipent = $c->getNewCriterion(ConversationPeer::RECIPENT, $this->subscriber->getId());
-    $recipent->addAnd($c->getNewCriterion(ConversationPeer::SENDER, $reply_to->getId()));
-    $sender->addOr($recipent);
-    $c->add($sender);
-    $this->forward404Unless(ConversationPeer::doSelect($c));
+    $c->add(ConversationPeer::CONVERSATION, $conversation_id);
+    $c->add(ConversationPeer::SENDER, $reply_to->getId());
+    $c->add(ConversationPeer::RECIPENT, $this->subscriber->getId());
+    $this->conversation = ConversationPeer::doSelectOne($c);
+    $this->forward404Unless($this->conversation);
+    
+    $this->conversation->setIsReplied(true);
+    $this->conversation->save();
 
     $this->message = new Message();
     $this->message->setWriter($this->subscriber->getId());
     $this->message->setBody($this->getRequestParameter('body'));
-    $this->message->setConversationId($conversation);
+    $this->message->setConversationId($this->conversation->getId());
     $this->message->save();
   }
   
@@ -113,6 +98,15 @@ class conversationActions extends sfActions
       
       $conversation->save();
       
+      $conversation->setConversation($conversation->getId());
+      $conversation->save();
+      
+      $recipent = new Conversation();
+      $recipent->setSender($this->recipent->getId());
+      $recipent->setRecipent($this->getUser()->getSubscriberId());
+      $recipent->setConversation($conversation->getId());
+      $recipent->setTitle($this->getRequestParameter('title'));      
+      $recipent->save();
       
       $message = new Message();
       $message->setConversationId($conversation->getId());
@@ -121,14 +115,46 @@ class conversationActions extends sfActions
       
       $message->save();
       
-      $this->redirect('@conversation_read?id=' . $conversation->getId());
+      $this->redirect('@conversation_read?id=' . $conversation->getConversation());
       
     }
   
   }
   
+  public function executeRemove()
+  {
+    $conversations = $this->getRequestParameter('messages');
+    
+    if ( is_array($conversations) )
+    {
+      foreach ( $conversations as $conversation )
+      {
+        $this->user = $this->getUser()->getSubscriberId();
+
+        $c = new Criteria();
+        $c->add(ConversationPeer::CONVERSATION, $conversation);
+        $c->add(ConversationPeer::RECIPENT, $this->user);
+        $conversation = ConversationPeer::doSelectOne($c);
+        $this->forward404Unless($conversation);
+
+        $conversation->setIsDeleted(true);
+        $conversation->save();
+        
+        $this->getResponse()->setHttpHeader('Content-Type','application/json; charset=utf-8');
+        $this->getResponse()->setHttpHeader('X-JSON', json_encode($conversations));
+
+      }
+    }
+    return sfView::HEADER_ONLY; 
+  }
+  
   public function handleErrorCompose()
   {
     return sfView::SUCCESS;
+  }
+  
+  public function handleErrorReply()
+  {
+    return sfView::NONE;
   }
 }

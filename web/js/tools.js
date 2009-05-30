@@ -43,3 +43,13 @@ function selectMessages(selection) {
     }
   }         
 }
+
+function updateJSON(request, json)
+{
+  var nbElementsInResponse = json.length;
+
+  for (var i = 0; i < nbElementsInResponse; i++)
+  {
+    Effect.Fade('message-' + json[i]);
+  }
+}

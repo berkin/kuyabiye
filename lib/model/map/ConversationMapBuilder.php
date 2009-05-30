@@ -40,19 +40,13 @@ class ConversationMapBuilder {
 
 		$tMap->addForeignKey('RECIPENT', 'Recipent', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
+		$tMap->addColumn('CONVERSATION', 'Conversation', 'int', CreoleTypes::INTEGER, true, 1);
+
 		$tMap->addColumn('IS_REPLIED', 'IsReplied', 'int', CreoleTypes::TINYINT, true, 1);
 
-		$tMap->addColumn('SENDER_IS_REPLIED', 'SenderIsReplied', 'int', CreoleTypes::TINYINT, true, 1);
+		$tMap->addColumn('IS_DELETED', 'IsDeleted', 'int', CreoleTypes::TINYINT, true, 1);
 
-		$tMap->addColumn('RECIPENT_IS_REPLIED', 'RecipentIsReplied', 'int', CreoleTypes::TINYINT, true, 1);
-
-		$tMap->addColumn('SENDER_IS_DELETED', 'SenderIsDeleted', 'int', CreoleTypes::TINYINT, true, 1);
-
-		$tMap->addColumn('RECIPENT_IS_DELETED', 'RecipentIsDeleted', 'int', CreoleTypes::TINYINT, true, 1);
-
-		$tMap->addColumn('SENDER_IS_READ', 'SenderIsRead', 'int', CreoleTypes::TINYINT, true, 1);
-
-		$tMap->addColumn('RECIPENT_IS_READ', 'RecipentIsRead', 'int', CreoleTypes::TINYINT, true, 1);
+		$tMap->addColumn('IS_READ', 'IsRead', 'int', CreoleTypes::TINYINT, true, 1);
 
 		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 

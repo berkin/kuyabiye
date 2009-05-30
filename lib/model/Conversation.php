@@ -23,4 +23,5 @@ class Conversation extends BaseConversation
     
     return $nickname;
   }
+  
 }

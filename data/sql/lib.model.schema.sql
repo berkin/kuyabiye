@@ -136,15 +136,13 @@ CREATE TABLE `conversations`
 	`title` VARCHAR(255),
 	`sender` INTEGER,
 	`recipent` INTEGER,
+	`conversation` INTEGER(1) default 0 NOT NULL,
 	`is_replied` TINYINT(1) default 0 NOT NULL,
-	`sender_is_replied` TINYINT(1) default 0 NOT NULL,
-	`recipent_is_replied` TINYINT(1) default 0 NOT NULL,
-	`sender_is_deleted` TINYINT(1) default 0 NOT NULL,
-	`recipent_is_deleted` TINYINT(1) default 0 NOT NULL,
-	`sender_is_read` TINYINT(1) default 0 NOT NULL,
-	`recipent_is_read` TINYINT(1) default 0 NOT NULL,
+	`is_deleted` TINYINT(1) default 0 NOT NULL,
+	`is_read` TINYINT(1) default 0 NOT NULL,
 	`updated_at` DATETIME,
 	PRIMARY KEY (`id`),
+	INDEX `I_referenced_messages_FK_1_1` (`conversation`),
 	INDEX `conversations_FI_1` (`sender`),
 	CONSTRAINT `conversations_FK_1`
 		FOREIGN KEY (`sender`)
@@ -174,7 +172,7 @@ CREATE TABLE `messages`
 	INDEX `messages_FI_1` (`conversation_id`),
 	CONSTRAINT `messages_FK_1`
 		FOREIGN KEY (`conversation_id`)
-		REFERENCES `conversations` (`id`),
+		REFERENCES `conversations` (`conversation`),
 	INDEX `messages_FI_2` (`writer`),
 	CONSTRAINT `messages_FK_2`
 		FOREIGN KEY (`writer`)

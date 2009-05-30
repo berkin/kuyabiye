@@ -1,6 +1,6 @@
 <?php
   echo form_tag('@conversation_reply', 'method=post');
-  echo input_hidden_tag('conversation', $conversation->getId());
+  echo input_hidden_tag('conversation', $conversation->getConversation());
   echo input_hidden_tag('reply_to', $conversation->getReplyTo());
 
 ?>

@@ -33,9 +33,6 @@ class messageActions extends sfActions
     $c->add($or);
     $this->messages = MessagePeer::doSelectJoinUserRelatedBySender($c);
 
-    $this->forward404Unless($this->messages);
-
-
   }
 
   public function executeAdd()

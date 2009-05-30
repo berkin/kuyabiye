@@ -131,7 +131,7 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 			$this->modifiedColumns[] = MessagePeer::CONVERSATION_ID;
 		}
 
-		if ($this->aConversation !== null && $this->aConversation->getId() !== $v) {
+		if ($this->aConversation !== null && $this->aConversation->getConversation() !== $v) {
 			$this->aConversation = null;
 		}
 
@@ -586,7 +586,7 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		if ($v === null) {
 			$this->setConversationId(NULL);
 		} else {
-			$this->setConversationId($v->getId());
+			$this->setConversationId($v->getConversation());
 		}
 
 

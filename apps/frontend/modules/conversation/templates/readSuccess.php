@@ -1,7 +1,7 @@
 <?php use_helper('Javascript','Date') ?>
 <h1>Message Oku</h1>
 <div id="message-list">
-<b class="m10"><?php echo link_to($conversation->getTitle(), '@conversation_read?id=' . $conversation->getId()) ?></b><br />
+<b class="m10"><?php echo link_to($conversation->getTitle(), '@conversation_read?id=' . $conversation->getConversation()) ?></b><br />
 <span class="m10"><?php echo link_to($conversation->getUserRelatedBySender()->getNickname(), '@user_profile?nick=' . $conversation->getUserRelatedBySender()->getNickname()) ?> ve <?php echo link_to($conversation->getUserRelatedByRecipent()->getNickname(), '@user_profile?nick=' . $conversation->getUserRelatedByRecipent()->getNickname()) ?> arasında</span>
 <br /><br />
 

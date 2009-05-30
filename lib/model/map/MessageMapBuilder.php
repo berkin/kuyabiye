@@ -34,7 +34,7 @@ class MessageMapBuilder {
 
 		$tMap->addPrimaryKey('ID', 'Id', 'int', CreoleTypes::INTEGER, true, null);
 
-		$tMap->addForeignKey('CONVERSATION_ID', 'ConversationId', 'int', CreoleTypes::INTEGER, 'conversations', 'ID', false, null);
+		$tMap->addForeignKey('CONVERSATION_ID', 'ConversationId', 'int', CreoleTypes::INTEGER, 'conversations', 'CONVERSATION', false, null);
 
 		$tMap->addForeignKey('WRITER', 'Writer', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 

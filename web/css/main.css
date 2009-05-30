@@ -79,6 +79,14 @@ div#header
   height: 46px;
 }
 
+.conversation {
+  padding: 10px;
+}
+
+.unread {
+  background: #f3f3f3;
+}
+
 
 div#header ul, div#footer ul
 {

@@ -13,7 +13,7 @@ abstract class BaseConversationPeer {
 	const CLASS_DEFAULT = 'lib.model.Conversation';
 
 	
-	const NUM_COLUMNS = 12;
+	const NUM_COLUMNS = 9;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,25 +32,16 @@ abstract class BaseConversationPeer {
 	const RECIPENT = 'conversations.RECIPENT';
 
 	
+	const CONVERSATION = 'conversations.CONVERSATION';
+
+	
 	const IS_REPLIED = 'conversations.IS_REPLIED';
 
 	
-	const SENDER_IS_REPLIED = 'conversations.SENDER_IS_REPLIED';
+	const IS_DELETED = 'conversations.IS_DELETED';
 
 	
-	const RECIPENT_IS_REPLIED = 'conversations.RECIPENT_IS_REPLIED';
-
-	
-	const SENDER_IS_DELETED = 'conversations.SENDER_IS_DELETED';
-
-	
-	const RECIPENT_IS_DELETED = 'conversations.RECIPENT_IS_DELETED';
-
-	
-	const SENDER_IS_READ = 'conversations.SENDER_IS_READ';
-
-	
-	const RECIPENT_IS_READ = 'conversations.RECIPENT_IS_READ';
+	const IS_READ = 'conversations.IS_READ';
 
 	
 	const UPDATED_AT = 'conversations.UPDATED_AT';
@@ -61,18 +52,18 @@ abstract class BaseConversationPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'Sender', 'Recipent', 'IsReplied', 'SenderIsReplied', 'RecipentIsReplied', 'SenderIsDeleted', 'RecipentIsDeleted', 'SenderIsRead', 'RecipentIsRead', 'UpdatedAt', ),
-		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID, ConversationPeer::TITLE, ConversationPeer::SENDER, ConversationPeer::RECIPENT, ConversationPeer::IS_REPLIED, ConversationPeer::SENDER_IS_REPLIED, ConversationPeer::RECIPENT_IS_REPLIED, ConversationPeer::SENDER_IS_DELETED, ConversationPeer::RECIPENT_IS_DELETED, ConversationPeer::SENDER_IS_READ, ConversationPeer::RECIPENT_IS_READ, ConversationPeer::UPDATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'sender', 'recipent', 'is_replied', 'sender_is_replied', 'recipent_is_replied', 'sender_is_deleted', 'recipent_is_deleted', 'sender_is_read', 'recipent_is_read', 'updated_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'Sender', 'Recipent', 'Conversation', 'IsReplied', 'IsDeleted', 'IsRead', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID, ConversationPeer::TITLE, ConversationPeer::SENDER, ConversationPeer::RECIPENT, ConversationPeer::CONVERSATION, ConversationPeer::IS_REPLIED, ConversationPeer::IS_DELETED, ConversationPeer::IS_READ, ConversationPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'sender', 'recipent', 'conversation', 'is_replied', 'is_deleted', 'is_read', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'Sender' => 2, 'Recipent' => 3, 'IsReplied' => 4, 'SenderIsReplied' => 5, 'RecipentIsReplied' => 6, 'SenderIsDeleted' => 7, 'RecipentIsDeleted' => 8, 'SenderIsRead' => 9, 'RecipentIsRead' => 10, 'UpdatedAt' => 11, ),
-		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID => 0, ConversationPeer::TITLE => 1, ConversationPeer::SENDER => 2, ConversationPeer::RECIPENT => 3, ConversationPeer::IS_REPLIED => 4, ConversationPeer::SENDER_IS_REPLIED => 5, ConversationPeer::RECIPENT_IS_REPLIED => 6, ConversationPeer::SENDER_IS_DELETED => 7, ConversationPeer::RECIPENT_IS_DELETED => 8, ConversationPeer::SENDER_IS_READ => 9, ConversationPeer::RECIPENT_IS_READ => 10, ConversationPeer::UPDATED_AT => 11, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'sender' => 2, 'recipent' => 3, 'is_replied' => 4, 'sender_is_replied' => 5, 'recipent_is_replied' => 6, 'sender_is_deleted' => 7, 'recipent_is_deleted' => 8, 'sender_is_read' => 9, 'recipent_is_read' => 10, 'updated_at' => 11, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'Sender' => 2, 'Recipent' => 3, 'Conversation' => 4, 'IsReplied' => 5, 'IsDeleted' => 6, 'IsRead' => 7, 'UpdatedAt' => 8, ),
+		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID => 0, ConversationPeer::TITLE => 1, ConversationPeer::SENDER => 2, ConversationPeer::RECIPENT => 3, ConversationPeer::CONVERSATION => 4, ConversationPeer::IS_REPLIED => 5, ConversationPeer::IS_DELETED => 6, ConversationPeer::IS_READ => 7, ConversationPeer::UPDATED_AT => 8, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'sender' => 2, 'recipent' => 3, 'conversation' => 4, 'is_replied' => 5, 'is_deleted' => 6, 'is_read' => 7, 'updated_at' => 8, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
 	);
 
 	
@@ -134,19 +125,13 @@ abstract class BaseConversationPeer {
 
 		$criteria->addSelectColumn(ConversationPeer::RECIPENT);
 
+		$criteria->addSelectColumn(ConversationPeer::CONVERSATION);
+
 		$criteria->addSelectColumn(ConversationPeer::IS_REPLIED);
 
-		$criteria->addSelectColumn(ConversationPeer::SENDER_IS_REPLIED);
+		$criteria->addSelectColumn(ConversationPeer::IS_DELETED);
 
-		$criteria->addSelectColumn(ConversationPeer::RECIPENT_IS_REPLIED);
-
-		$criteria->addSelectColumn(ConversationPeer::SENDER_IS_DELETED);
-
-		$criteria->addSelectColumn(ConversationPeer::RECIPENT_IS_DELETED);
-
-		$criteria->addSelectColumn(ConversationPeer::SENDER_IS_READ);
-
-		$criteria->addSelectColumn(ConversationPeer::RECIPENT_IS_READ);
+		$criteria->addSelectColumn(ConversationPeer::IS_READ);
 
 		$criteria->addSelectColumn(ConversationPeer::UPDATED_AT);
 

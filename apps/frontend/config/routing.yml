@@ -71,6 +71,10 @@ conversation_reply:
   url:    /mail/reply/*
   param:  { module: conversation, action: reply }
   
+conversation_remove:
+  url:    /mail/remove/*
+  param:  { module: conversation, action: remove }
+  
 messages:
   url:    /messages/*
   param:  { module: message, action: index }

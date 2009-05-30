@@ -1,2 +1,5 @@
 replySuccess:
   has_layout: off
+  
+removeSuccess:
+  has_layout: off
