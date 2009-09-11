@@ -2,10 +2,16 @@
 
 <h1><?php echo $subscriber->getNickname() ?>
 <span id="friend-request-<?php echo $subscriber->getId() ?>">
-<?php include_partial('friend_request', array('subscriber' => $subscriber)) ?>
+<?php 
+  if ( !$owner ) 
+  {
+    include_partial('friend_request', array('subscriber' => $subscriber));
+  }
+?>
 </span>
 </h1>
 <br /> 
+<?php echo link_to('Resim yükle', '@user_pictures'); ?><br /><br />
 <h2>Son zamanlar sevdikleri</h2>
 <ul id="tag_cloud">
 <?php foreach ($tags as $tag): $question = $tag->getTag(); if ( $tag->getLove() == 1 ): ?>

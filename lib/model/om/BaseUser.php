@@ -33,11 +33,31 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $avatar;
+
+
+	
 	protected $first_name;
 
 
 	
 	protected $last_name;
+
+
+	
+	protected $country;
+
+
+	
+	protected $city;
+
+
+	
+	protected $gender;
+
+
+	
+	protected $dob;
 
 
 	
@@ -66,6 +86,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	
 	protected $lastCommentCriteria = null;
+
+	
+	protected $collPictures;
+
+	
+	protected $lastPictureCriteria = null;
 
 	
 	protected $collUserToTags;
@@ -140,6 +166,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getAvatar()
+	{
+
+		return $this->avatar;
+	}
+
+	
 	public function getFirstName()
 	{
 
@@ -151,6 +184,49 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->last_name;
+	}
+
+	
+	public function getCountry()
+	{
+
+		return $this->country;
+	}
+
+	
+	public function getCity()
+	{
+
+		return $this->city;
+	}
+
+	
+	public function getGender()
+	{
+
+		return $this->gender;
+	}
+
+	
+	public function getDob($format = 'Y-m-d')
+	{
+
+		if ($this->dob === null || $this->dob === '') {
+			return null;
+		} elseif (!is_int($this->dob)) {
+						$ts = strtotime($this->dob);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [dob] as date/time value: " . var_export($this->dob, true));
+			}
+		} else {
+			$ts = $this->dob;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
 	}
 
 	
@@ -272,6 +348,22 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setAvatar($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->avatar !== $v) {
+			$this->avatar = $v;
+			$this->modifiedColumns[] = UserPeer::AVATAR;
+		}
+
+	} 
+	
 	public function setFirstName($v)
 	{
 
@@ -300,6 +392,71 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->last_name !== $v) {
 			$this->last_name = $v;
 			$this->modifiedColumns[] = UserPeer::LAST_NAME;
+		}
+
+	} 
+	
+	public function setCountry($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->country !== $v) {
+			$this->country = $v;
+			$this->modifiedColumns[] = UserPeer::COUNTRY;
+		}
+
+	} 
+	
+	public function setCity($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->city !== $v) {
+			$this->city = $v;
+			$this->modifiedColumns[] = UserPeer::CITY;
+		}
+
+	} 
+	
+	public function setGender($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->gender !== $v) {
+			$this->gender = $v;
+			$this->modifiedColumns[] = UserPeer::GENDER;
+		}
+
+	} 
+	
+	public function setDob($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [dob] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->dob !== $ts) {
+			$this->dob = $ts;
+			$this->modifiedColumns[] = UserPeer::DOB;
 		}
 
 	} 
@@ -337,17 +494,27 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->remember_key = $rs->getString($startcol + 5);
 
-			$this->first_name = $rs->getString($startcol + 6);
+			$this->avatar = $rs->getString($startcol + 6);
 
-			$this->last_name = $rs->getString($startcol + 7);
+			$this->first_name = $rs->getString($startcol + 7);
 
-			$this->created_at = $rs->getTimestamp($startcol + 8, null);
+			$this->last_name = $rs->getString($startcol + 8);
+
+			$this->country = $rs->getString($startcol + 9);
+
+			$this->city = $rs->getString($startcol + 10);
+
+			$this->gender = $rs->getInt($startcol + 11);
+
+			$this->dob = $rs->getDate($startcol + 12, null);
+
+			$this->created_at = $rs->getTimestamp($startcol + 13, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 9; 
+						return $startcol + 14; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -485,6 +652,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collPictures !== null) {
+				foreach($this->collPictures as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collUserToTags !== null) {
 				foreach($this->collUserToTags as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -590,6 +765,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
+				if ($this->collPictures !== null) {
+					foreach($this->collPictures as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 				if ($this->collUserToTags !== null) {
 					foreach($this->collUserToTags as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
@@ -659,12 +842,27 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getRememberKey();
 				break;
 			case 6:
-				return $this->getFirstName();
+				return $this->getAvatar();
 				break;
 			case 7:
-				return $this->getLastName();
+				return $this->getFirstName();
 				break;
 			case 8:
+				return $this->getLastName();
+				break;
+			case 9:
+				return $this->getCountry();
+				break;
+			case 10:
+				return $this->getCity();
+				break;
+			case 11:
+				return $this->getGender();
+				break;
+			case 12:
+				return $this->getDob();
+				break;
+			case 13:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -683,9 +881,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[3] => $this->getSha1Password(),
 			$keys[4] => $this->getSalt(),
 			$keys[5] => $this->getRememberKey(),
-			$keys[6] => $this->getFirstName(),
-			$keys[7] => $this->getLastName(),
-			$keys[8] => $this->getCreatedAt(),
+			$keys[6] => $this->getAvatar(),
+			$keys[7] => $this->getFirstName(),
+			$keys[8] => $this->getLastName(),
+			$keys[9] => $this->getCountry(),
+			$keys[10] => $this->getCity(),
+			$keys[11] => $this->getGender(),
+			$keys[12] => $this->getDob(),
+			$keys[13] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -720,12 +923,27 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setRememberKey($value);
 				break;
 			case 6:
-				$this->setFirstName($value);
+				$this->setAvatar($value);
 				break;
 			case 7:
-				$this->setLastName($value);
+				$this->setFirstName($value);
 				break;
 			case 8:
+				$this->setLastName($value);
+				break;
+			case 9:
+				$this->setCountry($value);
+				break;
+			case 10:
+				$this->setCity($value);
+				break;
+			case 11:
+				$this->setGender($value);
+				break;
+			case 12:
+				$this->setDob($value);
+				break;
+			case 13:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -741,9 +959,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setSha1Password($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setSalt($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setRememberKey($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setFirstName($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setLastName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setCreatedAt($arr[$keys[8]]);
+		if (array_key_exists($keys[6], $arr)) $this->setAvatar($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setFirstName($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setLastName($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setCountry($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setCity($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setGender($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setDob($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setCreatedAt($arr[$keys[13]]);
 	}
 
 	
@@ -757,8 +980,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::SHA1_PASSWORD)) $criteria->add(UserPeer::SHA1_PASSWORD, $this->sha1_password);
 		if ($this->isColumnModified(UserPeer::SALT)) $criteria->add(UserPeer::SALT, $this->salt);
 		if ($this->isColumnModified(UserPeer::REMEMBER_KEY)) $criteria->add(UserPeer::REMEMBER_KEY, $this->remember_key);
+		if ($this->isColumnModified(UserPeer::AVATAR)) $criteria->add(UserPeer::AVATAR, $this->avatar);
 		if ($this->isColumnModified(UserPeer::FIRST_NAME)) $criteria->add(UserPeer::FIRST_NAME, $this->first_name);
 		if ($this->isColumnModified(UserPeer::LAST_NAME)) $criteria->add(UserPeer::LAST_NAME, $this->last_name);
+		if ($this->isColumnModified(UserPeer::COUNTRY)) $criteria->add(UserPeer::COUNTRY, $this->country);
+		if ($this->isColumnModified(UserPeer::CITY)) $criteria->add(UserPeer::CITY, $this->city);
+		if ($this->isColumnModified(UserPeer::GENDER)) $criteria->add(UserPeer::GENDER, $this->gender);
+		if ($this->isColumnModified(UserPeer::DOB)) $criteria->add(UserPeer::DOB, $this->dob);
 		if ($this->isColumnModified(UserPeer::CREATED_AT)) $criteria->add(UserPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -800,9 +1028,19 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 		$copyObj->setRememberKey($this->remember_key);
 
+		$copyObj->setAvatar($this->avatar);
+
 		$copyObj->setFirstName($this->first_name);
 
 		$copyObj->setLastName($this->last_name);
+
+		$copyObj->setCountry($this->country);
+
+		$copyObj->setCity($this->city);
+
+		$copyObj->setGender($this->gender);
+
+		$copyObj->setDob($this->dob);
 
 		$copyObj->setCreatedAt($this->created_at);
 
@@ -824,6 +1062,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getComments() as $relObj) {
 				$copyObj->addComment($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getPictures() as $relObj) {
+				$copyObj->addPicture($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getUserToTags() as $relObj) {
@@ -1180,6 +1422,76 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastCommentCriteria = $criteria;
 
 		return $this->collComments;
+	}
+
+	
+	public function initPictures()
+	{
+		if ($this->collPictures === null) {
+			$this->collPictures = array();
+		}
+	}
+
+	
+	public function getPictures($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BasePicturePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collPictures === null) {
+			if ($this->isNew()) {
+			   $this->collPictures = array();
+			} else {
+
+				$criteria->add(PicturePeer::USER_ID, $this->getId());
+
+				PicturePeer::addSelectColumns($criteria);
+				$this->collPictures = PicturePeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(PicturePeer::USER_ID, $this->getId());
+
+				PicturePeer::addSelectColumns($criteria);
+				if (!isset($this->lastPictureCriteria) || !$this->lastPictureCriteria->equals($criteria)) {
+					$this->collPictures = PicturePeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastPictureCriteria = $criteria;
+		return $this->collPictures;
+	}
+
+	
+	public function countPictures($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BasePicturePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(PicturePeer::USER_ID, $this->getId());
+
+		return PicturePeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addPicture(Picture $l)
+	{
+		$this->collPictures[] = $l;
+		$l->setUser($this);
 	}
 
 	

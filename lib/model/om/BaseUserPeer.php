@@ -13,7 +13,7 @@ abstract class BaseUserPeer {
 	const CLASS_DEFAULT = 'lib.model.User';
 
 	
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 14;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -38,10 +38,25 @@ abstract class BaseUserPeer {
 	const REMEMBER_KEY = 'users.REMEMBER_KEY';
 
 	
+	const AVATAR = 'users.AVATAR';
+
+	
 	const FIRST_NAME = 'users.FIRST_NAME';
 
 	
 	const LAST_NAME = 'users.LAST_NAME';
+
+	
+	const COUNTRY = 'users.COUNTRY';
+
+	
+	const CITY = 'users.CITY';
+
+	
+	const GENDER = 'users.GENDER';
+
+	
+	const DOB = 'users.DOB';
 
 	
 	const CREATED_AT = 'users.CREATED_AT';
@@ -52,18 +67,18 @@ abstract class BaseUserPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nickname', 'Email', 'Sha1Password', 'Salt', 'RememberKey', 'FirstName', 'LastName', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::NICKNAME, UserPeer::EMAIL, UserPeer::SHA1_PASSWORD, UserPeer::SALT, UserPeer::REMEMBER_KEY, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nickname', 'email', 'sha1_password', 'salt', 'remember_key', 'first_name', 'last_name', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nickname', 'Email', 'Sha1Password', 'Salt', 'RememberKey', 'Avatar', 'FirstName', 'LastName', 'Country', 'City', 'Gender', 'Dob', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::NICKNAME, UserPeer::EMAIL, UserPeer::SHA1_PASSWORD, UserPeer::SALT, UserPeer::REMEMBER_KEY, UserPeer::AVATAR, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::COUNTRY, UserPeer::CITY, UserPeer::GENDER, UserPeer::DOB, UserPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nickname', 'email', 'sha1_password', 'salt', 'remember_key', 'avatar', 'first_name', 'last_name', 'country', 'city', 'gender', 'dob', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nickname' => 1, 'Email' => 2, 'Sha1Password' => 3, 'Salt' => 4, 'RememberKey' => 5, 'FirstName' => 6, 'LastName' => 7, 'CreatedAt' => 8, ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::NICKNAME => 1, UserPeer::EMAIL => 2, UserPeer::SHA1_PASSWORD => 3, UserPeer::SALT => 4, UserPeer::REMEMBER_KEY => 5, UserPeer::FIRST_NAME => 6, UserPeer::LAST_NAME => 7, UserPeer::CREATED_AT => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nickname' => 1, 'email' => 2, 'sha1_password' => 3, 'salt' => 4, 'remember_key' => 5, 'first_name' => 6, 'last_name' => 7, 'created_at' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nickname' => 1, 'Email' => 2, 'Sha1Password' => 3, 'Salt' => 4, 'RememberKey' => 5, 'Avatar' => 6, 'FirstName' => 7, 'LastName' => 8, 'Country' => 9, 'City' => 10, 'Gender' => 11, 'Dob' => 12, 'CreatedAt' => 13, ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::NICKNAME => 1, UserPeer::EMAIL => 2, UserPeer::SHA1_PASSWORD => 3, UserPeer::SALT => 4, UserPeer::REMEMBER_KEY => 5, UserPeer::AVATAR => 6, UserPeer::FIRST_NAME => 7, UserPeer::LAST_NAME => 8, UserPeer::COUNTRY => 9, UserPeer::CITY => 10, UserPeer::GENDER => 11, UserPeer::DOB => 12, UserPeer::CREATED_AT => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nickname' => 1, 'email' => 2, 'sha1_password' => 3, 'salt' => 4, 'remember_key' => 5, 'avatar' => 6, 'first_name' => 7, 'last_name' => 8, 'country' => 9, 'city' => 10, 'gender' => 11, 'dob' => 12, 'created_at' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
@@ -129,9 +144,19 @@ abstract class BaseUserPeer {
 
 		$criteria->addSelectColumn(UserPeer::REMEMBER_KEY);
 
+		$criteria->addSelectColumn(UserPeer::AVATAR);
+
 		$criteria->addSelectColumn(UserPeer::FIRST_NAME);
 
 		$criteria->addSelectColumn(UserPeer::LAST_NAME);
+
+		$criteria->addSelectColumn(UserPeer::COUNTRY);
+
+		$criteria->addSelectColumn(UserPeer::CITY);
+
+		$criteria->addSelectColumn(UserPeer::GENDER);
+
+		$criteria->addSelectColumn(UserPeer::DOB);
 
 		$criteria->addSelectColumn(UserPeer::CREATED_AT);
 

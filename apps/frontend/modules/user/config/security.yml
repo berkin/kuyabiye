@@ -2,5 +2,13 @@ love:
   is_secure: on
   credentials: subscriber
 
+upload:
+  is_secure: on
+  credentials: subscriber
+
+profile:
+  is_secure: on
+  credentials: subscriber
+  
 all:
   is_secure: off

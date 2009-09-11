@@ -1,0 +1,7 @@
+methods:
+  post: [body]
+  
+names:
+  body:
+    required:     true
+    required_msg: required

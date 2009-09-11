@@ -10,6 +10,7 @@
  */
 class userActions extends sfActions
 {
+
   public function executeShow()
   {
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
@@ -17,6 +18,8 @@ class userActions extends sfActions
     
     $this->tags = $this->subscriber->getUserToTagsJoinTag();
     $this->comments = $this->subscriber->getCommentsJoinTag();
+    
+    $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
   }
 
   public function executeRegister()
@@ -35,7 +38,32 @@ class userActions extends sfActions
       $user->save();
       
       $this->getUser()->signIn($user);
+      $this->redirect('@user_profile');
     }
+  }
+  
+  public function executeProfile()
+  {
+    $this->user = $this->getUser()->getSubscriber();
+    $this->cities = sfConfig::get('app_city');
+
+    // save user
+    if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
+    {
+      $this->user->setEmail($this->getRequestParameter('email'));
+      if ( $this->getRequestParameter('password') )
+      {
+        $this->user->setPassword($this->getRequestParameter('password'));
+      }
+      $this->user->setFirstname($this->getRequestParameter('firstname'));
+      $this->user->setLastname($this->getRequestParameter('lastname'));
+      $this->user->setCountry($this->getRequestParameter('country'));
+      $this->user->setCity($this->getRequestParameter('city'));
+      $this->user->setGender($this->getRequestParameter('gender'));
+      $this->user->setDob(implode('-', $this->getRequestParameter('dob')));
+      
+      $this->user->save();
+    }    
   }
     
   public function executeLogin()
@@ -86,9 +114,67 @@ class userActions extends sfActions
     return $flag ? sfView::SUCCESS : sfView::ERROR;
   }
   
+  public function executePicture()
+  {    
+    $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
+    $this->forward404Unless($this->subscriber);
+
+    $this->pictures = $this->subscriber->getPictures();
+  }
+  
+  public function executeUpload()
+  {
+    $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
+    $this->forward404Unless($this->subscriber);
+
+    $fileName = $this->getRequest()->getFileName('picture');
+    $filePath = sfConfig::get('app_upload_folder') . DIRECTORY_SEPARATOR . $fileName;
+    $this->getRequest()->moveFile('picture', $filePath);
+   
+    $thumbnails = sfConfig::get('app_upload_thumbnail_params');
+    foreach ($thumbnails as $thumbnail)
+    { 
+      $image = wiImage::load(sfConfig::get('app_upload_folder') . DIRECTORY_SEPARATOR . $fileName );
+      if ( $thumbnail['width'] )
+      {
+        $crop = ( ($image->getWidth() >= $image->getHeight()) ? $image->getHeight() : $image->getWidth() );
+        $image = $image->crop(0, 0, $crop, $crop);
+      }
+      $resized = $image->resize($thumbnail['width'], $thumbnail['height']);
+      $resized->saveToFile(sfConfig::get('app_upload_folder') . $thumbnail['dir'] . DIRECTORY_SEPARATOR . $fileName );
+    }
+    
+    
+    $user = $this->getUser()->getSubscriber();
+    
+    $picture = new Picture();
+    $picture->setUser($user);
+    $picture->setName($fileName);
+    $picture->save();
+
+    if ( $user->countPictures() == 1 )
+    {
+      PicturePeer::saveAvatar($user, $picture);
+    }
+
+    $this->redirect('@user_pictures');
+  }
+  
   public function handleError()
   {
     // both login and register
+    return sfView::SUCCESS;
+  }
+  
+  public function handleErrorUpload()
+  {
+    $this->forward('user', 'picture');
+  }
+  
+  public function handleErrorProfile()
+  {
+    $this->user = $this->getUser()->getSubscriber();
+    $this->cities = sfConfig::get('app_city');
     return sfView::SUCCESS;
   }
   

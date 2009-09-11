@@ -31,10 +31,18 @@ add_comment:
   url:    /comment/add/*
   param:  { module: comment, action: add }
 
+user_pictures:
+  url:    /user/pictures/*
+  param:  { module: user, action: picture }
+  
 user_profile:
   url:    /user/show/*
   param:  { module: user, action: show }
 
+user_edit_profile:
+  url:    /user/profile/*
+  param:  { module: user, action: profile }
+  
 user_love:
   url:    /user/love/*
   param:  { module: user, action: love }

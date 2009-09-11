@@ -54,9 +54,24 @@
     <column name="sha1_password" type="VARCHAR" size="40" />
     <column name="salt" type="VARCHAR" size="32" />
     <column name="remember_key" type="VARCHAR" size="255" />
+    <column name="avatar" type="VARCHAR" size="255" />
     <column name="first_name" type="VARCHAR" size="100" />
     <column name="last_name" type="VARCHAR" size="100" />
+    <column name="country" type="VARCHAR" size="2" />
+    <column name="city" type="VARCHAR" size="2" />
+    <column name="gender" type="TINYINT" size="1" />
+    <column name="dob" type="DATE" />
     <column name="created_at" type="TIMESTAMP" />
+  </table>
+  
+  <table name="pictures" phpName="Picture">
+    <column name="id" type="INTEGER" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="user_id" type="INTEGER" required="true" />
+      <foreign-key foreignTable="users">
+        <reference local="user_id" foreign="id" />
+      </foreign-key>
+    <column name="name" type="VARCHAR" required="true" size="255" />
+    <column name="status" type="TINYINT" required="true" default="1" />
   </table>
 
   <table name="users_to_tags" phpName="UserToTag">

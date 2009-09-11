@@ -94,10 +94,35 @@ CREATE TABLE `users`
 	`sha1_password` VARCHAR(40),
 	`salt` VARCHAR(32),
 	`remember_key` VARCHAR(255),
+	`avatar` VARCHAR(255),
 	`first_name` VARCHAR(100),
 	`last_name` VARCHAR(100),
+	`country` VARCHAR(255),
+	`city` VARCHAR(255),
+	`gender` TINYINT(1),
+	`dob` DATE,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- pictures
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `pictures`;
+
+
+CREATE TABLE `pictures`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`user_id` INTEGER  NOT NULL,
+	`name` VARCHAR(255)  NOT NULL,
+	`status` TINYINT default 1 NOT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `pictures_FI_1` (`user_id`),
+	CONSTRAINT `pictures_FK_1`
+		FOREIGN KEY (`user_id`)
+		REFERENCES `users` (`id`)
 )Type=MyISAM;
 
 #-----------------------------------------------------------------------------

@@ -5,12 +5,12 @@ names:
   nickname:
     required:     true
     required_msg: required
-    validators:   [userValidator, usernameValidator, usernamestringValidator]
+    validators:   [userValidator, usernameValidator, uniqueNicknameValidator, usernamestringValidator]
   
   email:
     required:     true
     required_msg: required
-    validators:   [emailValidator]
+    validators:   [emailValidator, uniqueEmailValidator ]
 
   password:
     required:     true
@@ -44,6 +44,13 @@ usernameValidator:  # only space character allowed, but we should trim more than
     pattern:        /^[a-zA-Z0-9 ]+$/
     match_error:    check your nickname
 
+uniqueNicknameValidator:
+  class:            sfPropelUniqueValidator
+  param:
+      class:        User
+      column:       nickname
+      unique_error: This nickname already exists. Please choose another one.
+    
 usernamestringValidator:
   class:            sfStringValidator
   param:
@@ -56,6 +63,13 @@ emailValidator:
   class:            sfEmailValidator
   param:
     email_error:    check your email
+    
+uniqueEmailValidator:
+  class:            sfPropelUniqueValidator
+  param:
+      class:        User
+      column:       email
+      unique_error: This email already exists. Please choose another one.
 
 passwordValidator:
   class:            sfCompareValidator

@@ -1,0 +1,60 @@
+methods:
+  post: [email, password, repassword, firstname, lastname, dob]
+
+names:
+  email:
+    required:     true
+    required_msg: required
+    validators:   [emailValidator, uniqueEmailValidator]
+
+  password:
+    required:     false
+    required_msg: required
+
+  repassword:
+    required:     false
+    required_msg: required
+    validators:   [passwordValidator]
+
+  firstname:
+    required:     false
+    validators:   nameValidator
+
+  lastname:
+    required:     false
+    validators:   nameValidator
+    
+  dob:
+    required:     false
+    validators:   dobValidator
+
+emailValidator:
+  class:            sfEmailValidator
+  param:
+    email_error:    check your email
+    
+uniqueEmailValidator:
+  class:            sfPropelUniqueValidator
+  param:
+      class:        User
+      column:       email
+      unique_error: This email already exists. Please choose another one.
+
+passwordValidator:
+  class:            sfCompareValidator
+  param:
+    check:          password
+    compare_error:  passwords do not match
+
+nameValidator:
+  class:            sfStringValidator
+  param:
+    min:            2
+    min_error:      2 characters min
+    max:            100
+    max_error:      100 characters max
+
+dobValidator:
+  class:            sfDateValidator
+  param:
+    date_error:     not valid date

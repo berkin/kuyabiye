@@ -254,6 +254,11 @@ ul#tag_cloud li.tag_popularity_4
   text-align: right;
 }
 
+label.radios {
+  text-align: left;
+  width: 80px;
+}
+
 .comments {
   padding: 5px 0;
 }

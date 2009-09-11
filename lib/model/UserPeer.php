@@ -52,7 +52,6 @@ class UserPeer extends BaseUserPeer
     {
       $users[] = array('nickname' => $rs->getString('nickname'), 'love' => $loveString[$rs->getInt('love')]);
     }
-
     return $users;
   }
   

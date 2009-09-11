@@ -44,9 +44,19 @@ class UserMapBuilder {
 
 		$tMap->addColumn('REMEMBER_KEY', 'RememberKey', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addColumn('AVATAR', 'Avatar', 'string', CreoleTypes::VARCHAR, false, 255);
+
 		$tMap->addColumn('FIRST_NAME', 'FirstName', 'string', CreoleTypes::VARCHAR, false, 100);
 
 		$tMap->addColumn('LAST_NAME', 'LastName', 'string', CreoleTypes::VARCHAR, false, 100);
+
+		$tMap->addColumn('COUNTRY', 'Country', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('CITY', 'City', 'string', CreoleTypes::VARCHAR, false, 255);
+
+		$tMap->addColumn('GENDER', 'Gender', 'int', CreoleTypes::TINYINT, false, 1);
+
+		$tMap->addColumn('DOB', 'Dob', 'int', CreoleTypes::DATE, false, null);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
