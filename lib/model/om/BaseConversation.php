@@ -17,6 +17,10 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 
 	
+	protected $owner;
+
+
+	
 	protected $sender;
 
 
@@ -26,6 +30,14 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 	
 	protected $conversation = 0;
+
+
+	
+	protected $inbox = 0;
+
+
+	
+	protected $sent = 0;
 
 
 	
@@ -42,6 +54,9 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 	
 	protected $updated_at;
+
+	
+	protected $aUserRelatedByOwner;
 
 	
 	protected $aUserRelatedBySender;
@@ -76,6 +91,13 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 	}
 
 	
+	public function getOwner()
+	{
+
+		return $this->owner;
+	}
+
+	
 	public function getSender()
 	{
 
@@ -94,6 +116,20 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 	{
 
 		return $this->conversation;
+	}
+
+	
+	public function getInbox()
+	{
+
+		return $this->inbox;
+	}
+
+	
+	public function getSent()
+	{
+
+		return $this->sent;
 	}
 
 	
@@ -172,6 +208,26 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setOwner($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->owner !== $v) {
+			$this->owner = $v;
+			$this->modifiedColumns[] = ConversationPeer::OWNER;
+		}
+
+		if ($this->aUserRelatedByOwner !== null && $this->aUserRelatedByOwner->getId() !== $v) {
+			$this->aUserRelatedByOwner = null;
+		}
+
+	} 
+	
 	public function setSender($v)
 	{
 
@@ -224,6 +280,38 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 		if ($this->conversation !== $v || $v === 0) {
 			$this->conversation = $v;
 			$this->modifiedColumns[] = ConversationPeer::CONVERSATION;
+		}
+
+	} 
+	
+	public function setInbox($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->inbox !== $v || $v === 0) {
+			$this->inbox = $v;
+			$this->modifiedColumns[] = ConversationPeer::INBOX;
+		}
+
+	} 
+	
+	public function setSent($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->sent !== $v || $v === 0) {
+			$this->sent = $v;
+			$this->modifiedColumns[] = ConversationPeer::SENT;
 		}
 
 	} 
@@ -301,25 +389,31 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 			$this->title = $rs->getString($startcol + 1);
 
-			$this->sender = $rs->getInt($startcol + 2);
+			$this->owner = $rs->getInt($startcol + 2);
 
-			$this->recipent = $rs->getInt($startcol + 3);
+			$this->sender = $rs->getInt($startcol + 3);
 
-			$this->conversation = $rs->getInt($startcol + 4);
+			$this->recipent = $rs->getInt($startcol + 4);
 
-			$this->is_replied = $rs->getInt($startcol + 5);
+			$this->conversation = $rs->getInt($startcol + 5);
 
-			$this->is_deleted = $rs->getInt($startcol + 6);
+			$this->inbox = $rs->getInt($startcol + 6);
 
-			$this->is_read = $rs->getInt($startcol + 7);
+			$this->sent = $rs->getInt($startcol + 7);
 
-			$this->updated_at = $rs->getTimestamp($startcol + 8, null);
+			$this->is_replied = $rs->getInt($startcol + 8);
+
+			$this->is_deleted = $rs->getInt($startcol + 9);
+
+			$this->is_read = $rs->getInt($startcol + 10);
+
+			$this->updated_at = $rs->getTimestamp($startcol + 11, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 9; 
+						return $startcol + 12; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Conversation object", $e);
 		}
@@ -415,6 +509,13 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 
 												
+			if ($this->aUserRelatedByOwner !== null) {
+				if ($this->aUserRelatedByOwner->isModified()) {
+					$affectedRows += $this->aUserRelatedByOwner->save($con);
+				}
+				$this->setUserRelatedByOwner($this->aUserRelatedByOwner);
+			}
+
 			if ($this->aUserRelatedBySender !== null) {
 				if ($this->aUserRelatedBySender->isModified()) {
 					$affectedRows += $this->aUserRelatedBySender->save($con);
@@ -486,6 +587,12 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 
 												
+			if ($this->aUserRelatedByOwner !== null) {
+				if (!$this->aUserRelatedByOwner->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aUserRelatedByOwner->getValidationFailures());
+				}
+			}
+
 			if ($this->aUserRelatedBySender !== null) {
 				if (!$this->aUserRelatedBySender->validate($columns)) {
 					$failureMap = array_merge($failureMap, $this->aUserRelatedBySender->getValidationFailures());
@@ -537,24 +644,33 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 				return $this->getTitle();
 				break;
 			case 2:
-				return $this->getSender();
+				return $this->getOwner();
 				break;
 			case 3:
-				return $this->getRecipent();
+				return $this->getSender();
 				break;
 			case 4:
-				return $this->getConversation();
+				return $this->getRecipent();
 				break;
 			case 5:
-				return $this->getIsReplied();
+				return $this->getConversation();
 				break;
 			case 6:
-				return $this->getIsDeleted();
+				return $this->getInbox();
 				break;
 			case 7:
-				return $this->getIsRead();
+				return $this->getSent();
 				break;
 			case 8:
+				return $this->getIsReplied();
+				break;
+			case 9:
+				return $this->getIsDeleted();
+				break;
+			case 10:
+				return $this->getIsRead();
+				break;
+			case 11:
 				return $this->getUpdatedAt();
 				break;
 			default:
@@ -569,13 +685,16 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 		$result = array(
 			$keys[0] => $this->getId(),
 			$keys[1] => $this->getTitle(),
-			$keys[2] => $this->getSender(),
-			$keys[3] => $this->getRecipent(),
-			$keys[4] => $this->getConversation(),
-			$keys[5] => $this->getIsReplied(),
-			$keys[6] => $this->getIsDeleted(),
-			$keys[7] => $this->getIsRead(),
-			$keys[8] => $this->getUpdatedAt(),
+			$keys[2] => $this->getOwner(),
+			$keys[3] => $this->getSender(),
+			$keys[4] => $this->getRecipent(),
+			$keys[5] => $this->getConversation(),
+			$keys[6] => $this->getInbox(),
+			$keys[7] => $this->getSent(),
+			$keys[8] => $this->getIsReplied(),
+			$keys[9] => $this->getIsDeleted(),
+			$keys[10] => $this->getIsRead(),
+			$keys[11] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -598,24 +717,33 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 				$this->setTitle($value);
 				break;
 			case 2:
-				$this->setSender($value);
+				$this->setOwner($value);
 				break;
 			case 3:
-				$this->setRecipent($value);
+				$this->setSender($value);
 				break;
 			case 4:
-				$this->setConversation($value);
+				$this->setRecipent($value);
 				break;
 			case 5:
-				$this->setIsReplied($value);
+				$this->setConversation($value);
 				break;
 			case 6:
-				$this->setIsDeleted($value);
+				$this->setInbox($value);
 				break;
 			case 7:
-				$this->setIsRead($value);
+				$this->setSent($value);
 				break;
 			case 8:
+				$this->setIsReplied($value);
+				break;
+			case 9:
+				$this->setIsDeleted($value);
+				break;
+			case 10:
+				$this->setIsRead($value);
+				break;
+			case 11:
 				$this->setUpdatedAt($value);
 				break;
 		} 	}
@@ -627,13 +755,16 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 		if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
 		if (array_key_exists($keys[1], $arr)) $this->setTitle($arr[$keys[1]]);
-		if (array_key_exists($keys[2], $arr)) $this->setSender($arr[$keys[2]]);
-		if (array_key_exists($keys[3], $arr)) $this->setRecipent($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setConversation($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setIsReplied($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setIsDeleted($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setIsRead($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setUpdatedAt($arr[$keys[8]]);
+		if (array_key_exists($keys[2], $arr)) $this->setOwner($arr[$keys[2]]);
+		if (array_key_exists($keys[3], $arr)) $this->setSender($arr[$keys[3]]);
+		if (array_key_exists($keys[4], $arr)) $this->setRecipent($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setConversation($arr[$keys[5]]);
+		if (array_key_exists($keys[6], $arr)) $this->setInbox($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setSent($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setIsReplied($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setIsDeleted($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setIsRead($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setUpdatedAt($arr[$keys[11]]);
 	}
 
 	
@@ -643,9 +774,12 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 		if ($this->isColumnModified(ConversationPeer::ID)) $criteria->add(ConversationPeer::ID, $this->id);
 		if ($this->isColumnModified(ConversationPeer::TITLE)) $criteria->add(ConversationPeer::TITLE, $this->title);
+		if ($this->isColumnModified(ConversationPeer::OWNER)) $criteria->add(ConversationPeer::OWNER, $this->owner);
 		if ($this->isColumnModified(ConversationPeer::SENDER)) $criteria->add(ConversationPeer::SENDER, $this->sender);
 		if ($this->isColumnModified(ConversationPeer::RECIPENT)) $criteria->add(ConversationPeer::RECIPENT, $this->recipent);
 		if ($this->isColumnModified(ConversationPeer::CONVERSATION)) $criteria->add(ConversationPeer::CONVERSATION, $this->conversation);
+		if ($this->isColumnModified(ConversationPeer::INBOX)) $criteria->add(ConversationPeer::INBOX, $this->inbox);
+		if ($this->isColumnModified(ConversationPeer::SENT)) $criteria->add(ConversationPeer::SENT, $this->sent);
 		if ($this->isColumnModified(ConversationPeer::IS_REPLIED)) $criteria->add(ConversationPeer::IS_REPLIED, $this->is_replied);
 		if ($this->isColumnModified(ConversationPeer::IS_DELETED)) $criteria->add(ConversationPeer::IS_DELETED, $this->is_deleted);
 		if ($this->isColumnModified(ConversationPeer::IS_READ)) $criteria->add(ConversationPeer::IS_READ, $this->is_read);
@@ -682,11 +816,17 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 
 		$copyObj->setTitle($this->title);
 
+		$copyObj->setOwner($this->owner);
+
 		$copyObj->setSender($this->sender);
 
 		$copyObj->setRecipent($this->recipent);
 
 		$copyObj->setConversation($this->conversation);
+
+		$copyObj->setInbox($this->inbox);
+
+		$copyObj->setSent($this->sent);
 
 		$copyObj->setIsReplied($this->is_replied);
 
@@ -727,6 +867,35 @@ abstract class BaseConversation extends BaseObject  implements Persistent {
 			self::$peer = new ConversationPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function setUserRelatedByOwner($v)
+	{
+
+
+		if ($v === null) {
+			$this->setOwner(NULL);
+		} else {
+			$this->setOwner($v->getId());
+		}
+
+
+		$this->aUserRelatedByOwner = $v;
+	}
+
+
+	
+	public function getUserRelatedByOwner($con = null)
+	{
+		if ($this->aUserRelatedByOwner === null && ($this->owner !== null)) {
+						include_once 'lib/model/om/BaseUserPeer.php';
+
+			$this->aUserRelatedByOwner = UserPeer::retrieveByPK($this->owner, $con);
+
+			
+		}
+		return $this->aUserRelatedByOwner;
 	}
 
 	

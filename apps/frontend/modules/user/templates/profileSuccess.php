@@ -1,6 +1,6 @@
 <h1>register</h1>
 <?php 
-  use_helper('Validation', 'Object', 'DateForm');
+  use_helper('Validation', 'Object', 'DateForm', 'Radio');
   echo form_tag('@user_edit_profile');
 ?>
   <div class="form-row">
@@ -11,7 +11,7 @@
   <div class="form-row">
     <?php echo form_error('email'); ?>
     <label for="nickname">*email:</label>
-    <?php echo input_tag('email', ( $sf_params->get('email') ) ? $sf_params->get('email') : $user->getEmail()) ?>
+    <?php echo object_input_tag($user, 'getEmail') ?>
   </div>  
  
   <div class="form-row">
@@ -35,36 +35,34 @@
   <div class="form-row">
     <?php echo form_error('lastname'); ?>
     <label for="password">last name:</label>
-    <?php echo input_tag('lastname', $user->getLastname()) ?>
+    <?php echo object_input_tag($user, 'getLastname') ?>
   </div>
   
   <div class="form-row">
     <?php echo form_error('country'); ?>
     <label for="country">country:</label>
-    <?php echo select_country_tag('country', null, array('include_blank' => true)) ?>
+    <?php echo object_select_country_tag($user, 'getCountry',  array('onChange' => 'checkCity(this);')) ?>
   </div>
   
   <div class="form-row">
     <?php echo form_error('city'); ?>
     <label for="city">city:</label>
-    <?php echo select_tag('city', options_for_select($cities, null, array('include_blank' => true))) ?>
+    <?php echo select_tag('city', options_for_select($cities, $sf_params->get('city'), array('include_blank' => true))) ?>
   </div>
   
   <div class="form-row">
     <?php echo form_error('gender'); ?>
     <label>gender:</label>
-    <?php echo radiobutton_tag('gender', 0, false, array( 'id' => 'male') ) ?><label class="radios" for="male">Male</label>
-    <?php echo radiobutton_tag('gender', 1, false, array( 'id' => 'female') ) ?><label class="radios" for="female">Female</label>
+    <?php echo object_radiobutton_tag($user, 'getGender', 0, array( 'id' => 'male')); ?> <label class="radios" for="male">Male</label>
+    <?php echo object_radiobutton_tag($user, 'getGender', 1, array( 'id' => 'female')); ?><label class="radios" for="female">Female</label>
   </div>
   
   <div class="form-row">
-    <?php echo form_error('dateofbirth'); ?>
-    <?php echo input_hidden_tag('dateofbirth'); ?>
+    <?php echo form_error('dob'); ?>
     <label for="dob">dob:</label>
-    <?php //echo select_date_tag('dob', '', array('include_blank' => true, 'format' => 'dd-MM-yyyy', 'culture' => 'tr_TR', 'year_start' => '1920', 'year_end' => date('Y') - 18));
-          echo input_date_tag('dob', '', array('include_blank' => true, 'culture' => 'tr_TR', 'year_start' => '1920', 'year_end' => date('Y') - 18))?>
+    <?php echo object_input_date_tag($user, 'getDob', array('include_blank' => true, 'culture' => 'tr_TR', 'year_start' => '1920', 'year_end' => date('Y') - 18), '')?>
   </div>
- <?php echo input_hidden_tag('id', $user->getId()); ?>
+ <?php echo object_input_hidden_tag($user, 'getId'); ?>
   <div class="form-row">
     <label for="submit">&nbsp;</label>
     <?php echo submit_tag('update') ?>
@@ -74,6 +72,8 @@
 
 
 @todo<br />
-  * nickname, do not begin or end with space, do not contain more than 1 space between words. validate class must be external<br />
-  * first name and last name do not contain letters, only 1 space between words (this shouldn't be trig error, this should be done in the serverside<br />
-  * recaptcha<br />
+  - nickname, do not begin or end with space, do not contain more than 1 space between words. validate class must be external<br />
+  - first name and last name do not contain letters, only 1 space between words (this shouldn't be trig error, this should be done in the serverside<br />
+  - recaptcha<br />
+  - city country server side check, compare validatordaki gibi context ile request i alcan, ülke türkiye ise city olacak yoksa olmayacak
+  - 

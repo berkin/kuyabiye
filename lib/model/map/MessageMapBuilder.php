@@ -40,6 +40,8 @@ class MessageMapBuilder {
 
 		$tMap->addColumn('BODY', 'Body', 'string', CreoleTypes::LONGVARCHAR, false, null);
 
+		$tMap->addColumn('HTML_BODY', 'HtmlBody', 'string', CreoleTypes::LONGVARCHAR, false, null);
+
 		$tMap->addColumn('READ', 'Read', 'int', CreoleTypes::TINYINT, true, 1);
 
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);

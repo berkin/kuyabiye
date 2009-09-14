@@ -5,7 +5,7 @@ names:
   recipent:
     required:     true
     required_msg: required
-    validators:   [userValidator]
+    validators:   [userValidator, schizoidValidator]
   
   title:
     required:     true
@@ -21,6 +21,12 @@ userValidator:
   param:
     callback:       [UserPeer, checkUser]
     invalid_error:  user is not found
+
+schizoidValidator:
+  class:          sfCallbackValidator
+  param:
+    callback:       [myTools, checkSchizoid]
+    invalid_error:  you cant send message to yourself
 
 titleValidator:
   class:            sfStringValidator

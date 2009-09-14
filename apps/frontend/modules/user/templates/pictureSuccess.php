@@ -22,3 +22,6 @@
   <li><?php echo image_tag('/'.sfConfig::get('sf_upload_dir_name') . '/users/' . $picture->getName()) ?></li>
   <?php } ?>
 </ul>
+
+<br /><br />
+- avatar resmini işaretle.<br />

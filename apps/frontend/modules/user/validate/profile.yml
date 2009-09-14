@@ -55,6 +55,6 @@ nameValidator:
     max_error:      100 characters max
 
 dobValidator:
-  class:            sfDateValidator
+  class:            myDobValidator
   param:
     date_error:     not valid date

@@ -15,4 +15,5 @@ class User extends BaseUser
     $this->setSalt($salt);
     $this->setSha1Password(sha1($salt . $password));
   }
+
 }

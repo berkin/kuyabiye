@@ -12,6 +12,7 @@
 </h1>
 <br /> 
 <?php echo link_to('Resim yükle', '@user_pictures'); ?><br /><br />
+<?php echo link_to('Profil Bilgileri', '@user_edit_profile'); ?><br /><br />
 <h2>Son zamanlar sevdikleri</h2>
 <ul id="tag_cloud">
 <?php foreach ($tags as $tag): $question = $tag->getTag(); if ( $tag->getLove() == 1 ): ?>

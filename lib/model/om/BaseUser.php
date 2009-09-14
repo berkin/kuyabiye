@@ -100,6 +100,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastUserToTagCriteria = null;
 
 	
+	protected $collConversationsRelatedByOwner;
+
+	
+	protected $lastConversationRelatedByOwnerCriteria = null;
+
+	
 	protected $collConversationsRelatedBySender;
 
 	
@@ -668,6 +674,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collConversationsRelatedByOwner !== null) {
+				foreach($this->collConversationsRelatedByOwner as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			if ($this->collConversationsRelatedBySender !== null) {
 				foreach($this->collConversationsRelatedBySender as $referrerFK) {
 					if (!$referrerFK->isDeleted()) {
@@ -775,6 +789,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 				if ($this->collUserToTags !== null) {
 					foreach($this->collUserToTags as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
+				if ($this->collConversationsRelatedByOwner !== null) {
+					foreach($this->collConversationsRelatedByOwner as $referrerFK) {
 						if (!$referrerFK->validate($columns)) {
 							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
 						}
@@ -1070,6 +1092,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			foreach($this->getUserToTags() as $relObj) {
 				$copyObj->addUserToTag($relObj->copy($deepCopy));
+			}
+
+			foreach($this->getConversationsRelatedByOwner() as $relObj) {
+				$copyObj->addConversationRelatedByOwner($relObj->copy($deepCopy));
 			}
 
 			foreach($this->getConversationsRelatedBySender() as $relObj) {
@@ -1597,6 +1623,76 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastUserToTagCriteria = $criteria;
 
 		return $this->collUserToTags;
+	}
+
+	
+	public function initConversationsRelatedByOwner()
+	{
+		if ($this->collConversationsRelatedByOwner === null) {
+			$this->collConversationsRelatedByOwner = array();
+		}
+	}
+
+	
+	public function getConversationsRelatedByOwner($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseConversationPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collConversationsRelatedByOwner === null) {
+			if ($this->isNew()) {
+			   $this->collConversationsRelatedByOwner = array();
+			} else {
+
+				$criteria->add(ConversationPeer::OWNER, $this->getId());
+
+				ConversationPeer::addSelectColumns($criteria);
+				$this->collConversationsRelatedByOwner = ConversationPeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(ConversationPeer::OWNER, $this->getId());
+
+				ConversationPeer::addSelectColumns($criteria);
+				if (!isset($this->lastConversationRelatedByOwnerCriteria) || !$this->lastConversationRelatedByOwnerCriteria->equals($criteria)) {
+					$this->collConversationsRelatedByOwner = ConversationPeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastConversationRelatedByOwnerCriteria = $criteria;
+		return $this->collConversationsRelatedByOwner;
+	}
+
+	
+	public function countConversationsRelatedByOwner($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseConversationPeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ConversationPeer::OWNER, $this->getId());
+
+		return ConversationPeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addConversationRelatedByOwner(Conversation $l)
+	{
+		$this->collConversationsRelatedByOwner[] = $l;
+		$l->setUserRelatedByOwner($this);
 	}
 
 	

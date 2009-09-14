@@ -50,9 +50,9 @@ class UserMapBuilder {
 
 		$tMap->addColumn('LAST_NAME', 'LastName', 'string', CreoleTypes::VARCHAR, false, 100);
 
-		$tMap->addColumn('COUNTRY', 'Country', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('COUNTRY', 'Country', 'string', CreoleTypes::VARCHAR, false, 2);
 
-		$tMap->addColumn('CITY', 'City', 'string', CreoleTypes::VARCHAR, false, 255);
+		$tMap->addColumn('CITY', 'City', 'string', CreoleTypes::VARCHAR, false, 2);
 
 		$tMap->addColumn('GENDER', 'Gender', 'int', CreoleTypes::TINYINT, false, 1);
 

@@ -87,4 +87,9 @@ class myTools
     return $total;
   }
   
+  public static function checkSchizoid($nickname)
+  {
+    return ( $nickname == sfContext::getInstance()->getUser()->getSubscriber()->getNickname() ? false : true );
+  }
+  
 }

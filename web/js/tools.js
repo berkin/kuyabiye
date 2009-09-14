@@ -53,3 +53,19 @@ function updateJSON(request, json)
     Effect.Fade('message-' + json[i]);
   }
 }
+
+function checkCity(seld)
+{
+  var city = document.getElementById('city');
+  var country = seld.options[seld.selectedIndex].value;
+  
+  if ( country != 'TR' )
+  {
+    city.selectedIndex = 0;
+    city.disabled = true;
+  }
+  else
+  {
+    city.disabled = false;
+  }
+}

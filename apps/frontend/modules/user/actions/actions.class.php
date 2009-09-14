@@ -10,7 +10,6 @@
  */
 class userActions extends sfActions
 {
-
   public function executeShow()
   {
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
@@ -46,22 +45,13 @@ class userActions extends sfActions
   {
     $this->user = $this->getUser()->getSubscriber();
     $this->cities = sfConfig::get('app_city');
+    $response = $this->getContext()->getResponse();
+    $response->addJavascript('tools');
 
     // save user
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
     {
-      $this->user->setEmail($this->getRequestParameter('email'));
-      if ( $this->getRequestParameter('password') )
-      {
-        $this->user->setPassword($this->getRequestParameter('password'));
-      }
-      $this->user->setFirstname($this->getRequestParameter('firstname'));
-      $this->user->setLastname($this->getRequestParameter('lastname'));
-      $this->user->setCountry($this->getRequestParameter('country'));
-      $this->user->setCity($this->getRequestParameter('city'));
-      $this->user->setGender($this->getRequestParameter('gender'));
-      $this->user->setDob(implode('-', $this->getRequestParameter('dob')));
-      
+      $this->updateProfileFromRequest();
       $this->user->save();
     }    
   }
@@ -175,7 +165,37 @@ class userActions extends sfActions
   {
     $this->user = $this->getUser()->getSubscriber();
     $this->cities = sfConfig::get('app_city');
+    
+    $this->updateProfileFromRequest();
+    
+    $response = $this->getContext()->getResponse();
+    $response->addJavascript('tools');
+
     return sfView::SUCCESS;
+  }
+  
+  private function updateProfileFromRequest()
+  {
+    $this->user->setEmail($this->getRequestParameter('email'));
+    if ( $this->getRequestParameter('password') )
+    {
+      $this->user->setPassword($this->getRequestParameter('password'));
+    }
+    $this->user->setFirstname($this->getRequestParameter('firstname'));
+    $this->user->setLastname($this->getRequestParameter('lastname'));
+    $this->user->setCountry($this->getRequestParameter('country'));
+    $this->user->setCity($this->getRequestParameter('city'));
+    $this->user->setGender($this->getRequestParameter('gender'));
+    $dob = $this->getRequestParameter('dob');
+    if ( $dob['day'] == '' && $dob['month'] == '' && $dob['year'] == '' ) 
+    {
+      $date = null;
+    }
+    else 
+    {
+      $date = implode('-', $dob);
+    }
+    $this->user->setDob($date);    
   }
   
   public function executeLogout()

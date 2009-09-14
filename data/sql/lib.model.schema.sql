@@ -97,8 +97,8 @@ CREATE TABLE `users`
 	`avatar` VARCHAR(255),
 	`first_name` VARCHAR(100),
 	`last_name` VARCHAR(100),
-	`country` VARCHAR(255),
-	`city` VARCHAR(255),
+	`country` VARCHAR(2),
+	`city` VARCHAR(2),
 	`gender` TINYINT(1),
 	`dob` DATE,
 	`created_at` DATETIME,
@@ -159,21 +159,28 @@ CREATE TABLE `conversations`
 (
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`title` VARCHAR(255),
+	`owner` INTEGER,
 	`sender` INTEGER,
 	`recipent` INTEGER,
 	`conversation` INTEGER(1) default 0 NOT NULL,
+	`inbox` TINYINT(1) default 0 NOT NULL,
+	`sent` TINYINT(1) default 0 NOT NULL,
 	`is_replied` TINYINT(1) default 0 NOT NULL,
 	`is_deleted` TINYINT(1) default 0 NOT NULL,
 	`is_read` TINYINT(1) default 0 NOT NULL,
 	`updated_at` DATETIME,
 	PRIMARY KEY (`id`),
 	INDEX `I_referenced_messages_FK_1_1` (`conversation`),
-	INDEX `conversations_FI_1` (`sender`),
+	INDEX `conversations_FI_1` (`owner`),
 	CONSTRAINT `conversations_FK_1`
+		FOREIGN KEY (`owner`)
+		REFERENCES `users` (`id`),
+	INDEX `conversations_FI_2` (`sender`),
+	CONSTRAINT `conversations_FK_2`
 		FOREIGN KEY (`sender`)
 		REFERENCES `users` (`id`),
-	INDEX `conversations_FI_2` (`recipent`),
-	CONSTRAINT `conversations_FK_2`
+	INDEX `conversations_FI_3` (`recipent`),
+	CONSTRAINT `conversations_FK_3`
 		FOREIGN KEY (`recipent`)
 		REFERENCES `users` (`id`)
 )Type=MyISAM;
@@ -191,6 +198,7 @@ CREATE TABLE `messages`
 	`conversation_id` INTEGER,
 	`writer` INTEGER,
 	`body` TEXT,
+	`html_body` TEXT,
 	`read` TINYINT(1) default 0 NOT NULL,
 	`created_at` DATETIME,
 	PRIMARY KEY (`id`),

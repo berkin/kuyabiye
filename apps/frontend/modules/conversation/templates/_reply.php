@@ -6,14 +6,16 @@
 ?>
   <div class="form-row">
     <?php echo textarea_tag('body') ?>
+    <?php include_partial('markdown_help'); ?>
   </div>
   
   <div class="form-row">
   <?php if_javascript(); ?>
     <?php echo submit_to_remote('submit', 'send!', array(
-        'update'   => 'message-list',
+        'update'   => array( 'success' => 'message-list', 'failure' => ''),
         'url'      => '@conversation_reply',
-        'position' => 'bottom'
+        'position' => 'bottom',
+        'complete' => "document.getElementById('body').value = '';"
     )) ?>
   <?php end_if_javascript(); ?>
   <noscript>

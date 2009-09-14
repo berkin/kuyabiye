@@ -26,9 +26,6 @@ all:
     secure_module: User
     secure_module: login
 
-  .settings:
-    escaping_strategy: both
-    escaping_method:   ESC_ENTITIES
 
 #all:
 #  .actions:

@@ -36,11 +36,17 @@ class ConversationMapBuilder {
 
 		$tMap->addColumn('TITLE', 'Title', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addForeignKey('OWNER', 'Owner', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
+
 		$tMap->addForeignKey('SENDER', 'Sender', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 		$tMap->addForeignKey('RECIPENT', 'Recipent', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
 		$tMap->addColumn('CONVERSATION', 'Conversation', 'int', CreoleTypes::INTEGER, true, 1);
+
+		$tMap->addColumn('INBOX', 'Inbox', 'int', CreoleTypes::TINYINT, true, 1);
+
+		$tMap->addColumn('SENT', 'Sent', 'int', CreoleTypes::TINYINT, true, 1);
 
 		$tMap->addColumn('IS_REPLIED', 'IsReplied', 'int', CreoleTypes::TINYINT, true, 1);
 

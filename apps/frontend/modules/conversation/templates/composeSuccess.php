@@ -27,3 +27,4 @@
   </div>
 
 </form>
+<?php include_partial('markdown_help'); ?>

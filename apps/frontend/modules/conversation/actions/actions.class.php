@@ -23,18 +23,29 @@ class conversationActions extends sfActions
     $user = $this->getUser()->getSubscriberId();
     $this->folder = $this->getRequestParameter('folder', 'inbox');
     
+    
     $c = new Criteria();
     if ( $this->folder == 'inbox' )
     {
-      $c->add(ConversationPeer::RECIPENT, $user);
+      $c->add(ConversationPeer::OWNER, $user);
+      $c->add(ConversationPeer::INBOX, true);
     }
     else
     {
-      $c->add(ConversationPeer::SENDER, $user);
+      $c->add(ConversationPeer::OWNER, $user);
+      $c->add(ConversationPeer::SENT, true);
     }
     $c->add(ConversationPeer::IS_DELETED, 0);    
+    $c->addDescendingOrderByColumn(ConversationPeer::UPDATED_AT);
     
-    $this->conversations = ConversationPeer::doSelectJoinUserRelatedBySender($c);    
+    $pager = new sfPropelPager('Conversation', 20);    
+    $pager->setCriteria($c);
+    $pager->setPage($this->getRequestParameter('page', 1));
+    $pager->setPeerMethod( $this->folder == 'inbox' ? 'doSelectJoinUserRelatedBySender' : 'doSelectJoinUserRelatedByRecipent' );
+    $pager->init();
+    
+    
+    $this->conversations = $pager;    
 
   }
   
@@ -45,17 +56,19 @@ class conversationActions extends sfActions
     
     $c = new Criteria();
     $c->add(ConversationPeer::CONVERSATION, $id);
-    $c->add(ConversationPeer::RECIPENT, $this->user);
+    $c->add(ConversationPeer::OWNER, $this->user);
     $this->conversation = ConversationPeer::doSelectOne($c);
     $this->forward404Unless($this->conversation);
     
     $c = new Criteria();
     $c->add(MessagePeer::CONVERSATION_ID, $id);
+    $c->addAscendingOrderByColumn(MessagePeer::CREATED_AT);
     $this->messages = MessagePeer::doSelectJoinUser($c);
     $this->forward404Unless($this->messages);
     
     $this->conversation->setIsRead(true);
     $this->conversation->save();
+    
   }
   
   public function executeReply()
@@ -69,19 +82,34 @@ class conversationActions extends sfActions
 
     $c = new Criteria();
     $c->add(ConversationPeer::CONVERSATION, $conversation_id);
-    $c->add(ConversationPeer::SENDER, $reply_to->getId());
-    $c->add(ConversationPeer::RECIPENT, $this->subscriber->getId());
+    $c->add(ConversationPeer::OWNER, $this->subscriber->getId());
     $this->conversation = ConversationPeer::doSelectOne($c);
     $this->forward404Unless($this->conversation);
     
+    $this->conversation->setSent(true);
     $this->conversation->setIsReplied(true);
     $this->conversation->save();
+    
+    $c = new Criteria();
+    $c->add(ConversationPeer::CONVERSATION, $conversation_id);
+    $c->add(ConversationPeer::OWNER, $reply_to->getId());
+    $this->replied = ConversationPeer::doSelectOne($c);
+    $this->forward404Unless($this->replied);
 
+    $this->replied->setIsRead(false);
+    $this->replied->setIsReplied(false);
+    $this->replied->setIsDeleted(false);
+    $this->replied->setInbox(true);
+    $this->replied->save();
+    
     $this->message = new Message();
     $this->message->setWriter($this->subscriber->getId());
     $this->message->setBody($this->getRequestParameter('body'));
-    $this->message->setConversationId($this->conversation->getId());
+    $this->message->setConversationId($this->conversation->getConversation());
     $this->message->save();
+      
+    //sent mail    
+    $this->sendEmailNotice($reply_to->getEmail(), $reply_to->getNickname(), $this->conversation->getId());
   }
   
   public function executeCompose()
@@ -92,20 +120,23 @@ class conversationActions extends sfActions
       $this->forward404Unless($this->recipent);
       
       $conversation = new Conversation();
+      $conversation->setOwner($this->getUser()->getSubscriberId());
       $conversation->setSender($this->getUser()->getSubscriberId());
       $conversation->setRecipent($this->recipent->getId());
       $conversation->setTitle($this->getRequestParameter('title'));
-      
+      $conversation->setSent(true);      
       $conversation->save();
       
       $conversation->setConversation($conversation->getId());
       $conversation->save();
       
       $recipent = new Conversation();
-      $recipent->setSender($this->recipent->getId());
-      $recipent->setRecipent($this->getUser()->getSubscriberId());
+      $recipent->setOwner($this->recipent->getId());
+      $recipent->setSender($this->getUser()->getSubscriberId());
+      $recipent->setRecipent($this->recipent->getId());
       $recipent->setConversation($conversation->getId());
-      $recipent->setTitle($this->getRequestParameter('title'));      
+      $recipent->setTitle($this->getRequestParameter('title'));   
+      $recipent->setInbox(true);
       $recipent->save();
       
       $message = new Message();
@@ -114,6 +145,9 @@ class conversationActions extends sfActions
       $message->setBody($this->getRequestParameter('body'));
       
       $message->save();
+      
+      //sent mail    
+      $this->sendEmailNotice($this->recipent->getEmail(), $this->recipent->getNickname(), $conversation->getId());
       
       $this->redirect('@conversation_read?id=' . $conversation->getConversation());
       
@@ -133,7 +167,7 @@ class conversationActions extends sfActions
 
         $c = new Criteria();
         $c->add(ConversationPeer::CONVERSATION, $conversation);
-        $c->add(ConversationPeer::RECIPENT, $this->user);
+        $c->add(ConversationPeer::OWNER, $this->user);
         $conversation = ConversationPeer::doSelectOne($c);
         $this->forward404Unless($conversation);
 
@@ -146,6 +180,16 @@ class conversationActions extends sfActions
       }
     }
     return sfView::HEADER_ONLY; 
+  }
+  
+  private function sendEmailNotice($email, $nickname, $conversation)
+  {
+    $this->getRequest()->setAttribute('email', $email);
+    $this->getRequest()->setAttribute('nickname', $nickname);
+    $this->getRequest()->setAttribute('conversation', $conversation);
+    
+    $raw_email = $this->sendEmail('mail', 'messageSent');
+    $this->getLogger()->debug($raw_email);  
   }
   
   public function handleErrorCompose()

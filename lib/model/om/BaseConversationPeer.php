@@ -13,7 +13,7 @@ abstract class BaseConversationPeer {
 	const CLASS_DEFAULT = 'lib.model.Conversation';
 
 	
-	const NUM_COLUMNS = 9;
+	const NUM_COLUMNS = 12;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -26,6 +26,9 @@ abstract class BaseConversationPeer {
 	const TITLE = 'conversations.TITLE';
 
 	
+	const OWNER = 'conversations.OWNER';
+
+	
 	const SENDER = 'conversations.SENDER';
 
 	
@@ -33,6 +36,12 @@ abstract class BaseConversationPeer {
 
 	
 	const CONVERSATION = 'conversations.CONVERSATION';
+
+	
+	const INBOX = 'conversations.INBOX';
+
+	
+	const SENT = 'conversations.SENT';
 
 	
 	const IS_REPLIED = 'conversations.IS_REPLIED';
@@ -52,18 +61,18 @@ abstract class BaseConversationPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'Sender', 'Recipent', 'Conversation', 'IsReplied', 'IsDeleted', 'IsRead', 'UpdatedAt', ),
-		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID, ConversationPeer::TITLE, ConversationPeer::SENDER, ConversationPeer::RECIPENT, ConversationPeer::CONVERSATION, ConversationPeer::IS_REPLIED, ConversationPeer::IS_DELETED, ConversationPeer::IS_READ, ConversationPeer::UPDATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'sender', 'recipent', 'conversation', 'is_replied', 'is_deleted', 'is_read', 'updated_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Title', 'Owner', 'Sender', 'Recipent', 'Conversation', 'Inbox', 'Sent', 'IsReplied', 'IsDeleted', 'IsRead', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID, ConversationPeer::TITLE, ConversationPeer::OWNER, ConversationPeer::SENDER, ConversationPeer::RECIPENT, ConversationPeer::CONVERSATION, ConversationPeer::INBOX, ConversationPeer::SENT, ConversationPeer::IS_REPLIED, ConversationPeer::IS_DELETED, ConversationPeer::IS_READ, ConversationPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'title', 'owner', 'sender', 'recipent', 'conversation', 'inbox', 'sent', 'is_replied', 'is_deleted', 'is_read', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'Sender' => 2, 'Recipent' => 3, 'Conversation' => 4, 'IsReplied' => 5, 'IsDeleted' => 6, 'IsRead' => 7, 'UpdatedAt' => 8, ),
-		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID => 0, ConversationPeer::TITLE => 1, ConversationPeer::SENDER => 2, ConversationPeer::RECIPENT => 3, ConversationPeer::CONVERSATION => 4, ConversationPeer::IS_REPLIED => 5, ConversationPeer::IS_DELETED => 6, ConversationPeer::IS_READ => 7, ConversationPeer::UPDATED_AT => 8, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'sender' => 2, 'recipent' => 3, 'conversation' => 4, 'is_replied' => 5, 'is_deleted' => 6, 'is_read' => 7, 'updated_at' => 8, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Title' => 1, 'Owner' => 2, 'Sender' => 3, 'Recipent' => 4, 'Conversation' => 5, 'Inbox' => 6, 'Sent' => 7, 'IsReplied' => 8, 'IsDeleted' => 9, 'IsRead' => 10, 'UpdatedAt' => 11, ),
+		BasePeer::TYPE_COLNAME => array (ConversationPeer::ID => 0, ConversationPeer::TITLE => 1, ConversationPeer::OWNER => 2, ConversationPeer::SENDER => 3, ConversationPeer::RECIPENT => 4, ConversationPeer::CONVERSATION => 5, ConversationPeer::INBOX => 6, ConversationPeer::SENT => 7, ConversationPeer::IS_REPLIED => 8, ConversationPeer::IS_DELETED => 9, ConversationPeer::IS_READ => 10, ConversationPeer::UPDATED_AT => 11, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'title' => 1, 'owner' => 2, 'sender' => 3, 'recipent' => 4, 'conversation' => 5, 'inbox' => 6, 'sent' => 7, 'is_replied' => 8, 'is_deleted' => 9, 'is_read' => 10, 'updated_at' => 11, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
 	);
 
 	
@@ -121,11 +130,17 @@ abstract class BaseConversationPeer {
 
 		$criteria->addSelectColumn(ConversationPeer::TITLE);
 
+		$criteria->addSelectColumn(ConversationPeer::OWNER);
+
 		$criteria->addSelectColumn(ConversationPeer::SENDER);
 
 		$criteria->addSelectColumn(ConversationPeer::RECIPENT);
 
 		$criteria->addSelectColumn(ConversationPeer::CONVERSATION);
+
+		$criteria->addSelectColumn(ConversationPeer::INBOX);
+
+		$criteria->addSelectColumn(ConversationPeer::SENT);
 
 		$criteria->addSelectColumn(ConversationPeer::IS_REPLIED);
 
@@ -221,6 +236,34 @@ abstract class BaseConversationPeer {
 	}
 
 	
+	public static function doCountJoinUserRelatedByOwner(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConversationPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConversationPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(ConversationPeer::OWNER, UserPeer::ID);
+
+		$rs = ConversationPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
 	public static function doCountJoinUserRelatedBySender(Criteria $criteria, $distinct = false, $con = null)
 	{
 				$criteria = clone $criteria;
@@ -273,6 +316,53 @@ abstract class BaseConversationPeer {
 		} else {
 						return 0;
 		}
+	}
+
+
+	
+	public static function doSelectJoinUserRelatedByOwner(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConversationPeer::addSelectColumns($c);
+		$startcol = (ConversationPeer::NUM_COLUMNS - ConversationPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		UserPeer::addSelectColumns($c);
+
+		$c->addJoin(ConversationPeer::OWNER, UserPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConversationPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = UserPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getUserRelatedByOwner(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addConversationRelatedByOwner($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initConversationsRelatedByOwner();
+				$obj2->addConversationRelatedByOwner($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
 	}
 
 
@@ -387,6 +477,8 @@ abstract class BaseConversationPeer {
 			$criteria->addSelectColumn($column);
 		}
 
+		$criteria->addJoin(ConversationPeer::OWNER, UserPeer::ID);
+
 		$criteria->addJoin(ConversationPeer::SENDER, UserPeer::ID);
 
 		$criteria->addJoin(ConversationPeer::RECIPENT, UserPeer::ID);
@@ -418,6 +510,11 @@ abstract class BaseConversationPeer {
 		UserPeer::addSelectColumns($c);
 		$startcol4 = $startcol3 + UserPeer::NUM_COLUMNS;
 
+		UserPeer::addSelectColumns($c);
+		$startcol5 = $startcol4 + UserPeer::NUM_COLUMNS;
+
+		$c->addJoin(ConversationPeer::OWNER, UserPeer::ID);
+
 		$c->addJoin(ConversationPeer::SENDER, UserPeer::ID);
 
 		$c->addJoin(ConversationPeer::RECIPENT, UserPeer::ID);
@@ -446,15 +543,15 @@ abstract class BaseConversationPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj2 = $temp_obj1->getUserRelatedBySender(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+				$temp_obj2 = $temp_obj1->getUserRelatedByOwner(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj2->addConversationRelatedBySender($obj1); 					break;
+					$temp_obj2->addConversationRelatedByOwner($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj2->initConversationsRelatedBySender();
-				$obj2->addConversationRelatedBySender($obj1);
+				$obj2->initConversationsRelatedByOwner();
+				$obj2->addConversationRelatedByOwner($obj1);
 			}
 
 
@@ -469,20 +566,69 @@ abstract class BaseConversationPeer {
 			$newObject = true;
 			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
 				$temp_obj1 = $results[$j];
-				$temp_obj3 = $temp_obj1->getUserRelatedByRecipent(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
+				$temp_obj3 = $temp_obj1->getUserRelatedBySender(); 				if ($temp_obj3->getPrimaryKey() === $obj3->getPrimaryKey()) {
 					$newObject = false;
-					$temp_obj3->addConversationRelatedByRecipent($obj1); 					break;
+					$temp_obj3->addConversationRelatedBySender($obj1); 					break;
 				}
 			}
 
 			if ($newObject) {
-				$obj3->initConversationsRelatedByRecipent();
-				$obj3->addConversationRelatedByRecipent($obj1);
+				$obj3->initConversationsRelatedBySender();
+				$obj3->addConversationRelatedBySender($obj1);
+			}
+
+
+					
+			$omClass = UserPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj4 = new $cls();
+			$obj4->hydrate($rs, $startcol4);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj4 = $temp_obj1->getUserRelatedByRecipent(); 				if ($temp_obj4->getPrimaryKey() === $obj4->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj4->addConversationRelatedByRecipent($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj4->initConversationsRelatedByRecipent();
+				$obj4->addConversationRelatedByRecipent($obj1);
 			}
 
 			$results[] = $obj1;
 		}
 		return $results;
+	}
+
+
+	
+	public static function doCountJoinAllExceptUserRelatedByOwner(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(ConversationPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(ConversationPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$rs = ConversationPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
 	}
 
 
@@ -535,6 +681,36 @@ abstract class BaseConversationPeer {
 		} else {
 						return 0;
 		}
+	}
+
+
+	
+	public static function doSelectJoinAllExceptUserRelatedByOwner(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+								if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		ConversationPeer::addSelectColumns($c);
+		$startcol2 = (ConversationPeer::NUM_COLUMNS - ConversationPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = ConversationPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$results[] = $obj1;
+		}
+		return $results;
 	}
 
 
