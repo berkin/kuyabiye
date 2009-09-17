@@ -21,7 +21,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 
 
 	
-	protected $status;
+	protected $status = 0;
 
 	
 	protected $aUserRelatedByUserFrom;
@@ -129,7 +129,7 @@ abstract class BaseFriend extends BaseObject  implements Persistent {
 			$v = (int) $v;
 		}
 
-		if ($this->status !== $v) {
+		if ($this->status !== $v || $v === 0) {
 			$this->status = $v;
 			$this->modifiedColumns[] = FriendPeer::STATUS;
 		}

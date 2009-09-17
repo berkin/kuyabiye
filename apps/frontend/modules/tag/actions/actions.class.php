@@ -16,7 +16,7 @@ class tagActions extends sfActions
 {
   public function executeIndex()
   {
-    return $this->forward('tag', 'list');
+    $this->tags = TagPeer::getPopularTags();
   }
 
   public function executeList()
@@ -32,20 +32,64 @@ class tagActions extends sfActions
     
     $this->forward404Unless($this->tag);
    
-    $counts = UserToTagPeer::getCountOfLovers($this->tag->getId());
+    $this->counts = UserToTagPeer::getCountOfLovers($this->tag->getId());
+    $this->percents = myTools::getLimitOfLovers($this->counts, 100);
+    $this->total = myTools::getTotalLovers($this->counts);
     
     $this->lovers = array();
-    if ( sizeof($counts) )
+    if ( sizeof($this->counts) )
     {
-      $this->lovers = UserPeer::getLovers($counts, $this->tag->getID());
+      $this->lovers = UserPeer::getLovers($this->counts, $this->tag->getID());
     }
     
     $response = $this->getContext()->getResponse();
     $response->addJavascript('tools');
-    $this->comments = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId());
+    $comments_array = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId());
     
+    $this->comments = new myArrayPager(null, 20);
+    $this->comments->setResultArray($comments_array);
+    $this->comments->setPage($this->getRequestParameter('page',1));
+    $this->comments->init();
+
     $this->token = myTools::generate_random_key();
     $this->setFlash('token', $this->token);
+  }
+  
+  public function executeLovers()
+  {
+    $c = new Criteria();
+    $c->add(TagPeer::STRIPPED_TAG, $this->getRequestParameter('stripped_tag'));
+    $this->tag = TagPeer::doSelectOne($c);
+    
+    $this->forward404Unless($this->tag);
+    
+    $this->sense = $this->getRequestParameter('sense');
+    if ( !array_search($this->sense, sfConfig::get('app_lovers')) )
+    {
+      $this->forward404();    
+    }
+    
+    $pager = new sfPropelPager('UserToTag', 10);    
+    $c = new Criteria();
+    $c->add(UserToTagPeer::TAGS_ID, $this->tag->getId());
+    $c->addDescendingOrderByColumn(UserToTagPeer::CREATED_AT);
+    switch ( $this->sense )
+    {
+      case 'lovers':
+        $c->add(UserToTagPeer::LOVE, 1);
+        break;
+      case 'haters':
+        $c->add(UserToTagPeer::LOVE, 0);
+        break;
+    }
+    
+    $pager->setCriteria($c);
+    $pager->setPage($this->getRequestParameter('page', 1));
+    $pager->setPeerMethod('doSelectJoinUser');
+    $pager->init();
+    
+    $this->users = $pager;
+    
   }
   
   public function executeSearch()

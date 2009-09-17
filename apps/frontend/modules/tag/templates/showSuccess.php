@@ -4,18 +4,31 @@
 
 use_helper('Date', 'Validation', 'User');
 ?>
-<h1><?php echo $tag->getTag() ?><span>(<?php echo link_to($tag->getUser()->getNickname(), '@user_profile?nick=' . $tag->getUser()->getNickname()) ?> ekledi)</span></h1>
+<h1><?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag()); ?><span>(<?php echo link_to($tag->getUser()->getNickname(), '@user_profile?nick=' . $tag->getUser()->getNickname()) ?> ekledi)</span></h1>
 <div class="right gray size10"><?php echo time_ago_in_words($tag->getCreatedAt('U')) ?> ago</div>
 <div class="tag-actions" id="love_<?php echo $tag->getId() ?>">
   <?php include_partial('love_buttons', array('tag' => $tag)); ?>
 </div>
 <br />
 <h2>Sevenler / sevmeyenler</h2><br />&nbsp;
+<?php if ( $total > 10 ) { ?>
+<div>Lovers: <?php echo $percents['lovers'] ?>%, haters: <?php echo $percents['haters'] ?> %</div>
+<?php } ?>
 <?php
   foreach ( $lovers as $lover )
   {
-    echo $lover['nickname'] . ' ' . $lover['love'] . '&nbsp;&nbsp;&nbsp;&nbsp;';
+    echo '<div style="float:left">';
+    include_partial('user/avatar', array('user' => $lover));
+    echo '<br />' . $lover['nickname'] . ' ' . $lover['love'];
+    echo '</div>';
   }
+
+?>
+<div style="clear:both">&nbsp;</div>
+<?php
+  echo link_to('Sevenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=lovers') . ' - ';
+  echo link_to('Sevmeyenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=haters') . ' - ';
+  echo link_to('Hepsi', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=all');
 ?>
 <br />
 <br />
@@ -28,11 +41,28 @@ if ( $sf_user->isAuthenticated() ) {
 }
 ?>
 <div id="comments" class="comments">
-<?php foreach ( $comments as $comment ) { ?>
+<?php echo $comments->getNbResults() ?> results found.<br />
+<?php if ( $comments->getNbResults() ) { ?>
+Displaying results <?php echo $comments->getFirstIndice() ?> to  <?php echo $comments->getLastIndice() ?>.
+<?php } ?>
+<?php foreach ( $comments->getResults() as $comment ) { ?>
   <?php include_partial('comment/comment', array('comment' => $comment)) ?>
 <?php } ?>
 </div>
-
+<div id="question_pager">
+<?php if ($comments->haveToPaginate()): ?>
+  <?php echo link_to('&laquo;', '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=1') ?>
+  <?php echo link_to('&lt;', '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page='.$comments->getPreviousPage()) ?>
+ 
+  <?php foreach ($comments->getLinks() as $page): ?>
+    <?php echo link_to_unless($page == $comments->getPage(), $page, '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page='.$page) ?>
+    <?php echo ($page != $comments->getCurrentMaxLink()) ? '-' : '' ?>
+  <?php endforeach; ?>
+ 
+  <?php echo link_to('&gt;', '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page='.$comments->getNextPage()) ?>
+  <?php echo link_to('&raquo;', '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page='.$comments->getLastPage()) ?>
+<?php endif; ?>
+</div>
 <?php if ( $sf_user->isAuthenticated() ) { ?>
 <br /><br />
 <h1>yorum ekle</h1>
@@ -47,6 +77,7 @@ if ( $sf_user->isAuthenticated() ) {
   </div>
 
 </form>  
+
 <?php } ?>
 <?php if ( !$sf_user->isAuthenticated() ) { ?>
   <?php echo link_to('yorum eklemek icin giris yapmaniz gerekiyor.', '@login') ?>
@@ -58,6 +89,7 @@ if ( $sf_user->isAuthenticated() ) {
 @TODO<br />
 - comment sisteminde transaction veya locktable bi guvenlik lazim<br />
 - bu comment save() methoduna bu commentpeer::updateCommentsTree methodunu eklemyi denedin olmadi ama deneyebilirsin yine:P<br \>
-- comment pager<br />
+-- comment pager, array ile yaptıkta pek mantıklı diil, her seferinde bütün satırları çekiyor<br />
 - comment'i lib/model/comment.php bunda commentjoinuser methodunu override etmeye çalışabilin http://trac.symfony-project.org/wiki/ApplyingCustomJoinsInDoSelect article a bak hydrate filanla startcolumn bunlarla deneyebilirsin.<br />
-- reply de login vs. ayrıca bos gondermeyi engelle
+- reply de login vs. ayrıca bos gondermeyi engelle<br />
+- markdown

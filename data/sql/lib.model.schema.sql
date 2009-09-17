@@ -15,7 +15,7 @@ CREATE TABLE `friends`
 	`id` INTEGER  NOT NULL AUTO_INCREMENT,
 	`user_from` INTEGER,
 	`user_to` INTEGER,
-	`status` TINYINT,
+	`status` TINYINT default 0 NOT NULL,
 	PRIMARY KEY (`id`),
 	INDEX `friends_FI_1` (`user_from`),
 	CONSTRAINT `friends_FK_1`
@@ -43,6 +43,7 @@ CREATE TABLE `tags`
 	`lovers` INTEGER default 0,
 	`haters` INTEGER default 0,
 	`created_at` DATETIME,
+	`updated_at` DATETIME,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `unique_stripped_tag` (`stripped_tag`),
 	INDEX `tags_FI_1` (`created_by`),

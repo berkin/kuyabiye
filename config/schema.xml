@@ -11,7 +11,7 @@
       <foreign-key foreignTable="users">
         <reference local="user_to" foreign="id"/>
       </foreign-key>
-    <column name="status" type="TINYINT" />
+    <column name="status" type="TINYINT" required="true" default="0" />
   </table>
 
   <table name="tags" phpName="Tag">
@@ -25,6 +25,7 @@
     <column name="lovers" type="INTEGER" default="0" />
     <column name="haters" type="INTEGER" default="0" />
     <column name="created_at" type="TIMESTAMP" />
+    <column name="updated_at" type="TIMESTAMP" />
     <unique name="unique_stripped_tag">
       <unique-column name="stripped_tag" />
     </unique>

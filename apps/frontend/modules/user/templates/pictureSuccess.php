@@ -24,4 +24,6 @@
 </ul>
 
 <br /><br />
-- avatar resmini i�aretle.<br />
+- avatar resmini işaretle.<br />
+- sho sho resmini upload edince upload da takılı kalıyor, resim isminde boşluk olduğundan olabilir, firefoxda deneidm<br />
+- kaydedilen resmin ismini değiştir.<br />

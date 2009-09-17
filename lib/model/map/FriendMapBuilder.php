@@ -38,7 +38,7 @@ class FriendMapBuilder {
 
 		$tMap->addForeignKey('USER_TO', 'UserTo', 'int', CreoleTypes::INTEGER, 'users', 'ID', false, null);
 
-		$tMap->addColumn('STATUS', 'Status', 'int', CreoleTypes::TINYINT, false, null);
+		$tMap->addColumn('STATUS', 'Status', 'int', CreoleTypes::TINYINT, true, null);
 
 	} 
 } 

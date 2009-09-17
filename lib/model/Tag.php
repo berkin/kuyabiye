@@ -9,6 +9,8 @@
  */ 
 class Tag extends BaseTag
 {
+  private static $max;
+  
   public function setTag($tag)
   {
     parent::setTag($tag);
@@ -33,6 +35,46 @@ class Tag extends BaseTag
     } while ( $i > 1);
     
     $this->setStrippedTag($search);
+  }
+  
+  public function getWeight()
+  {
+    
+    $max = $this->getMax();
+      
+    $total = $this->getLovers() + $this->getHaters();
+    
+    if ( $total )
+    {
+      $weight = round( ( $this->getLovers() / $total ) * ( $total / $max ) * 100 );
+    }
+    else 
+    {
+      $weight = 0;
+    }
+    
+    return $weight;  
+  }
+  
+  //singleton
+  public static function getMax()
+  {
+    if (!isset(self::$max)) 
+    {
+      $now = time() - sfConfig::get('app_tag_homepage_date');
+    
+      $conn = Propel::getConnection();
+      $query = 'SELECT MAX( ' . TagPeer::LOVERS . ' + ' . TagPeer::HATERS . ') AS max
+                  FROM ' . TagPeer::TABLE_NAME;
+   
+      $stmt = $conn->prepareStatement($query);
+      $result = $stmt->executeQuery();
+      $result->next();
+      
+      self::$max = $result->getInt('max');
+    }
+
+    return self::$max;  
   }
   
   public function getCommentsJoinUser($criteria = null, $con = null)

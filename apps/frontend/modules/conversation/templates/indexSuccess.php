@@ -21,7 +21,9 @@
   
 <br /><br />
 <?php echo $conversations->getNbResults() ?> results found.<br />
+<?php if ( $conversations->getNbResults() ) { ?>
 Displaying results <?php echo $conversations->getFirstIndice() ?> to  <?php echo $conversations->getLastIndice() ?>.
+<?php } ?>
 <?php foreach ($conversations->getResults() as $conversation) { $i++; ?>
   <div id="message-<?php echo $conversation->getConversation() ?>" class="conversation<?php echo ( $conversation->getIsRead() ) ? ' read' : ' unread' ?>">
   <b><?php 

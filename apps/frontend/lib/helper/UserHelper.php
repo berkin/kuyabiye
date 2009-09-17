@@ -66,8 +66,21 @@ function link_to_users_love($user, $tag)
 
 function link_to_friend_request($user, $friend)
 {
+  
+
   if ( $user->isAuthenticated() ) 
-  { 
+  {
+    $task = sfcontext::getinstance()->getRequest()->getParameter('task');
+    switch ( $task )
+    {
+      case 'approve':
+        return 'kabul edildi';
+        break;
+      case 'disapprove':
+        return 'red edildi';
+        break;
+    }
+
     // find friend, check if exists
     $user_to = $user->getSubscriberByNick($friend->getNickname());
     $user_from = $user->getSubscriberId();
@@ -83,7 +96,7 @@ function link_to_friend_request($user, $friend)
       $c->add(FriendPeer::USER_FROM, $user_to->getId());
       $c->add(FriendPeer::USER_TO, $user_from);
       $found = FriendPeer::doSelectOne($c);
-      
+       
       if ( $found )
       {
         return link_to_remote('kabul et?', array(
@@ -113,17 +126,20 @@ function link_to_friend_request($user, $friend)
       }
     }
     else {
-      if ( $found->getStatus() == 0 )
+      switch ( $found->getStatus() )
       {
-        return 'arkadaş isteği gönderildi';
-      }
-      elseif ( $found->getStatus() == 1 )
-      {
-        return 'listemde';
-      }
-      else 
-      {
-        return '';
+        case 0:
+          return 'arkadaş isteği gönderildi';
+          break;
+        case 1:
+          return 'listemde';
+          break;
+        case 2:
+          return 'blocked';
+          break;
+        default:
+          return '';
+          break;      
       }
     }
   }

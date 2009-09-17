@@ -35,6 +35,10 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 	
 	protected $created_at;
 
+
+	
+	protected $updated_at;
+
 	
 	protected $aUser;
 
@@ -110,6 +114,28 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 			}
 		} else {
 			$ts = $this->created_at;
+		}
+		if ($format === null) {
+			return $ts;
+		} elseif (strpos($format, '%') !== false) {
+			return strftime($format, $ts);
+		} else {
+			return date($format, $ts);
+		}
+	}
+
+	
+	public function getUpdatedAt($format = 'Y-m-d H:i:s')
+	{
+
+		if ($this->updated_at === null || $this->updated_at === '') {
+			return null;
+		} elseif (!is_int($this->updated_at)) {
+						$ts = strtotime($this->updated_at);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse value of [updated_at] as date/time value: " . var_export($this->updated_at, true));
+			}
+		} else {
+			$ts = $this->updated_at;
 		}
 		if ($format === null) {
 			return $ts;
@@ -238,6 +264,23 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setUpdatedAt($v)
+	{
+
+		if ($v !== null && !is_int($v)) {
+			$ts = strtotime($v);
+			if ($ts === -1 || $ts === false) { 				throw new PropelException("Unable to parse date/time value for [updated_at] from input: " . var_export($v, true));
+			}
+		} else {
+			$ts = $v;
+		}
+		if ($this->updated_at !== $ts) {
+			$this->updated_at = $ts;
+			$this->modifiedColumns[] = TagPeer::UPDATED_AT;
+		}
+
+	} 
+	
 	public function hydrate(ResultSet $rs, $startcol = 1)
 	{
 		try {
@@ -256,11 +299,13 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 			$this->created_at = $rs->getTimestamp($startcol + 6, null);
 
+			$this->updated_at = $rs->getTimestamp($startcol + 7, null);
+
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 7; 
+						return $startcol + 8; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Tag object", $e);
 		}
@@ -322,6 +367,11 @@ abstract class BaseTag extends BaseObject  implements Persistent {
     if ($this->isNew() && !$this->isColumnModified(TagPeer::CREATED_AT))
     {
       $this->setCreatedAt(time());
+    }
+
+    if ($this->isModified() && !$this->isColumnModified(TagPeer::UPDATED_AT))
+    {
+      $this->setUpdatedAt(time());
     }
 
 		if ($this->isDeleted()) {
@@ -495,6 +545,9 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 			case 6:
 				return $this->getCreatedAt();
 				break;
+			case 7:
+				return $this->getUpdatedAt();
+				break;
 			default:
 				return null;
 				break;
@@ -512,6 +565,7 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 			$keys[4] => $this->getLovers(),
 			$keys[5] => $this->getHaters(),
 			$keys[6] => $this->getCreatedAt(),
+			$keys[7] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -548,6 +602,9 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 			case 6:
 				$this->setCreatedAt($value);
 				break;
+			case 7:
+				$this->setUpdatedAt($value);
+				break;
 		} 	}
 
 	
@@ -562,6 +619,7 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setLovers($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setHaters($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setCreatedAt($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setUpdatedAt($arr[$keys[7]]);
 	}
 
 	
@@ -576,6 +634,7 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(TagPeer::LOVERS)) $criteria->add(TagPeer::LOVERS, $this->lovers);
 		if ($this->isColumnModified(TagPeer::HATERS)) $criteria->add(TagPeer::HATERS, $this->haters);
 		if ($this->isColumnModified(TagPeer::CREATED_AT)) $criteria->add(TagPeer::CREATED_AT, $this->created_at);
+		if ($this->isColumnModified(TagPeer::UPDATED_AT)) $criteria->add(TagPeer::UPDATED_AT, $this->updated_at);
 
 		return $criteria;
 	}
@@ -617,6 +676,8 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		$copyObj->setHaters($this->haters);
 
 		$copyObj->setCreatedAt($this->created_at);
+
+		$copyObj->setUpdatedAt($this->updated_at);
 
 
 		if ($deepCopy) {

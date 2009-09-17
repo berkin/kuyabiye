@@ -6,7 +6,7 @@ use_helper('Date', 'Validation');
 ?>
 <h1><?php echo $search ?></h1>
 <div class="tag-actions">
-  <span class="lover"><?php echo link_to('seviyor musun?', '@tag_add?loves=1&search=' . $sf_params->getRaw('search')) . ' ' . link_to('sevmiyor musun?', '@tag_add?loves=0&search=' . $sf_params->get('search')) ?></span>
+  <span class="lover"><?php echo link_to('seviyor musun?', '@tag_add?loves=1&search=' . $sf_params->get('search')) . ' ' . link_to('sevmiyor musun?', '@tag_add?loves=0&search=' . $sf_params->get('search')) ?></span>
 </div>
 <br />
 <?php echo form_error('search'); ?>

@@ -24,8 +24,12 @@ tag_search:
   param:  { module: tag, action: search }
 
 tag:
-  url:    /tag/:stripped_tag/*
+  url:    /tag/:stripped_tag
   param:  { module: tag, action: show }
+
+tag_lovers:
+  url:    /tag/:stripped_tag/:sense/*
+  param:  { module: tag, action: lovers }
 
 add_comment:
   url:    /comment/add/*
@@ -63,6 +67,10 @@ friend_request_list:
   url:    /friend/requests/*
   param:  { module: friend, action: request }
 
+friend_remove:
+  url:    /friend/remove/*
+  param:  { module: friend, action: remove }
+  
 conversations:
   url:    /mailbox/:folder/*
   param:  { module: conversation, action: index, folder: inbox, display: true }

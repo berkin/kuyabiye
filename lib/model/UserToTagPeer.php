@@ -50,7 +50,8 @@ class UserToTagPeer extends BaseUserToTagPeer
                 SELECT COUNT(' . UserToTagPeer::LOVE . ') 
                   FROM ' . UserToTagPeer::TABLE_NAME  . ' 
                 WHERE ' . UserToTagPeer::TAGS_ID . ' = ' . $tag->getId() . '
-                  AND ' . UserToTagPeer::LOVE . ' = 0)
+                  AND ' . UserToTagPeer::LOVE . ' = 0), ' .
+                TagPeer::UPDATED_AT . ' = now()' . '
               WHERE ' . TagPeer::ID . ' = ' . $tag->getId() . ';';
     $stmt = $conn->prepareStatement($sql);
     $stmt->executeQuery();

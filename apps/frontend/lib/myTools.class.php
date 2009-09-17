@@ -53,7 +53,7 @@ class myTools
     return $text;
   }
 
-  public static function getLimitOfLovers($counts)
+  public static function getLimitOfLovers($counts, $max = 10)
   {
     // get only lovers limit
     $total = self::getTotalLovers($counts);
@@ -63,13 +63,13 @@ class myTools
     {
       if ( isset($counts[1]) )
       {
-        $limits['lovers'] = round( ($counts[1]/$total) * sfConfig::get('app_tag_max_lovers') );
-        $limits['haters'] = sfConfig::get('app_tag_max_lovers') - $limits['lovers'];
+        $limits['lovers'] = round( ($counts[1]/$total) * $max );
+        $limits['haters'] = $max - $limits['lovers'];
       }
       else
       {
-        $limits['haters'] = round( ($counts[0]/$total) * sfConfig::get('app_tag_max_lovers') );
-        $limits['lovers'] = sfConfig::get('app_tag_max_lovers') - $limits['haters'];
+        $limits['haters'] = round( ($counts[0]/$total) * $max );
+        $limits['lovers'] = $max - $limits['haters'];
       }
     }
     
@@ -85,6 +85,22 @@ class myTools
     }
     
     return $total;
+  }
+  
+  public static function getTagWeight($nbLovers, $nbHaters, $max)
+  {
+    $total = $nbLovers + $nbHaters;
+    
+    if ( $total )
+    {
+      $weight = round( ( $nbLovers / $total ) * ( $total / $max ) * 100 );
+    }
+    else 
+    {
+      $weight = 0;
+    }
+    
+    return $weight;
   }
   
   public static function checkSchizoid($nickname)
