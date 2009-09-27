@@ -44,6 +44,12 @@ class TagMapBuilder {
 
 		$tMap->addColumn('HATERS', 'Haters', 'int', CreoleTypes::INTEGER, false, null);
 
+		$tMap->addColumn('LOVE', 'Love', 'int', CreoleTypes::TINYINT, false, null);
+
+		$tMap->addColumn('STICKY', 'Sticky', 'int', CreoleTypes::TINYINT, false, null);
+
+		$tMap->addColumn('IS_ON_HOMEPAGE', 'IsOnHomepage', 'int', CreoleTypes::TINYINT, true, null);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 		$tMap->addColumn('UPDATED_AT', 'UpdatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);

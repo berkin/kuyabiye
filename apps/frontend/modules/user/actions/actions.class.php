@@ -14,13 +14,25 @@ class userActions extends sfActions
   {
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
     $this->forward404Unless($this->subscriber);
-    
-    $this->tags = $this->subscriber->getUserToTagsJoinTag();
+
+    $this->loved_tags = $this->subscriber->getUserToTagsJoinTag();
+    $this->hated_tags = $this->subscriber->getUserToTagsJoinTag(false);
     $this->comments = $this->subscriber->getCommentsJoinTag();
     
     $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
   }
 
+  public function executeTags()
+  {
+    $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
+    $this->forward404Unless($this->subscriber);  
+    
+    $this->sense = $this->getRequestParameter('sense', 'all');
+    $this->forward404Unless(array_key_exists($this->sense, sfConfig::get('app_sense')));
+    
+    $this->tags = UserToTagPeer::getUserTagsPager($this->subscriber, $this->sense, $this->getRequestParameter('page', 1));
+
+  }
   public function executeRegister()
   {
     // save user
@@ -83,6 +95,7 @@ class userActions extends sfActions
     $user_tag = new UserToTag();
     $user_tag->setUser($user);
     $user_tag->setTag($this->tag);
+
     if ( $this->getRequestParameter('remove') )
     {
       $flag = $user_tag->delete();

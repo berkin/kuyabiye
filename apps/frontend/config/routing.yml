@@ -50,6 +50,10 @@ user_edit_profile:
 user_love:
   url:    /user/love/*
   param:  { module: user, action: love }
+  
+user_tags:
+  url:    /user/:nick/tags/:sense/*
+  param:  { module: user, action: tags, sense: all, display: true }
 
 user_notr:
   url:    /user/notr/*

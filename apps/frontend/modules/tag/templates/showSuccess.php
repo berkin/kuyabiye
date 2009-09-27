@@ -92,4 +92,5 @@ Displaying results <?php echo $comments->getFirstIndice() ?> to  <?php echo $com
 -- comment pager, array ile yaptıkta pek mantıklı diil, her seferinde bütün satırları çekiyor<br />
 - comment'i lib/model/comment.php bunda commentjoinuser methodunu override etmeye çalışabilin http://trac.symfony-project.org/wiki/ApplyingCustomJoinsInDoSelect article a bak hydrate filanla startcolumn bunlarla deneyebilirsin.<br />
 - reply de login vs. ayrıca bos gondermeyi engelle<br />
-- markdown
+- markdown<br />
+- tag sevmede (x) çalışmıyor..<br />

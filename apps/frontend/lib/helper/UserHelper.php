@@ -9,7 +9,7 @@ function link_to_users_love($user, $tag)
     $love = UserToTagPeer::retrieveByPK($user->getSubscriberId(), $tag->getId());
 
     $loved     = '<span class="lover">seviyorum ' . link_to_remote('(x)', array(
-        'url'       => '@user_love?remove=1&id=' . $tag->getId(),
+        'url'       => '@user_love?remove=1&id=' . $tag->getId() . '&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
         'update'    => array('success' => 'love_' . $tag->getId()),
         'loading'   => "Element.show('indicator');",
         'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'love_' . $tag->getId()),
@@ -23,7 +23,7 @@ function link_to_users_love($user, $tag)
         ));
     
     $hated     = '<span class="hater">sevmiyorum ' . link_to_remote('(x)', array(
-        'url'       => '@user_love?remove=1&id=' . $tag->getId(),
+        'url'       => '@user_love?remove=1&id=' . $tag->getId() . '&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
         'update'    => array('success' => 'love_' . $tag->getId()),
         'loading'   => "Element.show('indicator');",
         'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'love_' . $tag->getId()),

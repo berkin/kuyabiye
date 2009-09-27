@@ -39,6 +39,10 @@ class UserToTagPeer extends BaseUserToTagPeer
   
   static function updateCountOfLovers($tag)
   {
+  
+    $love = myTools::isTagLoved($tag);
+    $sticky = myTools::isTagSticky($tag);
+    
     $conn = Propel::getConnection(self::DATABASE_NAME);
     $sql = 'UPDATE ' . TagPeer::TABLE_NAME . ' 
               SET ' . TagPeer::LOVERS . ' = (
@@ -51,9 +55,33 @@ class UserToTagPeer extends BaseUserToTagPeer
                   FROM ' . UserToTagPeer::TABLE_NAME  . ' 
                 WHERE ' . UserToTagPeer::TAGS_ID . ' = ' . $tag->getId() . '
                   AND ' . UserToTagPeer::LOVE . ' = 0), ' .
+                TagPeer::LOVE . ' = ' . myTools::isTagLoved($tag) . ', ' .
+                TagPeer::STICKY . ' = ' . myTools::isTagSticky($tag) . ', ' .
                 TagPeer::UPDATED_AT . ' = now()' . '
               WHERE ' . TagPeer::ID . ' = ' . $tag->getId() . ';';
+
     $stmt = $conn->prepareStatement($sql);
     $stmt->executeQuery();
    }
+   
+  public static function getUserTagsPager($user, $love, $page)
+  {
+    $tags = new sfPropelPager('UserToTag', 2);
+    $c = new Criteria();
+    
+    $sense = sfConfig::get('app_sense');
+    if ( $sense[$love] !== null )
+    {
+      $c->add(self::LOVE, $sense[$love]);
+    }
+    $c->add(self::USERS_ID, $user->getId());
+    $c->addDescendingOrderByColumn(self::CREATED_AT);
+    
+    $tags->setCriteria($c);
+    $tags->setPage($page);
+    $tags->setPeerMethod('doSelectJoinTag');
+    $tags->init();
+   
+    return $tags;
+  }
 }

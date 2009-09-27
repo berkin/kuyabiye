@@ -16,7 +16,11 @@ class tagActions extends sfActions
 {
   public function executeIndex()
   {
-    $this->tags = TagPeer::getPopularTags();
+    $this->loved_tags   = TagPeer::getPopularTags(true);
+    $this->hated_tags   = TagPeer::getPopularTags(false);
+    $this->sticky_tags  = TagPeer::getPopularTags(null, true);
+    
+    $this->showcase_tags = TagPeer::getShowcaseTags();
   }
 
   public function executeList()

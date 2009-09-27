@@ -52,4 +52,5 @@ class UserToTag extends BaseUserToTag
       return false;
     }
   }
+  
 }

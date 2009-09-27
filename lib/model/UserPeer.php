@@ -64,4 +64,5 @@ class UserPeer extends BaseUserPeer
     
     return $found;
   }
+  
 }

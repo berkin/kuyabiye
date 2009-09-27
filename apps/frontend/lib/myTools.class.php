@@ -103,6 +103,40 @@ class myTools
     return $weight;
   }
   
+  public static function isTagLoved($tag)
+  {
+    $total = $tag->getLovers() + $tag->getHaters();
+    $diff = abs($tag->getLovers() - $tag->getHaters());
+    
+    if ( $tag->getLovers() > $tag->getHaters() && $diff > ceil($total * 0.1) )
+    {
+      return 1;
+    }
+    elseif ( $tag->getLovers() < $tag->getHaters() && $diff > ceil($total * 0.1) )
+    {
+      return 0;
+    }
+    else 
+    {
+      return 'null';
+    }
+  }
+  
+  public static function isTagSticky($tag)
+  {
+    $total = $tag->getLovers() + $tag->getHaters();
+    $diff = abs($tag->getLovers() - $tag->getHaters());
+    
+    // the difference must be less than the %10 of total value, and total must be greater than 50
+    if ( $total > 50 && $diff < ceil( $total * 0.1 ) )
+    {
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }
+  
   public static function checkSchizoid($nickname)
   {
     return ( $nickname == sfContext::getInstance()->getUser()->getSubscriber()->getNickname() ? false : true );

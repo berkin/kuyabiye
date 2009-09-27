@@ -53,6 +53,8 @@ class Tag extends BaseTag
       $weight = 0;
     }
     
+    $weight = round( $weight / 20 );
+    
     return $weight;  
   }
   
@@ -100,6 +102,11 @@ class Tag extends BaseTag
     $criteria->addAscendingOrderByColumn(CommentPeer::TREE_LEFT);
    
     return parent::getCommentsJoinUser($criteria, $con);
+  }
+  
+  public function __toString()
+  {
+    return $this->getTag();
   }
 }
 

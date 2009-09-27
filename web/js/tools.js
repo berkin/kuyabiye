@@ -69,3 +69,18 @@ function checkCity(seld)
     city.disabled = false;
   }
 }
+
+start_slideshow(1, 3, 2000);
+
+function start_slideshow(start_frame, end_frame, delay) {
+    setTimeout(switch_slides(start_frame,start_frame,end_frame, delay), delay);
+}
+                        
+function switch_slides(frame, start_frame, end_frame, delay) {
+    return (function() {
+        Effect.Fade('slideshow' + frame);
+        if (frame == end_frame) { frame = start_frame; } else { frame = frame + 1; }
+        setTimeout("Effect.Appear('slideshow" + frame + "');", 850);
+        setTimeout(switch_slides(frame, start_frame, end_frame, delay), delay + 850);
+    })
+}

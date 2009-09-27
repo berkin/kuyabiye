@@ -23,4 +23,6 @@ dediğinizden yok ama, bunlar var:
 -tag/add/ ve tag/search var adam search diye tag eklemeye kalkarsa nolcak<br />
 -komşuluk öldü mü, komşuluk oldu mu stripped tagleri aynı?? napcaz<br />
 -boş aramayı engelle, special charackterleri engelle<br />
--search sqli çok çakma oldu, şu 21.konudaki olayı yap, kelime kelime arasın... senin ki did you mean? gibi bişe oldu
+-search sqli çok çakma oldu, şu 21.konudaki olayı yap, kelime kelime arasın... senin ki did you mean? gibi bişe oldu<br />
+-arama yaptıktan sonra seviyorum dedim, üye girişi sayfası geldi(üye girişi yapmamıştım), üye girişinden sonra 404'e yönlendi sayfa...<br />
+-büyük küçük harf ile tag ekleniyor mesela 12 DeV AdAm diye bişey eklenememesi lazım.<br />

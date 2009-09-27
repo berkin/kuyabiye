@@ -1,0 +1,456 @@
+/*------------------------------------------------------------------ 
+# [Color codes] 
+ 
+# Pink (heading): #d51289 (logo color)
+# Purple (search label) #971298
+# Dark Pink (menu) #980e62 
+# Light Pink (form borders ) #cc89b2
+# Yellow (user pic border)  #ffc364
+# */  
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body { 
+  background: url(../images/bg-repeat-body.gif) repeat-x 0 0;
+	color: #363636;
+	font: 1.2em/1.4em georgia, verdana, arial, tahoma;
+  height: 100%;
+	overflow: -moz-scrollbars-vertical;
+	text-align: center;
+}
+
+.wrap {
+  background: url(../images/footer-bg.gif) repeat-x 0 bottom;
+  margin: 0 auto;
+}
+
+.main-wrap {
+  background: url(../images/bg-repeat-main.gif) repeat-x 0 0;
+ 	margin: 0 auto;
+}
+#main {
+ 	margin: 0 auto;
+	text-align: left;
+	width: 870px;
+}
+#content {
+	background: url(../images/bg.jpg) no-repeat 100px 0;
+	padding: 0 0 60px 0;
+}
+
+#header {
+  width: 870px;
+  margin: 0 auto 10px;
+}
+
+#header .advertisement {
+	background: #edf4f4;
+  clear: both;
+  padding: 15px 0;
+  margin: 0 0 10px;
+  zoom: 1;
+}
+
+	#header .logo {
+		display: block;
+    float: left;
+  }
+  
+  #header .sub-content {
+  	clear: both;
+  }
+  
+.menu {
+	float: right;
+  height: 25px;
+  margin: 18px 0 10px;
+}
+.menu li {
+	border-right: 1px solid #e374c1;
+  display: inline;  
+  padding: 2px 0;
+}
+.menu li.last {
+	border: 0;
+}
+	.menu li a {
+  	color: #980e62;
+    font-size: 1.333em;
+	  padding: 0 15px 0 13px;
+	}
+ 	.menu li.last a {
+  	padding: 0 0 0 13px;
+  }
+		.menu li a:hover {
+		  color: #b83a87
+		}
+    
+#header .search {
+	float: right;
+  margin: 40px 0 0;
+  width: 553px;
+}
+	#header .search label {
+  	color: #971298;
+    float: left;
+  	font-size: 1.5em;
+    line-height: 1.333em;
+    padding: 0 15px 0 0;
+  }
+
+	input.search-input {	
+		background: url(../images/search-input.gif) top left no-repeat;
+		border: 0;
+		display: inline;
+    float: left;
+    font-size: 1.333em;
+		height: 15px;	
+    margin: 0 3px 0 0;
+    padding: 5px 10px;
+    width: 230px;
+	}
+  
+.tagline {
+	color: #2c2c2c;
+	font-size: 1.5em;
+  line-height: 2.333em;
+  height: 35px;
+  text-align: center;
+}
+
+/* breadcrumb */
+.breadcrumb {
+  height: 25px;
+  padding: 12px 0 0;
+}
+.breadcrumb li.first {
+  padding: 0 10px 0 0;
+}
+.breadcrumb li {
+  color: #2c2c2c;
+  display: inline;
+  padding: 0 10px 0 12px;
+}
+  .breadcrumb li a {
+    font-size: 1.5em; 
+  }
+
+#welcome {
+  padding: 35px 0;
+}
+
+.tag-flash {
+	float: left;
+	height: 250px;
+  padding: 15px 0 0 0;
+  width: 600px;
+}
+
+.ad {
+	float: left;
+  text-align: right;
+  width: 270px;
+}
+
+h2.tag {
+	background: url(../images/tag-bullet.gif) no-repeat 0 5px;
+}
+	h2.tag a {
+		font-size: 2.5em;
+  	padding: 0 0 0 15px;
+	}
+  
+  h2.tag small {
+    color: #363636;
+  	font-size: 1.166em;
+    padding: 0 0 0 5px;
+  }
+  	h2.tag small a {
+      color: #363636;
+  		font-size: 1em;
+    }
+    
+#love-buttons {
+	margin: 40px 0 50px;
+}
+	#love-buttons li {
+		display: inline;
+    margin: 0 40px 0 0;
+	}
+  	#love-buttons li a {
+    	display: inline-block;
+    	font-size: 1.5em;
+    	padding: 0 10px 0 20px;
+    }
+	
+    #love-buttons li.love a {
+	  	background: url(../images/love.gif) no-repeat 0 0;
+    	color: #d51289;
+    }
+
+    #love-buttons li.hate a {
+	  	background: url(../images/hate.gif) no-repeat 0 0;
+    	color: #971298;
+    }
+    
+.tag-list li {
+	background: url(../images/bullet.gif) no-repeat 0 9px;
+  font-size: 1.5em;
+  padding: 0 0 4px 10px;
+}
+
+.home-header {
+	background: url(../images/dotted.gif) repeat-x 0 53px;
+	font-size: 2.5em;
+  height: 34px;
+  padding: 20px 0;
+}
+  
+.tag-cloud {
+	min-height: 180px;
+  height:auto !important;
+  height: 180px;
+	margin: 0 0 60px;
+  padding: 0 150px 0 0;
+}
+
+.tag-love {
+	background: url(../images/tag-love.gif) no-repeat right 0;
+}
+.tag-hate {
+	background: url(../images/tag-hate.gif) no-repeat right 0;
+}
+
+	.tag-cloud .tag {
+  	background-image: url(../images/tag-bullet.gif);
+    background-repeat: no-repeat;
+    /*display: inline-block;  avoid line breaks*/
+    line-height: 1.333em;
+    padding: 0 20px 0 10px;
+  }	
+  .size1 {
+  	background-position: 0 5px;
+  }
+	.size2 {
+  	background-position: 0 7px;
+  	font-size: 1.333em;
+  }
+	.size3 {
+  	background-position: 0 9px;
+  	font-size: 1.5em;
+  }
+	.size4 {
+  	background-position: 0 11px;
+  	font-size: 1.667em;
+  }
+	.size5 {
+   	background-position: 0 14px;
+ 		font-size: 2em;
+  }
+	.size6 {
+  	background-position: 0 18px;
+  	font-size: 2.5em;
+  }
+
+.users {
+	float: left;
+}
+.users li {
+	border: 2px solid #ffc364;
+	float: left;
+  margin: 0 5px 0 0;
+}
+.users li.last {
+	margin: 0;
+}
+.users li a img {
+	display: block;
+}
+
+#scale .users-links {
+	padding: 5px 0 10px;
+	text-align: right;
+}
+#scale .users-links a {
+	font-size: 1.333em;
+  padding: 0 5px 0 0;
+}
+#scale .lovers, #scale .haters {
+	float: left;
+}
+
+#scale .lovers .users {
+	background: #cb1182;
+  float: left;
+  padding: 10px;
+}
+
+#scale .haters  .users{
+	background: #670c68;
+  float: left;
+  padding: 10px;
+}
+
+.users-percent {
+	clear: both;
+  font-size: 1.5em;
+  padding: 10px 0;
+}
+.lovers .users-percent {
+	text-align: right;
+}
+
+	.users-percent a.love {
+  	border-right: 1px solid #e4c1e4;
+    padding: 0 20px 0 0;
+  }	
+  .users-percent a.hate {
+    padding: 0 0 0 15px;
+  }
+
+  
+/* Comments */
+h2.sub-header {
+	font-size: 2em;
+  margin: 0 0 20px;
+}
+
+
+#comments {
+	margin: 40px 0 0;
+}
+
+.comment {
+	margin: 0 0 30px 0;
+}
+.comment img.user {
+	border: 2px solid #ffc364;
+  display: block;
+  float: left;
+}
+.indented {
+  margin: 0 0 30px 100px;
+}
+.comment .comment-text {
+  color: #181818;
+  display: inline;
+	float: left;
+  font-size: 1.167em;
+  font-family: "lucida grande", "lucida sans unicode", sans-serif;
+  line-height: 1.5em;
+  margin: 0 0 0 20px;
+  padding: 25px;
+  width: 720px;
+}
+.indented .comment-text {
+  width: 620px;
+}
+  .comment .lover {
+  	background: #fdf5fa;
+  }
+  .comment .hater {
+  	background: #f2f2f2;
+  }
+  
+ 	.comment-data {
+    font-family: georgia, "lucida sans unicode", sans-serif;
+  	margin: 20px 0 0;
+  }
+  .lover .comment-data a.user {
+  	background: url(../images/love.gif) no-repeat 0 0;
+    font-weight: bold;
+    padding: 0 0 0 22px;
+  }  
+  .hater .comment-data a.user {
+  	background: url(../images/hate.gif) no-repeat 0 0;
+    font-weight: bold;
+    padding: 0 0 0 22px;
+  }
+  
+  .comment-data .time {
+  	color: #505050;
+  }
+  
+  .comment-reply-link {
+    background: url(../images/comment-reply.png) no-repeat 0 2px;
+    color: #d51289;
+    float: right;
+    font-weight: bold;
+    padding: 0 5px 0 20px;
+  }
+  
+  .comment-reply-form {
+    display: block;
+    margin: 15px 0 0;
+    text-align: right;
+  }
+  
+  .comment-reply-form textarea {
+    height: 50px;
+    margin: 0 0 10px 0;
+    width: 717px
+  }
+  
+  .comment-main-form {
+    border: 1px solid #fff; /* fix for padding */
+    background: #f5f5f5;
+    margin: 0 0 0 100px;
+    padding: 0 15px 15px;
+    text-align: right;
+  }
+
+
+.pagination {
+  margin: 20px 0 0;
+	text-align: right;
+}
+.pagination li {
+	display: inline;
+}
+	.pagination li a {
+  	font-size: 2em;
+    line-height: 1.133em;
+    padding: 0 12px;
+  }
+  .pagination li a.low {
+  	color: #9d9d9d;
+  }
+
+.love {
+	color: #d51289;
+}  
+.hate {
+	color: #971298;
+}
+
+#footer {
+	background: #dc369a;
+ 	color: #fff;
+  font-size: 1.333em;
+  height: 50px;
+}
+	.footer-wrap {
+	 	margin: 0 auto;
+		text-align: left;
+    padding: 18px 0 0;
+		width: 870px;  
+  }
+
+	.footer-list {
+  	float: right;
+  }
+  .footer-list li {
+  	display: inline;
+  }
+  	.footer-list li a {
+    	color: #fff;
+      padding: 0 12px 0 10px;
+    }
+    
+    .footer-list li a.break {
+    	background: url(../images/dot-break.gif) no-repeat 0 9px;
+      padding: 0 12px 0 20px;
+    }

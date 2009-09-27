@@ -3,10 +3,35 @@
 // date: 2009/01/01 18:26:05
 ?>
 <h1>tag</h1>
+<h2>Showcase</h2>
 
+<?php $i = 1; foreach ($showcase_tags as $tag): ?>
+    <div id="slideshow<?php echo $i ?>" class="slide"<?php echo ( $i != 1 ? ' style="display: none"' : '' ) ?>><?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag(), array('class' => 'size-' . $tag->getWeight())) ?>    
+    <?php include_partial('love_buttons', array('tag' => $tag)); ?>
+</div>
+<?php $i++; endforeach; ?>
+<br />
+<br />
+<h2>Sevilenler</h2>
 <ul id="tag_cloud">
-<?php foreach ($tags as $tag): ?>
-    <li><?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag()) . $tag->getWeight() ?></li>
+<?php foreach ($loved_tags as $tag): ?>
+    <li><?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag(), array('class' => 'size-' . $tag->getWeight())) ?></li>
+<?php endforeach; ?>
+</ul>
+<br />
+<br />
+<h2>Sevilmeyenler</h2>
+<ul id="tag_cloud">
+<?php foreach ($hated_tags as $tag): ?>
+    <li><?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag(), array('class' => 'size-' . $tag->getWeight())) ?></li>
+<?php endforeach; ?>
+</ul>
+<br />
+<br />
+<h2>Dikkat Çekenler</h2>
+<ul id="tag_cloud">
+<?php foreach ($sticky_tags as $tag): ?>
+    <li><?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag(), array('class' => 'size-' . $tag->getWeight())) ?></li>
 <?php endforeach; ?>
 </ul>
 

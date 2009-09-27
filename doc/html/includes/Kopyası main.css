@@ -1,0 +1,268 @@
+/*------------------------------------------------------------------ 
+# [Color codes] 
+ 
+# Pink (heading): #d51289 (logo color)
+# Purple (search label) #971298
+# Dark Pink (menu) #980e62 
+# Light Pink (form borders ) #cc89b2
+# */  
+
+html {
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body { 
+	color: #363636;
+	font: 1.2em/1.4em georgia, verdana, arial, tahoma;
+  height: 100%;
+	overflow: -moz-scrollbars-vertical;
+	text-align: center;
+}
+
+.wrap {
+  background: url(../images/bg.gif) repeat-x 0 0;
+  margin: 0 auto;
+}
+.wrap2 {
+  background: url(../images/footer-bg.gif) repeat-x 0 bottom;
+  margin: 0 auto;
+}
+
+#main {
+ 	margin: 0 auto;
+	text-align: left;
+	width: 930px;
+}
+#content {
+	background: url(../images/bg.jpg) no-repeat 100px 0;
+	padding: 0 0 60px 0;
+}
+#header {
+	height: 165px;
+}
+
+	#header .logo {
+		display: block;
+    float: left;
+    margin: 70px 0 0;
+  }
+  
+.menu {
+	float: right;
+  height: 25px;
+  margin: 18px 0 0;
+}
+.menu li {
+	border-right: 1px solid #e374c1;
+  display: inline;  
+  padding: 2px 0;
+}
+.menu li.last {
+	border: 0;
+}
+	.menu li a {
+  	color: #980e62;
+    font-size: 1.333em;
+	  padding: 0 15px 0 13px;
+	}
+ 	.menu li.last a {
+  	padding: 0 0 0 13px;
+  }
+		.menu li a:hover {
+		  color: #b83a87
+		}
+    
+#header .search {
+	float: right;
+  margin: 70px 0 0;
+  width: 553px;
+}
+	#header .search label {
+  	color: #971298;
+    float: left;
+  	font-size: 1.5em;
+    line-height: 1.333em;
+    padding: 0 15px 0 0;
+  }
+
+	input.search-input {	
+		background: url(../images/search-input.gif) top left no-repeat;
+		border: 0;
+		display: inline;
+    float: left;
+    font-size: 1.333em;
+		height: 15px;	
+    margin: 0 3px 0 0;
+    padding: 5px 10px;
+    width: 230px;
+	}
+  
+.tagline {
+	color: #2c2c2c;
+	font-size: 1.5em;
+  height: 25px;
+  text-align: center;
+  padding: 8px 0;
+}
+
+#welcome {
+  padding: 35px 0;
+}
+
+.tag-flash {
+	float: left;
+	height: 250px;
+  padding: 15px 0 0 0;
+  width: 680px;
+}
+
+h2.tag {
+	background: url(../images/tag-bullet.gif) no-repeat 0 5px;
+}
+	h2.tag a {
+		font-size: 2.5em;
+  	padding: 0 0 0 15px;
+	}
+  
+  h2.tag small {
+    color: #363636;
+  	font-size: 1.166em;
+    padding: 0 0 0 5px;
+  }
+  	h2.tag small a {
+      color: #363636;
+  		font-size: 1em;
+    }
+    
+#love-buttons {
+	margin: 40px 0 50px;
+}
+	#love-buttons li {
+		display: inline;
+    margin: 0 40px 0 0;
+	}
+  	#love-buttons li a {
+    	display: inline-block;
+    	font-size: 1.5em;
+    	padding: 0 10px 0 20px;
+    }
+	
+    #love-buttons li.love a {
+	  	background: url(../images/love.gif) no-repeat 0 0;
+    	color: #d51289;
+    }
+
+    #love-buttons li.hate a {
+	  	background: url(../images/hate.gif) no-repeat 0 0;
+    	color: #971298;
+    }
+    
+.tag-list li {
+	background: url(../images/bullet.gif) no-repeat 0 9px;
+  font-size: 1.5em;
+  padding: 0 0 4px 10px;
+}
+
+.home-header {
+	background: url(../images/dotted.gif) repeat-x 0 53px;
+	font-size: 2.5em;
+  height: 34px;
+  padding: 20px 0;
+}
+  
+.tag-cloud {
+	min-height: 180px;
+  height:auto !important;
+  height: 180px;
+	margin: 0 0 60px;
+  padding: 0 150px 0 0;
+}
+
+.tag-love {
+	background: url(../images/tag-love.gif) no-repeat right 0;
+}
+.tag-hate {
+	background: url(../images/tag-hate.gif) no-repeat right 0;
+}
+
+	.tag-cloud .tag {
+  	background-image: url(../images/tag-bullet.gif);
+    background-repeat: no-repeat;
+    /*display: inline-block;  avoid line breaks*/
+    line-height: 1.333em;
+    padding: 0 20px 0 10px;
+  }	
+  .size1 {
+  	background-position: 0 5px;
+  }
+	.size2 {
+  	background-position: 0 7px;
+  	font-size: 1.333em;
+  }
+	.size3 {
+  	background-position: 0 9px;
+  	font-size: 1.5em;
+  }
+	.size4 {
+  	background-position: 0 11px;
+  	font-size: 1.667em;
+  }
+	.size5 {
+   	background-position: 0 14px;
+ 		font-size: 2em;
+  }
+	.size6 {
+  	background-position: 0 18px;
+  	font-size: 2.5em;
+  }
+
+.users li {
+	border: 2px solid #ffc364;
+	float: left;
+  margin: 0 5px 0 0;
+}
+.users li a img {
+	display: block;
+}
+
+  
+
+.love {
+	color: #d51289;
+}  
+.hate {
+	color: #971298;
+}
+.ad {
+	float: left;
+}
+
+#footer {
+	background: #dc369a;
+ 	color: #fff;
+  font-size: 1.333em;
+  height: 50px;
+}
+	.footer-wrap {
+	 	margin: 0 auto;
+		text-align: left;
+    padding: 18px 0 0;
+		width: 930px;  
+  }
+
+	.footer-list {
+  	float: right;
+  }
+  .footer-list li {
+  	display: inline;
+  }
+  	.footer-list li a {
+    	color: #fff;
+      padding: 0 12px 0 10px;
+    }
+    
+    .footer-list li a.break {
+    	background: url(../images/dot-break.gif) no-repeat 0 9px;
+      padding: 0 12px 0 20px;
+    }
