@@ -42,7 +42,7 @@ class Tag extends BaseTag
     
     $max = $this->getMax();
       
-    $total = $this->getLovers() + $this->getHaters();
+    $total = $this->getTotal();
     
     if ( $total )
     {
@@ -56,6 +56,20 @@ class Tag extends BaseTag
     $weight = round( $weight / 20 );
     
     return $weight;  
+  }
+  
+  public function getTotal()
+  {
+    return $this->getLovers() + $this->getHaters();
+  }
+  
+  public function getLoverBoys()
+  {
+    return $this->getLovers() - $this->getLoverGirls();
+  }  
+  public function getHaterBoys()
+  {
+    return $this->getHaters() - $this->getHaterGirls();
   }
   
   //singleton

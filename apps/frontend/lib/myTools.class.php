@@ -53,7 +53,7 @@ class myTools
     return $text;
   }
 
-  public static function getLimitOfLovers($counts, $max = 10)
+  public static function getLimitOfLovers($counts, $max = 10, $round = 0)
   {
     // get only lovers limit
     $total = self::getTotalLovers($counts);
@@ -63,12 +63,12 @@ class myTools
     {
       if ( isset($counts[1]) )
       {
-        $limits['lovers'] = round( ($counts[1]/$total) * $max );
+        $limits['lovers'] = round( ($counts[1]/$total) * $max, $round);
         $limits['haters'] = $max - $limits['lovers'];
       }
       else
       {
-        $limits['haters'] = round( ($counts[0]/$total) * $max );
+        $limits['haters'] = round( ($counts[0]/$total) * $max, $round );
         $limits['lovers'] = $max - $limits['haters'];
       }
     }

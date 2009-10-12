@@ -25,8 +25,11 @@ all:
 
     secure_module: User
     secure_module: login
-
-
+    
+  .settings:
+    i18n: on
+    validation_error_prefix:    ~
+    validation_error_suffix:    ~
 #all:
 #  .actions:
 #    default_module:         default   # Default module and action to be called when

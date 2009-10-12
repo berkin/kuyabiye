@@ -51,7 +51,8 @@ class UserPeer extends BaseUserPeer
     $loveString = sfConfig::get('app_loves');
     while ( $rs->next() ) 
     {
-      $users[] = array('nickname' => $rs->getString('nickname'), 'avatar' => $rs->getString('avatar'), 'love' => $loveString[$rs->getInt('love')]);
+      $sense = $rs->getInt('love') == 0 ? 'haters' : 'lovers';
+      $users[$sense][] = array('nickname' => $rs->getString('nickname'), 'avatar' => $rs->getString('avatar'), 'love' => $loveString[$rs->getInt('love')]);
     }
     return $users;
   }

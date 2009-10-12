@@ -9,6 +9,7 @@ class myUser extends sfBasicSecurityUser
     
     $this->setAttribute('users_id', $user->getId(), 'subscriber');
     $this->setAttribute('nickname', $user->getNickname(), 'subscriber');
+    $this->setAttribute('avatar', $user->getAvatar(), 'subscriber');
     
     if ( $remember ) 
     {
@@ -48,6 +49,11 @@ class myUser extends sfBasicSecurityUser
   public function getNickname()
   {
     return $this->getAttribute('nickname', '', 'subscriber');
+  }
+  
+  public function getAvatar()
+  {
+    return $this->getAttribute('avatar', '', 'subscriber');
   }
   
   public function getSubscriberByNick($nick)

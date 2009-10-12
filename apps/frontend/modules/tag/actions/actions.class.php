@@ -11,16 +11,36 @@
  * @subpackage tag
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 3335 2007-01-23 16:19:56Z fabien $
+@TODO
+- tools js de form adresi vs. yi elle giriyorsun, yani adres deðiþince onlar çalýþmayacak. ona bir helper lazým.
+- show comment'e iki kere arka arka týklayýnca sapýtýyor, jquery zýbýrý için deliciousda linkler var konu hakkýnda. animate olurken return false göndercen. bi de gönder butonu hafif yanda çýkýo.
+- comment sisteminde transaction veya locktable bi guvenlik lazim
+- bu comment save() methoduna bu commentpeer::updateCommentsTree methodunu eklemyi denedin olmadi ama deneyebilirsin yine:P
+-- comment pager, array ile yaptýkta pek mantýklý diil, her seferinde bütün satýrlarý çekiyor
+- comment'i lib/model/comment.php bunda commentjoinuser methodunu override etmeye çalýþabilin http://trac.symfony-project.org/wiki/ApplyingCustomJoinsInDoSelect article a bak hydrate filanla startcolumn bunlarla deneyebilirsin.
+- reply de login vs. ayrýca bos gondermeyi engelle
+- markdown
  */
 class tagActions extends sfActions
 {
   public function executeIndex()
   {
+    $this->getResponse()->addJavascript(sfConfig::get('app_jquery'));
+    $this->getResponse()->addJavascript('cycle');
+    $this->getResponse()->addJavascript('tools');
+
     $this->loved_tags   = TagPeer::getPopularTags(true);
     $this->hated_tags   = TagPeer::getPopularTags(false);
-    $this->sticky_tags  = TagPeer::getPopularTags(null, true);
+    // $this->sticky_tags  = TagPeer::getPopularTags(null, true);
     
     $this->showcase_tags = TagPeer::getShowcaseTags();
+    
+    $c = new Criteria();
+    $c->add(UserPeer::AVATAR, null, Criteria::NOT_EQUAL);
+    $c->addDescendingOrderByColumn(UserPeer::CREATED_AT);
+    $c->setLimit(10);
+    
+    $this->last_users = UserPeer::doSelect($c);
   }
 
   public function executeList()
@@ -37,23 +57,25 @@ class tagActions extends sfActions
     $this->forward404Unless($this->tag);
    
     $this->counts = UserToTagPeer::getCountOfLovers($this->tag->getId());
-    $this->percents = myTools::getLimitOfLovers($this->counts, 100);
+    $this->percents = myTools::getLimitOfLovers($this->counts, 100, 1);
     $this->total = myTools::getTotalLovers($this->counts);
     
     $this->lovers = array();
     if ( sizeof($this->counts) )
     {
-      $this->lovers = UserPeer::getLovers($this->counts, $this->tag->getID());
+      $users = UserPeer::getLovers($this->counts, $this->tag->getId());
+      $this->lovers = $users['lovers'];
+      $this->haters = $users['haters'];
     }
     
     $response = $this->getContext()->getResponse();
     $response->addJavascript('tools');
-    $comments_array = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId());
-    
-    $this->comments = new myArrayPager(null, 20);
-    $this->comments->setResultArray($comments_array);
-    $this->comments->setPage($this->getRequestParameter('page',1));
-    $this->comments->init();
+    $this->comments = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId(), $this->getRequestParameter('page',1));
+
+    // $this->comments = new myArrayPager(null, 20);
+    // $this->comments->setResultArray($comments_array);
+    // $this->comments->setPage($this->getRequestParameter('page',1));
+    // $this->comments->init();
 
     $this->token = myTools::generate_random_key();
     $this->setFlash('token', $this->token);
@@ -73,7 +95,7 @@ class tagActions extends sfActions
       $this->forward404();    
     }
     
-    $pager = new sfPropelPager('UserToTag', 10);    
+    $pager = new sfPropelPager('UserToTag', 11);    
     $c = new Criteria();
     $c->add(UserToTagPeer::TAGS_ID, $this->tag->getId());
     $c->addDescendingOrderByColumn(UserToTagPeer::CREATED_AT);

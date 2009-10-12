@@ -1,0 +1,75 @@
+<?xml version="1.0" ?>
+<xliff version="1.0">
+  <file orginal="global" source-language="en_US" datatype="plaintext">
+    <body>
+      <trans-unit id="3">
+        <source>1 minute</source>
+        <target>1 dakika</target>
+      </trans-unit>
+      <trans-unit id="4">
+        <source>%minutes% minutes</source>
+        <target>%minutes% dakika</target>
+      </trans-unit>
+      <trans-unit id="5">
+        <source>less than a minute</source>
+        <target>az</target>
+      </trans-unit>
+      <trans-unit id="6">
+        <source>less than 5 seconds</source>
+        <target>5 saniyede</target>
+      </trans-unit>
+      <trans-unit id="7">
+        <source>less than 10 seconds</source>
+        <target>10 saniye</target>
+      </trans-unit>
+      <trans-unit id="8">
+        <source>less than 20 seconds</source>
+        <target>20 saniye</target>
+      </trans-unit>
+      <trans-unit id="9">
+        <source>half a minute</source>
+        <target>30 saniye</target>
+      </trans-unit>
+      <trans-unit id="10">
+        <source>%minutes% minutes</source>
+        <target>%minutes% dakika</target>
+      </trans-unit>
+      <trans-unit id="11">
+        <source>%minutes% minutes</source>
+        <target>%minutes% dakika</target>
+      </trans-unit>
+      <trans-unit id="12">
+        <source>about 1 hour</source>
+        <target>1 saat</target>
+      </trans-unit>
+      <trans-unit id="13">
+        <source>about %hours% hours</source>
+        <target>%hours% saat</target>
+      </trans-unit>
+      <trans-unit id="14">
+        <source>1 day</source>
+        <target>1 gün</target>
+      </trans-unit>
+      <trans-unit id="15">
+        <source>%days% days</source>
+        <target>%days% gün</target>
+      </trans-unit>
+      <trans-unit id="16">
+        <source>about 1 month</source>
+        <target>1 ay</target>
+      </trans-unit>
+      <trans-unit id="17">
+        <source>%months% months</source>
+        <target>%months% ay</target>
+      </trans-unit>
+      <trans-unit id="18">
+        <source>about 1 year</source>
+        <target>1 sene</target>
+      </trans-unit>
+      <trans-unit id="19">
+        <source>over %years% years</source>
+        <target>%years% sene</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -44,6 +44,12 @@ class TagMapBuilder {
 
 		$tMap->addColumn('HATERS', 'Haters', 'int', CreoleTypes::INTEGER, false, null);
 
+		$tMap->addColumn('LOVER_GIRLS', 'LoverGirls', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('HATER_GIRLS', 'HaterGirls', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('NB_COMMENTS', 'NbComments', 'int', CreoleTypes::INTEGER, false, null);
+
 		$tMap->addColumn('LOVE', 'Love', 'int', CreoleTypes::TINYINT, false, null);
 
 		$tMap->addColumn('STICKY', 'Sticky', 'int', CreoleTypes::TINYINT, false, null);

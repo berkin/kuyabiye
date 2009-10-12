@@ -19,6 +19,10 @@ class userActions extends sfActions
     $this->hated_tags = $this->subscriber->getUserToTagsJoinTag(false);
     $this->comments = $this->subscriber->getCommentsJoinTag();
     
+    $c = new Criteria();
+    $c->add(PicturePeer::USER_ID, $this->subscriber->getId());
+    $this->nbPictures = PicturePeer::doCount($c);
+    
     $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
   }
 
@@ -49,7 +53,7 @@ class userActions extends sfActions
       $user->save();
       
       $this->getUser()->signIn($user);
-      $this->redirect('@user_profile');
+      $this->redirect('@user_profile?nick=' . $user->getUser()->getNickname());
     }
   }
   
@@ -119,18 +123,69 @@ class userActions extends sfActions
   
   public function executePicture()
   {    
+  
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
     $this->forward404Unless($this->subscriber);
 
     $this->pictures = $this->subscriber->getPictures();
+    
+    if ( count($this->pictures) ) 
+    {
+      $this->getResponse()->addJavascript(sfConfig::get('app_jquery'));
+      $this->getResponse()->addJavascript('lightbox');
+      $this->getResponse()->addStylesheet('lightbox');    
+    }
+    
+    $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
+  }
+  
+  public function executePictureRemove()
+  {
+    $user = $this->getUser()->getSubscriber();
+    
+    $picture = PicturePeer::getUserPicture($user, $this->getRequestParameter('id'));
+    if ( $user->getAvatar() == $picture->getName() )
+    {
+      $user->setAvatar('');
+      $user->save();
+    }
+    $picture->delete();
+    
+    $this->setFlash('notice', 'Resminiz silindi.');
+    $this->redirect('@user_pictures?nick=' . $user->getNickname());
+  }
+  
+  public function executePictureSetAvatar()
+  {
+    $user = $this->getUser()->getSubscriber();
+
+    $this->picture = PicturePeer::getUserPicture($user, $this->getRequestParameter('id'));
+    
+    PicturePeer::saveAvatar($user, $this->picture->getName());
+    
+    $this->setFlash('notice', 'Seçtiğiniz resim avatarınız olarak kaydedildi.');
+    $this->redirect('@user_pictures?nick=' . $user->getNickname());
   }
   
   public function executeUpload()
   {
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
     $this->forward404Unless($this->subscriber);
-
-    $fileName = $this->getRequest()->getFileName('picture');
+    
+    $c = new Criteria();
+    $c->add(PicturePeer::USER_ID, $this->subscriber->getId());
+    $this->nbPictures = PicturePeer::doCount($c);
+    
+    if ( $this->nbPictures >= 20 )
+    {
+      $this->getRequest()->setError('picture', 'En fazla 20 adet resim yükleyebilirsiniz.');
+      $this->forward('user', 'picture');
+    }
+    else
+    {
+    
+    $cacheFileName = $this->getRequest()->getFileName('picture');
+    $fileName = time() . rand(100000, 999999) . '.' . substr($cacheFileName, strrpos($cacheFileName, '.') + 1);
     $filePath = sfConfig::get('app_upload_folder') . DIRECTORY_SEPARATOR . $fileName;
     $this->getRequest()->moveFile('picture', $filePath);
    
@@ -146,21 +201,59 @@ class userActions extends sfActions
       $resized = $image->resize($thumbnail['width'], $thumbnail['height']);
       $resized->saveToFile(sfConfig::get('app_upload_folder') . $thumbnail['dir'] . DIRECTORY_SEPARATOR . $fileName );
     }
-    
-    
-    $user = $this->getUser()->getSubscriber();
-    
+        
     $picture = new Picture();
-    $picture->setUser($user);
+    $picture->setUser($this->subscriber);
     $picture->setName($fileName);
     $picture->save();
 
-    if ( $user->countPictures() == 1 )
+    if ( $this->subscriber->countPictures() == 1 )
     {
-      PicturePeer::saveAvatar($user, $picture);
+      PicturePeer::saveAvatar($this->subscriber, $picture);
+    }
+    
     }
 
-    $this->redirect('@user_pictures');
+    $this->redirect('@user_pictures?nick=' . $this->subscriber->getNickname());
+  }
+  
+  public function executePasswordRequest()
+  {
+    if ($this->getRequest()->getMethod() != sfRequest::POST)
+    {
+      // display the form
+      return sfView::SUCCESS;
+    }
+   
+    // handle the form submission
+    $c = new Criteria();
+    $c->add(UserPeer::EMAIL, $this->getRequestParameter('email'));
+    $user = UserPeer::doSelectOne($c);
+   
+    // email exists?
+    if ($user)
+    {
+      // set new random password
+      $password = substr(md5(rand(100000, 999999)), 0, 6);
+      $user->setPassword($password);
+   
+      $this->getRequest()->setAttribute('password', $password);
+      $this->getRequest()->setAttribute('nickname', $user->getNickname());
+   
+      $raw_email = $this->sendEmail('mail', 'sendPassword');
+      $this->logMessage($raw_email, 'debug');
+   
+      // save new password
+      $user->save();
+   
+      return 'MailSent';
+    }
+    else
+    {
+      $this->getRequest()->setError('email', 'E-posta adresiniz kayıtlarımızda yer almıyor.');
+   
+      return sfView::SUCCESS;
+    }  
   }
   
   public function handleError()

@@ -55,6 +55,20 @@ class UserToTagPeer extends BaseUserToTagPeer
                   FROM ' . UserToTagPeer::TABLE_NAME  . ' 
                 WHERE ' . UserToTagPeer::TAGS_ID . ' = ' . $tag->getId() . '
                   AND ' . UserToTagPeer::LOVE . ' = 0), ' .
+                TagPeer::LOVER_GIRLS . ' = (
+                SELECT COUNT(' . UserToTagPeer::USERS_ID . ') 
+                  FROM ' . UserToTagPeer::TABLE_NAME . ', ' . UserPeer::TABLE_NAME . '
+                WHERE ' . UserToTagPeer::TAGS_ID . ' = ' . $tag->getId() . '
+                  AND ' . UserToTagPeer::LOVE . ' = 1
+                  AND ' . UserPeer::GENDER . ' = 0
+                  AND ' . UserToTagPeer::USERS_ID . ' = ' . UserPeer::ID . '), ' .                 
+                TagPeer::HATER_GIRLS . ' = (
+                SELECT COUNT(' . UserToTagPeer::USERS_ID . ') 
+                  FROM ' . UserToTagPeer::TABLE_NAME . ', ' . UserPeer::TABLE_NAME . '
+                WHERE ' . UserToTagPeer::TAGS_ID . ' = ' . $tag->getId() . '
+                  AND ' . UserToTagPeer::LOVE . ' = 0
+                  AND ' . UserPeer::GENDER . ' = 0
+                  AND ' . UserToTagPeer::USERS_ID . ' = ' . UserPeer::ID . '), ' .                 
                 TagPeer::LOVE . ' = ' . myTools::isTagLoved($tag) . ', ' .
                 TagPeer::STICKY . ' = ' . myTools::isTagSticky($tag) . ', ' .
                 TagPeer::UPDATED_AT . ' = now()' . '

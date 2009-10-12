@@ -1,32 +1,33 @@
-﻿function showReply(comment_id, depth) {
+﻿function showReply(comment_id, tag_id, depth) {
   var aHref = 'href-' + comment_id;
   var objHref = $(aHref);
   var commentHolder = 'comment-' + comment_id;
   var objCommentHolder = $(commentHolder);
   var commentFormHolder = $('comment-form-' + comment_id);
   var objCommentFormHolder = $(commentFormHolder);
+  csrf = document.forms['main-comment'].elements['_csrf_token'].value;
   
   if ( objCommentFormHolder ) {
     if ( objCommentFormHolder.style.display == 'none' ) {
       new Effect.BlindDown(commentFormHolder, { duration: 0.5 });
-      objHref.innerHTML = 'Close';
+      objHref.innerHTML = 'yorum yaz';
     } 
     else {
       new Effect.BlindUp(commentFormHolder, { duration: 0.5 });
-      objHref.innerHTML = 'Reply';
+      objHref.innerHTML = 'yorum yaz';
     }
   }
   else {
-    var commentForm = '<div class="comment indent-' + depth + '" id="comment-form-' + comment_id + '">\
-                         <div class="comment-form">\
-                           <input type="hidden" name="comment_id" value="' + comment_id + '">\
-                           <textarea name="body' + comment_id + '"><\/textarea>\
-                         <\/div>\
-                         <input type="submit" name="add_comment" value="Send!" \/>\
-                       <\/div>';
+    var commentForm = '<form action="\/kuyabiye\/web\/comment\/add" method="post" class="comment-reply-form" id="comment-form-' + comment_id + '">\
+                          <input type="hidden" name="_csrf_token" value="' + csrf + '">\
+                          <input type="hidden" name="tag" value="' + tag_id + '">\
+                          <input type="hidden" name="comment_id" value="' + comment_id + '">\
+                          <textarea name="body"><\/textarea>\
+                          <input type="image" name="commit" src="\/kuyabiye\/web\/images\/reply-button.gif" alt="Reply-button" />\
+                       <\/form>';
     new Insertion.After(commentHolder, commentForm);
     new Effect.BlindDown('comment-form-' + comment_id, { duration: 0.5 });          
-    objHref.innerHTML = 'Close';
+    objHref.innerHTML = 'yorum yaz';
   }
 }
 
@@ -84,3 +85,14 @@ function switch_slides(frame, start_frame, end_frame, delay) {
         setTimeout(switch_slides(frame, start_frame, end_frame, delay), delay + 850);
     })
 }
+
+$(document).ready(function() {
+    $('#tag-slideshow').cycle({
+		fx: 'scrollVert',
+    height: 250,
+    width: 600,
+    fit: 1,
+    delay: 3000
+	});
+});
+

@@ -1,19 +1,19 @@
 methods:
-  post: [email, password, repassword, firstname, lastname, dob]
+  post: [email, password, repassword, firstname, lastname, gender, dob]
 
 names:
   email:
     required:     true
-    required_msg: required
+    required_msg: E-posta adresinizi girmeniz gerekli.
     validators:   [emailValidator, uniqueEmailValidator]
 
   password:
     required:     false
-    required_msg: required
+    required_msg: Þifreniz gerekli.
 
   repassword:
     required:     false
-    required_msg: required
+    required_msg: Þifreniz gerekli.
     validators:   [passwordValidator]
 
   firstname:
@@ -23,9 +23,14 @@ names:
   lastname:
     required:     false
     validators:   nameValidator
+  
+  gender:
+    required:     true
+    required_msg: Cinsiyetinizi seçmeniz gerekli.
     
   dob:
-    required:     false
+    required:     true
+    required_msg: Doðum tarihinizi girmeniz gerekli.
     validators:   dobValidator
 
 emailValidator:

@@ -10,5 +10,13 @@ profile:
   is_secure: on
   credentials: subscriber
   
+pictureRemove:
+  is_secure: on
+  credentials: subscriber
+  
+pictureSetAvatar:
+  is_secure: on
+  credentials: subscriber
+  
 all:
   is_secure: off

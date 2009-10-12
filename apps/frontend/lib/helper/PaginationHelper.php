@@ -9,20 +9,22 @@ function pager_navigation($pager, $uri)
     $uri .= (preg_match('/\?/', $uri) ? '&' : '?').'page=';
 
     // First and previous page
-    $navigation .= link_to('&laquo', $uri.'1');
-    $navigation .= link_to('<', $uri.$pager->getPreviousPage()).'&nbsp;';
+    $navigation .= '<ul class="pagination clearfix">';
+    $navigation .= '<li>' . link_to('ilk sayfa', $uri . '1', 'class=low') . '</li>';
+    $navigation .= '<li>' . link_to('geri', $uri . $pager->getPreviousPage(), 'class=love'). '</li>';
 
     // Pages one by one
     $links = array();
     foreach ($pager->getLinks() as $page)
     {
-      $links[] = link_to_unless($page == $pager->getPage(), $page, $uri.$page);
+      $links[] = '<li>' . link_to_unless($page == $pager->getPage(), $page, $uri . $page) . '</li>';
     }
-    $navigation .= join('&nbsp;&nbsp;', $links);
+    $navigation .= join('', $links);
 
     // Next and last page
-    $navigation .= '&nbsp;'.link_to('>', $uri.$pager->getNextPage());
-    $navigation .= link_to('&raquo;', $uri.$pager->getLastPage());
+    $navigation .= '<li>' . link_to('ileri', $uri . $pager->getNextPage(), 'class=love') . '</li>';
+    $navigation .= '<li>' . link_to('son sayfa', $uri . $pager->getLastPage(), 'class=low') . '</li>';
+    $navigation .= '</ul>';
   }
 
   return $navigation;

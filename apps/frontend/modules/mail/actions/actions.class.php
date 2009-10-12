@@ -23,4 +23,18 @@ class mailActions extends sfActions
 
     $this->mail = $mail;
   }
+  
+  public function executeSendPassword()
+  {
+    $this->email = $this->getRequest()->getAttribute('email');
+  
+    $mail = new sfMail();
+    $mail->addAddress($this->email);
+    $mail->setFrom('From: Kuyabiye <info@kuyabiye.com>');
+    $mail->setSubject('Yeni Þifre Ýsteði');
+
+    $this->mail = $mail;  
+    
+    $this->password = $this->getRequest()->getAttribute('password');
+  }
 }

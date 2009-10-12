@@ -24,6 +24,9 @@
       </foreign-key>
     <column name="lovers" type="INTEGER" default="0" />
     <column name="haters" type="INTEGER" default="0" />
+    <column name="lover_girls" type="INTEGER" default="0" />
+    <column name="hater_girls" type="INTEGER" default="0" />
+    <column name="nb_comments" type="INTEGER" default="0" />
     <column name="love" type="TINYINT" />
     <column name="sticky" type="TINYINT" />
     <column name="is_on_homepage" type="TINYINT" default="0" required="true" />

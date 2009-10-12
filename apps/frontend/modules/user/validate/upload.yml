@@ -4,7 +4,7 @@ methods:
 names:
   picture:
     required:         true
-    required_msg:     Please upload a file
+    required_msg:     Lütfen yükleyeceğiniz dosyayı seçiniz.
     validators:       myFileValidator
     file:             true
 
@@ -16,6 +16,6 @@ myFileValidator:
       - 'image/png'
       - 'image/x-png'
       - 'image/pjpeg'        
-    mime_types_error: Only PNG and JPEG images are allowed
-    max_size:         512000
-    max_size_error:   Max size is 512Kb
+    mime_types_error: Sadece jpg ve png uzantılı resimler yükleyebilirsiniz.
+    max_size:         1024000
+    max_size_error:   Dosya boyutu en fazla 1mb olabilir.

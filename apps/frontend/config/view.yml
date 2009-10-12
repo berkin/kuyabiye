@@ -9,9 +9,9 @@ default:
     keywords:     symfony, project
     language:     tr
 
-  stylesheets:    [main]
+  stylesheets:    [default]
 
-  javascripts:    [tools]
+  javascripts:    []
 
   has_layout:     on
   layout:         layout

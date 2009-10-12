@@ -1,86 +1,76 @@
 methods:
-  post: [nickname, email, password, repassword, firstname, lastname]
+  post: [nickname, email, password, repassword, gender, dob]
 
 names:
   nickname:
     required:     true
-    required_msg: required
-    validators:   [userValidator, usernameValidator, uniqueNicknameValidator, usernamestringValidator]
+    required_msg: Kullanıcı adınız gerekli.
+    validators:   [usernameValidator, uniqueNicknameValidator, usernamestringValidator]
   
   email:
     required:     true
-    required_msg: required
+    required_msg: E-posta Adresiniz gerekli.
     validators:   [emailValidator, uniqueEmailValidator ]
 
   password:
     required:     true
-    required_msg: required
+    required_msg: Şifreniz gerekli.
 
   repassword:
     required:     true
-    required_msg: required
+    required_msg: Şifreniz gerekli.
     validators:   [passwordValidator]
-
-  firstname:
-    required:     false
-    validators:   nameValidator
-
-  lastname:
-    required:     false
-    validators:   nameValidator
-
-  
-userValidator:
-  class:            sfPropelUniqueValidator
-  param:
-    class:          User
-    column:         nickname
-    unique_error:   A user with this username already exists.
+    
+  gender:
+    required:     true
+    required_msg: Cinsiyetinizi seçmeniz gerekli.
+    
+  dob:
+    required:     true
+    required_msg: Doğum tarihinizi girmeniz gerekli.
+    validators:   dobValidator
 
 usernameValidator:  # only space character allowed, but we should trim more than 1 spaces between characters and at the begining and end.
   class:            sfRegexValidator
   param:
     match:          true
     pattern:        /^[a-zA-Z0-9 ]+$/
-    match_error:    check your nickname
+    match_error:    Kullanıcı adında harfler, rakamlar, boşluk kullanabilirsiniz.
 
 uniqueNicknameValidator:
   class:            sfPropelUniqueValidator
   param:
       class:        User
       column:       nickname
-      unique_error: This nickname already exists. Please choose another one.
+      unique_error: Bu kullanıcı adında zaten bir üyemiz var.
     
 usernamestringValidator:
   class:            sfStringValidator
   param:
     min:            4
-    min_error:      nickname must be 4 characters at least
+    min_error:      Kullanıcı adınız en az 4 karakter olmalı.
     max:            50
-    max_error:      nickname must be 50 characters maximum
+    max_error:      Kullanıcı adınız en fazla 50 karakter olmalı.
 
 emailValidator:
   class:            sfEmailValidator
   param:
-    email_error:    check your email
+    email_error:    Lütfen e-posta adresinizi kontrol ediniz.
     
 uniqueEmailValidator:
   class:            sfPropelUniqueValidator
   param:
       class:        User
       column:       email
-      unique_error: This email already exists. Please choose another one.
+      unique_error: E-posta adresi kullanımda.
 
 passwordValidator:
   class:            sfCompareValidator
   param:
     check:          password
-    compare_error:  passwords do not match
-
-nameValidator:
-  class:            sfStringValidator
+    compare_error:  Şifreler uyuşmuyor.
+    
+dobValidator:
+  class:            myDobValidator
   param:
-    min:            2
-    min_error:      2 characters min
-    max:            100
-    max_error:      100 characters max
+    date_error:     not valid date

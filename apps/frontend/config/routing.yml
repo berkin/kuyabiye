@@ -4,15 +4,15 @@ homepage:
   param: { module: tag, action: index }
 
 register:
-  url:    /register/*
+  url:    /uye-ol/*
   param: { module: user, action: register }
 
 login:
-  url:    /login/*
+  url:    /giris/*
   param: { module: user, action: login }
 
 logout:
-  url:    /logout/*
+  url:    /cikis/*
   param: { module: user, action: logout }
 
 tag_add:
@@ -24,40 +24,58 @@ tag_search:
   param:  { module: tag, action: search }
 
 tag:
-  url:    /tag/:stripped_tag
-  param:  { module: tag, action: show }
+  url:    /etiket/:stripped_tag/:page
+  param:  { module: tag, action: show, page: 1 }
+  requirements: { page: \d+ }
 
 tag_lovers:
-  url:    /tag/:stripped_tag/:sense/*
-  param:  { module: tag, action: lovers }
+  url:    /etiket/:stripped_tag/:sense/:page
+  param:  { module: tag, action: lovers, page: 1 }
 
 add_comment:
   url:    /comment/add/*
   param:  { module: comment, action: add }
 
 user_pictures:
-  url:    /user/pictures/*
+  url:    /uye/:nick/resimler/*
   param:  { module: user, action: picture }
   
+user_picture_delete:
+  url:    /resim-sil/:id
+  param:  { module: user, action: pictureRemove }
+  
+user_picture_avatar:
+  url:    /avatar/:id
+  param:  { module: user, action: pictureSetAvatar }
+
+  
 user_profile:
-  url:    /user/show/*
+  url:    /uye/:nick/*
   param:  { module: user, action: show }
 
 user_edit_profile:
-  url:    /user/profile/*
+  url:    /uye/:nick/profil/*
   param:  { module: user, action: profile }
   
 user_love:
-  url:    /user/love/*
+  url:    /seviyor-mu/*
   param:  { module: user, action: love }
   
+user_upload:
+  url:    /resim-yukle/*
+  param:  { module: user, action: upload }
+  
 user_tags:
-  url:    /user/:nick/tags/:sense/*
+  url:    /uye/:nick/tags/:sense/*
   param:  { module: user, action: tags, sense: all, display: true }
 
 user_notr:
-  url:    /user/notr/*
+  url:    /uye/notr/*
   param:  { module: user, action: notr }
+  
+user_password_request:
+  url:    /sifremi-unuttum/*
+  param:  { module: user, action: passwordRequest }
 
 friends:
   url:    /friends/*

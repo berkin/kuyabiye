@@ -33,6 +33,18 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 
 	
+	protected $lover_girls = 0;
+
+
+	
+	protected $hater_girls = 0;
+
+
+	
+	protected $nb_comments = 0;
+
+
+	
 	protected $love;
 
 
@@ -112,6 +124,27 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 	{
 
 		return $this->haters;
+	}
+
+	
+	public function getLoverGirls()
+	{
+
+		return $this->lover_girls;
+	}
+
+	
+	public function getHaterGirls()
+	{
+
+		return $this->hater_girls;
+	}
+
+	
+	public function getNbComments()
+	{
+
+		return $this->nb_comments;
 	}
 
 	
@@ -280,6 +313,54 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setLoverGirls($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->lover_girls !== $v || $v === 0) {
+			$this->lover_girls = $v;
+			$this->modifiedColumns[] = TagPeer::LOVER_GIRLS;
+		}
+
+	} 
+	
+	public function setHaterGirls($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->hater_girls !== $v || $v === 0) {
+			$this->hater_girls = $v;
+			$this->modifiedColumns[] = TagPeer::HATER_GIRLS;
+		}
+
+	} 
+	
+	public function setNbComments($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->nb_comments !== $v || $v === 0) {
+			$this->nb_comments = $v;
+			$this->modifiedColumns[] = TagPeer::NB_COMMENTS;
+		}
+
+	} 
+	
 	public function setLove($v)
 	{
 
@@ -378,21 +459,27 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 
 			$this->haters = $rs->getInt($startcol + 5);
 
-			$this->love = $rs->getInt($startcol + 6);
+			$this->lover_girls = $rs->getInt($startcol + 6);
 
-			$this->sticky = $rs->getInt($startcol + 7);
+			$this->hater_girls = $rs->getInt($startcol + 7);
 
-			$this->is_on_homepage = $rs->getInt($startcol + 8);
+			$this->nb_comments = $rs->getInt($startcol + 8);
 
-			$this->created_at = $rs->getTimestamp($startcol + 9, null);
+			$this->love = $rs->getInt($startcol + 9);
 
-			$this->updated_at = $rs->getTimestamp($startcol + 10, null);
+			$this->sticky = $rs->getInt($startcol + 10);
+
+			$this->is_on_homepage = $rs->getInt($startcol + 11);
+
+			$this->created_at = $rs->getTimestamp($startcol + 12, null);
+
+			$this->updated_at = $rs->getTimestamp($startcol + 13, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 11; 
+						return $startcol + 14; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Tag object", $e);
 		}
@@ -630,18 +717,27 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 				return $this->getHaters();
 				break;
 			case 6:
-				return $this->getLove();
+				return $this->getLoverGirls();
 				break;
 			case 7:
-				return $this->getSticky();
+				return $this->getHaterGirls();
 				break;
 			case 8:
-				return $this->getIsOnHomepage();
+				return $this->getNbComments();
 				break;
 			case 9:
-				return $this->getCreatedAt();
+				return $this->getLove();
 				break;
 			case 10:
+				return $this->getSticky();
+				break;
+			case 11:
+				return $this->getIsOnHomepage();
+				break;
+			case 12:
+				return $this->getCreatedAt();
+				break;
+			case 13:
 				return $this->getUpdatedAt();
 				break;
 			default:
@@ -660,11 +756,14 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 			$keys[3] => $this->getCreatedBy(),
 			$keys[4] => $this->getLovers(),
 			$keys[5] => $this->getHaters(),
-			$keys[6] => $this->getLove(),
-			$keys[7] => $this->getSticky(),
-			$keys[8] => $this->getIsOnHomepage(),
-			$keys[9] => $this->getCreatedAt(),
-			$keys[10] => $this->getUpdatedAt(),
+			$keys[6] => $this->getLoverGirls(),
+			$keys[7] => $this->getHaterGirls(),
+			$keys[8] => $this->getNbComments(),
+			$keys[9] => $this->getLove(),
+			$keys[10] => $this->getSticky(),
+			$keys[11] => $this->getIsOnHomepage(),
+			$keys[12] => $this->getCreatedAt(),
+			$keys[13] => $this->getUpdatedAt(),
 		);
 		return $result;
 	}
@@ -699,18 +798,27 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 				$this->setHaters($value);
 				break;
 			case 6:
-				$this->setLove($value);
+				$this->setLoverGirls($value);
 				break;
 			case 7:
-				$this->setSticky($value);
+				$this->setHaterGirls($value);
 				break;
 			case 8:
-				$this->setIsOnHomepage($value);
+				$this->setNbComments($value);
 				break;
 			case 9:
-				$this->setCreatedAt($value);
+				$this->setLove($value);
 				break;
 			case 10:
+				$this->setSticky($value);
+				break;
+			case 11:
+				$this->setIsOnHomepage($value);
+				break;
+			case 12:
+				$this->setCreatedAt($value);
+				break;
+			case 13:
 				$this->setUpdatedAt($value);
 				break;
 		} 	}
@@ -726,11 +834,14 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[3], $arr)) $this->setCreatedBy($arr[$keys[3]]);
 		if (array_key_exists($keys[4], $arr)) $this->setLovers($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setHaters($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setLove($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setSticky($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setIsOnHomepage($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setCreatedAt($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setUpdatedAt($arr[$keys[10]]);
+		if (array_key_exists($keys[6], $arr)) $this->setLoverGirls($arr[$keys[6]]);
+		if (array_key_exists($keys[7], $arr)) $this->setHaterGirls($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setNbComments($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setLove($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setSticky($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setIsOnHomepage($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setCreatedAt($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setUpdatedAt($arr[$keys[13]]);
 	}
 
 	
@@ -744,6 +855,9 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(TagPeer::CREATED_BY)) $criteria->add(TagPeer::CREATED_BY, $this->created_by);
 		if ($this->isColumnModified(TagPeer::LOVERS)) $criteria->add(TagPeer::LOVERS, $this->lovers);
 		if ($this->isColumnModified(TagPeer::HATERS)) $criteria->add(TagPeer::HATERS, $this->haters);
+		if ($this->isColumnModified(TagPeer::LOVER_GIRLS)) $criteria->add(TagPeer::LOVER_GIRLS, $this->lover_girls);
+		if ($this->isColumnModified(TagPeer::HATER_GIRLS)) $criteria->add(TagPeer::HATER_GIRLS, $this->hater_girls);
+		if ($this->isColumnModified(TagPeer::NB_COMMENTS)) $criteria->add(TagPeer::NB_COMMENTS, $this->nb_comments);
 		if ($this->isColumnModified(TagPeer::LOVE)) $criteria->add(TagPeer::LOVE, $this->love);
 		if ($this->isColumnModified(TagPeer::STICKY)) $criteria->add(TagPeer::STICKY, $this->sticky);
 		if ($this->isColumnModified(TagPeer::IS_ON_HOMEPAGE)) $criteria->add(TagPeer::IS_ON_HOMEPAGE, $this->is_on_homepage);
@@ -788,6 +902,12 @@ abstract class BaseTag extends BaseObject  implements Persistent {
 		$copyObj->setLovers($this->lovers);
 
 		$copyObj->setHaters($this->haters);
+
+		$copyObj->setLoverGirls($this->lover_girls);
+
+		$copyObj->setHaterGirls($this->hater_girls);
+
+		$copyObj->setNbComments($this->nb_comments);
 
 		$copyObj->setLove($this->love);
 

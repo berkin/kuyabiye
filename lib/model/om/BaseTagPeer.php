@@ -13,7 +13,7 @@ abstract class BaseTagPeer {
 	const CLASS_DEFAULT = 'lib.model.Tag';
 
 	
-	const NUM_COLUMNS = 11;
+	const NUM_COLUMNS = 14;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -38,6 +38,15 @@ abstract class BaseTagPeer {
 	const HATERS = 'tags.HATERS';
 
 	
+	const LOVER_GIRLS = 'tags.LOVER_GIRLS';
+
+	
+	const HATER_GIRLS = 'tags.HATER_GIRLS';
+
+	
+	const NB_COMMENTS = 'tags.NB_COMMENTS';
+
+	
 	const LOVE = 'tags.LOVE';
 
 	
@@ -58,18 +67,18 @@ abstract class BaseTagPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Tag', 'StrippedTag', 'CreatedBy', 'Lovers', 'Haters', 'Love', 'Sticky', 'IsOnHomepage', 'CreatedAt', 'UpdatedAt', ),
-		BasePeer::TYPE_COLNAME => array (TagPeer::ID, TagPeer::TAG, TagPeer::STRIPPED_TAG, TagPeer::CREATED_BY, TagPeer::LOVERS, TagPeer::HATERS, TagPeer::LOVE, TagPeer::STICKY, TagPeer::IS_ON_HOMEPAGE, TagPeer::CREATED_AT, TagPeer::UPDATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'tag', 'stripped_tag', 'created_by', 'lovers', 'haters', 'love', 'sticky', 'is_on_homepage', 'created_at', 'updated_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Tag', 'StrippedTag', 'CreatedBy', 'Lovers', 'Haters', 'LoverGirls', 'HaterGirls', 'NbComments', 'Love', 'Sticky', 'IsOnHomepage', 'CreatedAt', 'UpdatedAt', ),
+		BasePeer::TYPE_COLNAME => array (TagPeer::ID, TagPeer::TAG, TagPeer::STRIPPED_TAG, TagPeer::CREATED_BY, TagPeer::LOVERS, TagPeer::HATERS, TagPeer::LOVER_GIRLS, TagPeer::HATER_GIRLS, TagPeer::NB_COMMENTS, TagPeer::LOVE, TagPeer::STICKY, TagPeer::IS_ON_HOMEPAGE, TagPeer::CREATED_AT, TagPeer::UPDATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'tag', 'stripped_tag', 'created_by', 'lovers', 'haters', 'lover_girls', 'hater_girls', 'nb_comments', 'love', 'sticky', 'is_on_homepage', 'created_at', 'updated_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Tag' => 1, 'StrippedTag' => 2, 'CreatedBy' => 3, 'Lovers' => 4, 'Haters' => 5, 'Love' => 6, 'Sticky' => 7, 'IsOnHomepage' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, ),
-		BasePeer::TYPE_COLNAME => array (TagPeer::ID => 0, TagPeer::TAG => 1, TagPeer::STRIPPED_TAG => 2, TagPeer::CREATED_BY => 3, TagPeer::LOVERS => 4, TagPeer::HATERS => 5, TagPeer::LOVE => 6, TagPeer::STICKY => 7, TagPeer::IS_ON_HOMEPAGE => 8, TagPeer::CREATED_AT => 9, TagPeer::UPDATED_AT => 10, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'tag' => 1, 'stripped_tag' => 2, 'created_by' => 3, 'lovers' => 4, 'haters' => 5, 'love' => 6, 'sticky' => 7, 'is_on_homepage' => 8, 'created_at' => 9, 'updated_at' => 10, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Tag' => 1, 'StrippedTag' => 2, 'CreatedBy' => 3, 'Lovers' => 4, 'Haters' => 5, 'LoverGirls' => 6, 'HaterGirls' => 7, 'NbComments' => 8, 'Love' => 9, 'Sticky' => 10, 'IsOnHomepage' => 11, 'CreatedAt' => 12, 'UpdatedAt' => 13, ),
+		BasePeer::TYPE_COLNAME => array (TagPeer::ID => 0, TagPeer::TAG => 1, TagPeer::STRIPPED_TAG => 2, TagPeer::CREATED_BY => 3, TagPeer::LOVERS => 4, TagPeer::HATERS => 5, TagPeer::LOVER_GIRLS => 6, TagPeer::HATER_GIRLS => 7, TagPeer::NB_COMMENTS => 8, TagPeer::LOVE => 9, TagPeer::STICKY => 10, TagPeer::IS_ON_HOMEPAGE => 11, TagPeer::CREATED_AT => 12, TagPeer::UPDATED_AT => 13, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'tag' => 1, 'stripped_tag' => 2, 'created_by' => 3, 'lovers' => 4, 'haters' => 5, 'lover_girls' => 6, 'hater_girls' => 7, 'nb_comments' => 8, 'love' => 9, 'sticky' => 10, 'is_on_homepage' => 11, 'created_at' => 12, 'updated_at' => 13, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
 	);
 
 	
@@ -134,6 +143,12 @@ abstract class BaseTagPeer {
 		$criteria->addSelectColumn(TagPeer::LOVERS);
 
 		$criteria->addSelectColumn(TagPeer::HATERS);
+
+		$criteria->addSelectColumn(TagPeer::LOVER_GIRLS);
+
+		$criteria->addSelectColumn(TagPeer::HATER_GIRLS);
+
+		$criteria->addSelectColumn(TagPeer::NB_COMMENTS);
 
 		$criteria->addSelectColumn(TagPeer::LOVE);
 

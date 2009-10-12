@@ -1,0 +1,218 @@
+/* forms  ----------------------------------------------------------*/
+form .inputs {
+  font-weight: normal;
+  clear: left; /* for .inline */
+  padding-bottom: 10px;
+} * html form .inputs { padding-bottom: 8px; } /* ie sucks */
+form span.text {
+  line-height: 23px;
+}
+form .inline {
+  float: left;
+	clear: none;
+	padding-right: 5px;
+}
+form .inputs a.language {
+  border-right: 1px solid #e3e3e3;
+  font-size: 1em;
+  padding: 0 8px 0 5px;
+  margin: 0 0 0 3px;
+}
+
+div.radios {
+  padding: 3px 0 0;
+}
+div.radios input {
+  vertical-align: middle;
+}
+
+fieldset {
+  padding: 11px 0 0 0;
+  margin: 10px 0;
+} * html fieldset { padding: 0; } /* ie sucks */
+  fieldset.clear-to-seperator .clear {
+    background: #dfdfdf;
+    clear: left;
+    height: 1px;
+    margin: 0 20px 10px;
+    width: 500px;
+  }
+fieldset.description {
+  padding: 30px 0 0 20px;
+}
+fieldset.gallery {
+  padding: 30px 0 0;
+}
+  
+legend {
+  border: 0px solid #e3e3e3;
+  font: bold 18px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+  margin-left: 10px;
+  padding: 0 10px;
+} * html legend { margin-bottom: 10px; margin-left: 5px; } /* ie sucks */
+  legend small {
+    font-family: verdana;
+    font-weight: normal;
+    padding: 0 5px;
+    color: #de0000;
+  }
+
+.inputs label {
+  text-align: left;
+  float: left;
+  font-size: 1.333em;
+  height: 16px;
+  padding: 8px 7px 0 0;
+	text-indent: 7px;
+  width: 157px;
+} * html .inputs label{ padding: 5px 3px 0 0; }
+.inputs label.radios {
+  float: none;
+  display: inline;
+  margin: 0 9px 0 3px;
+}
+.inputs label.short {
+  width: 76px;
+}
+.inputs label.long {
+  width: 166px;
+}
+.inputs label.checkbox {
+  float: none;
+  vertical-align: middle;
+  margin: 0 5px 0 4px;
+  border: 0px solid #e3e3e3;
+  display: inline;
+  text-align: left;
+} * html .inputs label.checkbox { position: relative; top: -4px; }
+.inputs label.onleft {
+  font-size: 1em;
+  padding: 0 0 5px;
+  width: 725px;
+  text-align: left;
+}
+.inputs label.image {
+  background: #ebebeb;
+  border-bottom: 1px solid #cfcfcf;
+  display: block;
+  margin: 0 0 20px;
+  padding: 3px 10px;
+  text-align: left;
+  width: 210px;
+} 
+.inputs label.row {
+  float: left;
+  height: 16px;
+  padding: 3px 7px 0 0;
+  text-align: left;
+}
+
+input.text {
+  border: 1px solid #e3e3e3;
+  display: inline;
+  font-size: 1.333em;
+  padding: 8px;
+  vertical-align: top; /* firefox, text and submit align */
+}
+input.short {
+  width: 80px;
+}
+input.medium {
+  width: 223px;
+}
+input.long {
+  width: 317px;
+}
+select {
+  border: 1px solid #c8c8c8;
+  margin: 0 3px 0 0;
+  /*height: 25px;*/
+  }
+textarea {
+  border: 1px solid #c8c8c8;
+  font-size: 1em;
+	width: 600px;
+	}
+
+.form-notice {
+  font: normal 10px verdana, arial, helvetica, sans-serif;
+  color: #969696;
+  display: block;
+  margin: 3px 0 3px 144px;
+  _margin-left: 146px;
+}
+
+.input-note-1 {
+  font: normal 10px verdana, arial, helvetica, sans-serif;
+  color: #969696;
+  display: inline;
+  float: left;
+  margin: 3px 0 3px 144px;
+  _margin-left: 146px;  
+  width: 148px;
+  width: expression('163px');
+}
+.input-note-2 {
+  font: normal 10px verdana, arial, helvetica, sans-serif;
+  color: #969696;
+  float: left;
+  margin: 3px 0;
+}
+.input-note-1-s {
+  font: normal 10px verdana, arial, helvetica, sans-serif;
+  color: #969696;
+  display: inline;
+  float: left;
+  margin: 3px 0 3px 144px;
+  _margin-left: 146px;  
+  width: 92px;
+}
+.input-note-2-s {
+  font: normal 10px verdana, arial, helvetica, sans-serif;
+  color: #969696;
+  display: inline;
+  margin: 3px 0 3px;
+  width: 92px;
+  float: left;
+}
+.form-error {
+  display: block;
+  margin: 3px 0 3px 164px;
+  _margin-left: 166px;
+  padding: 0 8px 0 0;
+  border: 0px solid #ec5156;
+  font-size: 12px;
+  color: #de0000;
+}
+.form-error b {
+  padding: 0 3px 0 0;
+}
+
+.form-errors-notice {
+  display: block;
+  color: #ea0000;
+  padding: 10px 40px;
+}
+
+.button-wrap {
+  background: url(../images/button.gif) no-repeat right 0;
+  display: inline-block;
+	height: 25px;
+  padding: 0 10px 0 0;
+}
+
+input.button {
+	border: 0;
+	background: url(../images/button.gif) no-repeat 0 0;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.333em;
+  height: 25px;
+  padding: 0 0 0 10px;
+	overflow: visible; /* removes extra side padding in IE */
+}
+
+a.button img {
+  vertical-align: middle;
+  margin: 0 3px;
+}

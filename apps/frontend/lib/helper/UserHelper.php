@@ -4,64 +4,67 @@ use_helper('Javascript');
 
 function link_to_users_love($user, $tag)
 {
+  $link = '';
   if ( $user->isAuthenticated() )
   {
     $love = UserToTagPeer::retrieveByPK($user->getSubscriberId(), $tag->getId());
 
-    $loved     = '<span class="lover">seviyorum ' . link_to_remote('(x)', array(
+    $loved     = '<li class="love">Seviyorum ' . link_to_remote('(x)', array(
         'url'       => '@user_love?remove=1&id=' . $tag->getId() . '&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
         'update'    => array('success' => 'love_' . $tag->getId()),
         'loading'   => "Element.show('indicator');",
         'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'love_' . $tag->getId()),
-        )) . '</span>';
+        )) . '</li>';
       
-    $love_link = link_to_remote('seviyor musun?', array(
+    $love_link = '<li class="love">' . link_to_remote('Seviyor musun?', array(
         'url'       => '@user_love?loves=1&id=' . $tag->getId() . '&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
         'update'    => array('success' => 'love_' . $tag->getId()),
         'loading'   => "Element.show('indicator');",
         'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'love_' . $tag->getId()),
-        ));
+        )) . '</li>';
     
-    $hated     = '<span class="hater">sevmiyorum ' . link_to_remote('(x)', array(
+    $hated     = '<li class="hate">Sevmiyorum ' . link_to_remote('(x)', array(
         'url'       => '@user_love?remove=1&id=' . $tag->getId() . '&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
         'update'    => array('success' => 'love_' . $tag->getId()),
         'loading'   => "Element.show('indicator');",
         'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'love_' . $tag->getId()),
-        )) . '</span>';
+        )) . '</li>';
       
-    $hate_link = link_to_remote('sevmiyor musun?', array(
+    $hate_link = '<li class="hate">' . link_to_remote('Sevmiyor musun?', array(
         'url'       => '@user_love?loves=0&id=' . $tag->getId() . '&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
         'update'    => array('success' => 'love_' . $tag->getId()),
         'loading'   => "Element.show('indicator');",
         'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'love_' . $tag->getId()),
-        ));
+        )) . '</li>';
     if ( $love )
     {
       switch ($love->getLove())
       {
         case 0:
           // hates
-          return $love_link . $hated;
+          $link = $love_link . $hated;
           break;
         case 1:
           // loves
-          return $loved . $hate_link;
+          $link = $loved . $hate_link;
           break;
         default:
           // neither
-          return $love_link . $hate_link;
+          $link = $love_link . $hate_link;
           break;
       }
     }
     else
     {
-      return $love_link . $hate_link;
+      $link = $love_link . $hate_link;
     }
   }
   else
   {
-    return link_to('seviyor musun?', '@login') . ' ' . link_to('sevmiyor musun?', '@login');
+    $link = '<li class="love">' . link_to('Seviyor musun?', '@login') . '</li><li class="hate">' . link_to('Sevmiyor musun?', '@login') . '</li>';
   }
+  
+  return '<ul class="love-buttons">' . $link . '</ul>';
 }
 
 function link_to_friend_request($user, $friend)
