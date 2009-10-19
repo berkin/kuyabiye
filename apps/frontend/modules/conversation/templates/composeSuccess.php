@@ -1,30 +1,43 @@
 <?php use_helper('Validation'); ?>
-<h1>Yeni Mesaj</h1>
-<?php
-  echo form_tag('@conversation_compose', 'method=post');
+<ul class="breadcrumb">
+  <li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li>
+  <li><?php echo link_to('Mesajlar', '@conversations'); ?> </li>
+</ul>
 
-?>
-  <div class="form-row">
-    <?php echo form_error('recipent'); ?>
-    <label for="password">recipent:</label>
-    <?php echo input_tag('recipent', $sf_params->get('recipent')) ?>
-  </div>
-  <div class="form-row">
-    <?php echo form_error('title'); ?>
-    <label for="password">title:</label>
-    <?php echo input_tag('title', $sf_params->get('title')) ?>
-  </div>
-  
-  <div class="form-row">
-    <?php echo form_error('body'); ?>
-    <label for="password">body:</label>
-    <?php echo textarea_tag('body', $sf_params->get('body')) ?>
-  </div>
-  
-  <div class="form-row">  
-    <label for="send">&nbsp;</label>
-    <?php echo submit_tag('send!') ?>
-  </div>
+<div class="content-wrap">
+  <h1 class="home-header love">Yeni Mesaj</h1>
+  <?php
+    echo form_tag('@conversation_compose', 'method=post');
 
-</form>
-<?php include_partial('markdown_help'); ?>
+  ?>
+    <div class="inputs">
+      <label for="recipent">Kime*:</label>
+      <?php echo input_tag('recipent', $sf_params->get('recipent'), array('class' => 'text medium')) ?>
+      <?php if ( $sf_request->hasError('recipent') ) { ?>
+      <div class="form-error"><?php echo $sf_request->getError('recipent'); ?></div>
+      <?php } ?>
+    </div>
+    <div class="inputs">
+      <label for="title">Başlık:</label>
+      <?php echo input_tag('title', $sf_params->get('title'), array('class' => 'text medium')) ?>
+      <?php if ( $sf_request->hasError('title') ) { ?>
+      <div class="form-error"><?php echo $sf_request->getError('title'); ?></div>
+      <?php } ?>
+    </div>
+    
+    <div class="inputs">
+      <label for="body">Mesaj*:</label>
+      <?php echo textarea_tag('body', $sf_params->get('body')) ?>
+      <?php if ( $sf_request->hasError('body') ) { ?>
+      <div class="form-error"><?php echo $sf_request->getError('body'); ?></div>
+      <?php } ?>
+      <div class="markdown-help">&nbsp;</label><?php include_partial('markdown_help'); ?></div>
+    </div>
+    
+    <div class="inputs">  
+      <label for="send">&nbsp;</label>
+      <?php echo submit_image_tag('send-button.gif') ?>
+    </div>
+
+  </form>
+</div>

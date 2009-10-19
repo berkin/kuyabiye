@@ -129,10 +129,10 @@ body {
 /* breadcrumb */
 .breadcrumb {
   height: 25px;
-  padding: 12px 0 0;
+  padding: 9px 0 0;
 }
 .breadcrumb li.first a {
-  padding: 0 10px 0 0;
+  padding: 0 16px 0 0;
 }
 .breadcrumb li {
   color: #2c2c2c;
@@ -140,7 +140,8 @@ body {
 }
   .breadcrumb li a {
     font-size: 1.5em; 
-    padding: 0 13px;
+    line-height: 1.166em;
+    padding: 0 14px 0 16px;
   }
 
 #welcome {
@@ -153,47 +154,48 @@ body {
   width: 600px;
 }
 
-.flash {
-  padding: 15px 0 0 0;
-}
-
 .ad {
 	float: right;
   text-align: right;
   width: 270px;
 }
 
-h2.tag {
-	background: url(../images/tag-bullet.gif) no-repeat 0 5px;
+.tag {
+	background: url(../images/tag-bullet.gif) no-repeat 0 15px;
 }
-	h2.tag a {
+	.tag a {
 		font-size: 2.5em;
+    line-height: 1.166em;
   	padding: 0 0 0 15px;
 	}
   
-  h2.tag small {
+  .tag small {
     color: #363636;
   	font-size: 1.166em;
     padding: 0 0 0 5px;
   }
-  	h2.tag small a {
-      color: #363636;
+  	.tag small a {
+      color: #505050;
   		font-size: 1em;
+      font-weight: bold;
     }
 
 .love-buttons-wrap {
+  height: 20px;
 	margin: 30px 0 40px;
   padding: 10px 0;
 }    
 	.love-buttons li {
 		display: inline-block;
+    float: left;
     font-size: 1.5em;
+    line-height: 1.166em;
     margin: 0 40px 0 0;
     padding: 0 10px 0 20px;
 	}
 
     .love-buttons li.love {
-	  	background: url(../images/love.gif) no-repeat 0 0;
+	  	background: url(../images/love.gif) no-repeat 0 3px;
     	color: #d51289;
     }
     .love-buttons li.love a {
@@ -201,7 +203,7 @@ h2.tag {
     }
 
     .love-buttons li.hate {
-	  	background: url(../images/hate.gif) no-repeat 0 0;
+	  	background: url(../images/hate.gif) no-repeat 0 3px;
     	color: #971298;
     }
     .love-buttons li.hate a {
@@ -243,8 +245,12 @@ h2.tag {
   padding: 0 15px;
   vertical-align: top;
 }
-  
+
 .tag-cloud {
+  margin: 0 0 60px;
+}
+  
+#homepage .tag-cloud {
 	min-height: 180px;
   height:auto !important;
   height: 180px;
@@ -305,8 +311,10 @@ h2.tag {
 	display: block;
 }
 .users li .nick {
+  background: url(../images/tag-bullet.gif) no-repeat 0 9px;
   overflow: hidden;
-  padding: 3px 3px 10px 3px;
+  padding: 3px 3px 10px 9px;
+  width: 64px;
 }
 
 #gallery span.action {
@@ -327,10 +335,19 @@ h2.tag {
 	padding: 5px 0 10px;
 	text-align: right;
 }
+
 #scale .users-links a {
 	font-size: 1.333em;
   padding: 0 5px 0 0;
 }
+  
+  #scale a.left {
+    color: #d51289;
+    display: block;
+    font-size: 2em;
+    line-height: 1.166em;
+    margin: -5px 0 0;
+  }
 #scale .users li {
   margin: 0 5px 0 0;
 }
@@ -479,6 +496,167 @@ h2.sub-header {
     text-align: right;
   }
   
+.markdown-help {
+  margin: 0 0 0 165px;
+}
+
+/* messages */
+#messages .tabs {
+  margin: 0 0 10px;
+}
+
+.tabs li {
+  display: inline;
+  font-size: 1.333em;
+  padding: 0 20px 0 16px;
+}
+  .tabs li.first {
+    border-right: 1px solid #e3e3e3;
+    padding: 0 20px 0 14px;
+  }
+  
+  #messages .action {
+    background: #f4f4f4;
+    padding: 10px 15px;
+  }
+
+    #messages .action li {
+      border-right: 1px solid #e3e3e3;
+      display: inline;
+      padding: 0 12px 0 8px;
+    }
+      #messages .action li.compose {
+        background: url(../images/email.png) no-repeat 0 0;
+        padding: 0 18px 0 24px;
+      }
+      #messages .action li.compose a {
+        color: #d51289;
+      }
+    #messages .action li a {
+      color: #494949;
+    }
+    
+    #messages .action li.first {
+      border: 0;
+      color: #bababa;
+      padding: 0 3px 0 0;
+    }
+    #messages .action li.last {
+      border: 0;
+    }
+    
+    #messages .arrow {
+      background: url(../images/arrow.png) no-repeat 110px 0;
+    }
+    
+    
+.conversation {
+  border-bottom: 1px solid #e5e5e5;
+  height: 102px;
+  margin: 10px 0;
+}
+
+.read .message-subject {
+  background: #f4f4f4;
+	overflow: hidden;
+}
+
+.unread .message-subject {
+  background: #d8ffde;
+	overflow: hidden;
+}
+
+.conversation a.user img {
+  border: 2px solid #ffc364;
+  float: left;
+  margin: 10px;
+}
+.conversation .message-from {
+  float: left;
+  width: 757px;
+  margin: 24px 0 0 0;
+  line-height: 2em;
+}
+.conversation .message-from a  {
+  font-weight: bold;
+}
+.conversation .message-from small,
+.conversation .message-subject small {
+  float: right;
+  padding: 0 4px;
+}
+.conversation .message-from a,
+.conversation .message-subject a {
+  font-size: 1.333em;
+  padding: 0 4px;
+}
+.conversation .message-subject {
+  float: left;
+  height: 30px;
+  width: 750px;
+  line-height: 2em;
+  margin: 3px 0 0 0;
+  padding: 8px 10px 0;
+}
+
+.no-message {
+  font-size: 1.333em;
+  margin: 40px 20px;
+}
+.message-header {
+  margin: 0 0 20px;
+}
+.message-header a {
+  font-size: 1.333em;
+  font-weight: bold;
+}
+
+.message {
+  border-bottom: 1px solid #e3e3e3;
+  font-size: 1.333em;
+  margin: 20px 0 0;
+}
+
+.message a.user img {
+  border: 2px solid #ffc364;
+  display: block;
+  float: left;
+  margin: 0 10px 20px 0;
+}
+.message-content {
+  float: left;
+  margin: 0 0 20px;
+  width: 770px;
+}
+.message-content h3 {
+  margin: 0 0 20px;
+}
+
+.message-content h3 a.user {
+  font-weight: bold;
+  padding: 0 10px 0 0;
+}
+
+.message-content textarea {
+  font-size: 1em;
+  height: 70px;
+  width: 759px;
+}
+.send-button {
+  background: url(../images/send-button.gif) no-repeat 0 0;
+  border: 0;
+  cursor: pointer;
+  height: 25px;
+  width: 83px;
+}
+
+  
+.text-submit {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  color: #494949;
+}
 /* profile */
 #profile {
   margin: 40px 0;
@@ -495,12 +673,27 @@ h2.sub-header {
     margin: 0 0 0 20px;
     width: 300px;
   }
+
+  #profile .data .account {
+    font-size: 1.333em;
+    height: 50px;
+  }
   
 #profile .buttons li a {
   font-size: 1.333em;
   line-height: 1.5em;
+  padding: 0 0 0 20px;
 }
-
+    .buttons li.email-icon {
+      background: url(../images/email.png) no-repeat 0 5px;
+    }
+    
+    .buttons li.picture-icon {
+      background: url(../images/picture.png) no-repeat 0 5px;
+    }
+    .buttons li.tag-icon {
+      background: url(../images/tag_blue.png) no-repeat 0 5px;
+    }
 .main-header {
 	background: url(../images/dotted.gif) repeat-x 0 40px;
 	font-size: 2.5em;
@@ -523,6 +716,12 @@ h2.sub-header {
   line-height: 1.133em;
   padding: 0 12px;
 }
+  .pagination li a {
+    color: #515151;
+  }
+  .pagination li a.love {
+    color: #d51289;
+  }
   .pagination li a.low {
   	color: #9d9d9d;
   }
@@ -535,6 +734,7 @@ h2.sub-header {
 }
 
 .notice div {
+  font-size: 1.333em;
   margin: 0 0 20px;
   padding: 10px;
 }

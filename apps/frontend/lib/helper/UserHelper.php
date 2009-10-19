@@ -119,7 +119,7 @@ function link_to_friend_request($user, $friend)
       }
       else
       {
-        return link_to_remote('arkadaş olarak ekle?', array(
+        return link_to_remote('Arkadaş Olarak Ekle?', array(
               'url'       => '@friend_request?user=' . $friend->getNickname() . '&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
               'update'    => array('success' => 'friend-request-' . $friend->getId()),
               'loading'   => "Element.show('indicator');",
@@ -148,6 +148,6 @@ function link_to_friend_request($user, $friend)
   }
   else
   {
-    return link_to('arkadaş olarak ekle?', '@login');
+    return link_to('Arkadaş Olarak Ekle?', '@login');
   } 
 }

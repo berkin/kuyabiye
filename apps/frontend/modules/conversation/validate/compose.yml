@@ -4,29 +4,29 @@ methods:
 names:
   recipent:
     required:     true
-    required_msg: required
+    required_msg:  Mesaj göndereceğiniz kişinin kullanıcı adını girmeniz gerekli.
     validators:   [userValidator, schizoidValidator]
   
   title:
-    required:     true
+    required:     false
     required_msg: required
     validators:   [titleValidator]
 
   body:
     required:     true
-    required_msg: required
+    required_msg: Mesajınızı boş bırakamazsınız.
   
 userValidator:
   class:          sfCallbackValidator
   param:
     callback:       [UserPeer, checkUser]
-    invalid_error:  user is not found
+    invalid_error:  Kullanıcı bulunamadı.
 
 schizoidValidator:
   class:          sfCallbackValidator
   param:
     callback:       [myTools, checkSchizoid]
-    invalid_error:  you cant send message to yourself
+    invalid_error:  Kendinize mesaj atamazsınız.
 
 titleValidator:
   class:            sfStringValidator

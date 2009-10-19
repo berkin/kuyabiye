@@ -30,36 +30,21 @@
   <?php $nbPictures = count($pictures); ?>
   <?php if ( $nbPictures ) { ?>
   <h1 class="main-header love">Resimler</h1>
-  <div class="clearfix">
-    <?php
-    echo javascript_tag("
-      $(function() {
-        $('#gallery a.lightbox').lightBox({
-          fixedNavigation:true,
-          imageLoading: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/loading.gif') . "',
-          imageBtnClose: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/close.gif') . "',
-          imageBtnPrev: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/prev.gif') . "',
-          imageBtnNext: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/next.gif') . "',
-          imageBlank: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/blank.gif') . "',
-          txtImage:  'Resim',
-          txtOf: '/',
-        });
-      });
-    ");?>   
+  <div class="clearfix">  
     <?php if ( $owner ) { ?>
         <div class="notice">
           <div class="general">Resimlerinizi silmek için <?php echo image_tag('delete.png') ?> ikonuna tıklayın. Resminizi avatar yapmak için <?php echo image_tag('vcard.png') ?> ikonuna tıklayın. En fazla 20 adet resim yükleyebilirsiniz.</div>
-      <?php if ($sf_flash->has('notice')): ?>
+        <?php if ($sf_flash->has('notice')) { ?>
           <div class="success">
           <?php echo $sf_flash->get('notice') ?>
           </div>
+        <?php } ?>
         </div>
-      <?php endif; ?>
     <?php } ?>
     <ul id="gallery" class="users clearfix">
       <?php foreach ( $pictures as $picture ) { ?>
       <li <?php echo $picture->getName() == $subscriber->getAvatar() ? 'class="avatar"' : '' ?>>
-        <a class="lightbox" href="<?php echo image_path('/'. sfConfig::get('sf_upload_dir_name') . '/users/large/' . $picture->getName()) ?>"><?php echo image_tag('/' . sfConfig::get('sf_upload_dir_name') . '/users/' . $picture->getName())?></a>
+        <a class="lightbox" title="<?php echo $subscriber->getNickname() ?> resimleri" href="<?php echo image_path('/'. sfConfig::get('sf_upload_dir_name') . '/users/large/' . $picture->getName()) ?>"><?php echo image_tag('/' . sfConfig::get('sf_upload_dir_name') . '/users/' . $picture->getName())?></a>
         <?php if ( $owner ) { ?>
         <span class="action clearfix">
           <?php echo link_to(image_tag('delete.png'), '@user_picture_delete?id=' . $picture->getId(), array('class' => 'right', 'confirm' => 'Silmek istediğinizden emin misiniz?')) ?>
@@ -72,6 +57,18 @@
   </div>
   <?php } ?>
 </div>
-<br /><br />
-- sho sho resmini upload edince upload da takılı kalıyor, resim isminde boşluk olduğundan olabilir, firefoxda deneidm<br />
-- kaydedilen resmin ismini değiştir.<br />
+<?php
+echo javascript_tag("
+  $(function() {
+    $('#gallery a.lightbox').lightBox({
+      fixedNavigation: true,
+      imageLoading: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/loading.gif') . "',
+      imageBtnClose: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/close.gif') . "',
+      imageBtnPrev: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/prev.gif') . "',
+      imageBtnNext: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/next.gif') . "',
+      imageBlank: '" . image_path('/' . sfConfig::get('sf_upload_dir_name') . '/blank.gif') . "',
+      txtImage:  'Resim',
+      txtOf: '/'
+    });
+  });
+");?> 

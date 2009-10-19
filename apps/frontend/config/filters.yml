@@ -7,6 +7,9 @@ security:  ~
 # generally, you will want to insert your own filters here
 rememberFilter:
   class: rememberFilter
+  
+userdataFilter:
+  class: userdataFilter
 
 csrf:
   class: sfCSRFFilter

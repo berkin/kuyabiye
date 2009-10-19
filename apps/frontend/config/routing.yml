@@ -50,15 +50,15 @@ user_picture_avatar:
 
   
 user_profile:
-  url:    /uye/:nick/*
+  url:    /uye/:nick
   param:  { module: user, action: show }
 
 user_edit_profile:
-  url:    /uye/:nick/profil/*
+  url:    /hesabim/*
   param:  { module: user, action: profile }
   
 user_love:
-  url:    /seviyor-mu/*
+  url:    /seviyor-musun/*
   param:  { module: user, action: love }
   
 user_upload:
@@ -66,8 +66,9 @@ user_upload:
   param:  { module: user, action: upload }
   
 user_tags:
-  url:    /uye/:nick/tags/:sense/*
-  param:  { module: user, action: tags, sense: all, display: true }
+  url:    /uye/:nick/:sense/:page
+  param:  { module: user, action: tags, page: 1 }
+  requirements: { page: \d+ }
 
 user_notr:
   url:    /uye/notr/*
@@ -94,23 +95,24 @@ friend_remove:
   param:  { module: friend, action: remove }
   
 conversations:
-  url:    /mailbox/:folder/*
-  param:  { module: conversation, action: index, folder: inbox, display: true }
+  url:    /mesajlar/:folder/:page
+  param:  { module: conversation, action: index, folder: gelen, display: true, page: 1 }
+  requirements: { page: \d+ }
   
 conversation_read:
-  url:    /mail/read/*
+  url:    /mesaj/oku/:id/*
   param:  { module: conversation, action: read }
   
 conversation_compose:
-  url:    /mail/compose/*
-  param:  { module: conversation, action: compose }
+  url:    /mesaj/yaz/:recipent/*
+  param:  { module: conversation, action: compose, recipent: ' ' }
 
 conversation_reply:
-  url:    /mail/reply/*
+  url:    /mesaj/cevap/*
   param:  { module: conversation, action: reply }
   
 conversation_remove:
-  url:    /mail/remove/*
+  url:    /mesaj/sil/*
   param:  { module: conversation, action: remove }
   
 messages:

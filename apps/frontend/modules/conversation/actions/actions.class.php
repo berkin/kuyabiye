@@ -7,7 +7,28 @@
  * @subpackage conversation
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
- */
+
+@TODO<br />
+-message read, add, index gibi kodlar silindi. galba. temizle bunlarý<br />
+-giden mesajlarda çok baðlantý açýo<br />
++getUserRelatedBySender her seferinde user tablosuna baðlantý açýyor ++ ayný tabloyu iki kere join edemiyoz propel ile http://propel.phpdb.org/trac/ticket/157 þu ticketta demiþler,  http://stereointeractive.com/blog/2008/01/24/propel-criteria-left-join-using-addjoin-and-addalias-to-join-a-table-twice/ þurda bi denemesi var olmuyor, joinall deyince<br />
++kendi kendine mesaj, þizofren modu engelle<br />
++ajax 404 olmuo, opera da garip davranýyor, firefox da bi tepki veriyor en azýndan<br />
+-refactoring, read de isread, reply da isreplied (ayrýca reply yapýnca öbür conversation'ýn isread ini 0 ve isreplied ini 0  yapmak lazým), compose da 2.satýr conversation ve message<br />
++pagination<br />
++send email when new message<br />
++avatar<br />
+-message markdown</br>
+-gelen giden mesajlara is_replied ile ilgili biþeyler ekle, doðru çalýþmýyor<br />
+-isread ilk mesaj attýðýnda ters gibi<br />
+-facebook gibi sent kutusu<br />
+-save ederken rollback filan<br />
+-you have deleted this conversation<br />
+-bide mesaj okumaya girdiðinde otomatik aþaðý kaysýn mý, mesaj sayýsý çoksa nolcak, sadece son 5 mesajý filan mý göstersek, gerisini okumak için týkla filan dese?<br />
+-þu mail için veri aktarmayý tek partide yapabilirsin, delicious symfony+email taginde var, array olarak göndercen<br />
+-blocked<br />
+
+*/
 class conversationActions extends sfActions
 {
   /**
@@ -21,11 +42,11 @@ class conversationActions extends sfActions
     $response->addJavascript('tools');
 
     $user = $this->getUser()->getSubscriberId();
-    $this->folder = $this->getRequestParameter('folder', 'inbox');
+    $this->folder = $this->getRequestParameter('folder', 'gelen');
     
     
     $c = new Criteria();
-    if ( $this->folder == 'inbox' )
+    if ( $this->folder == 'gelen' )
     {
       $c->add(ConversationPeer::OWNER, $user);
       $c->add(ConversationPeer::INBOX, true);
@@ -38,7 +59,7 @@ class conversationActions extends sfActions
     $c->add(ConversationPeer::IS_DELETED, 0);    
     $c->addDescendingOrderByColumn(ConversationPeer::UPDATED_AT);
     
-    $pager = new sfPropelPager('Conversation', 20);    
+    $pager = new sfPropelPager('Conversation', 10);    
     $pager->setCriteria($c);
     $pager->setPage($this->getRequestParameter('page', 1));
     $pager->setPeerMethod( $this->folder == 'inbox' ? 'doSelectJoinUserRelatedBySender' : 'doSelectJoinUserRelatedByRecipent' );
@@ -113,10 +134,10 @@ class conversationActions extends sfActions
   }
   
   public function executeCompose()
-  {
+  {      
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) {
       //check recipent
-      $this->recipent = $this->getUser()->getSubscriberByNick($this->getRequestParameter('recipent'));
+      $this->recipent = $this->getUser()->getSubscriberByNick(trim($this->getRequestParameter('recipent')));
       $this->forward404Unless($this->recipent);
       
       $conversation = new Conversation();

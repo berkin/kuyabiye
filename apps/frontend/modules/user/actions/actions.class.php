@@ -30,12 +30,17 @@ class userActions extends sfActions
   {
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
     $this->forward404Unless($this->subscriber);  
-    
-    $this->sense = $this->getRequestParameter('sense', 'all');
+
+    $this->sense = $this->getRequestParameter('sense', 'hepsi');
     $this->forward404Unless(array_key_exists($this->sense, sfConfig::get('app_sense')));
     
     $this->tags = UserToTagPeer::getUserTagsPager($this->subscriber, $this->sense, $this->getRequestParameter('page', 1));
-
+    
+    $c = new Criteria();
+    $c->add(PicturePeer::USER_ID, $this->subscriber->getId());
+    $this->nbPictures = PicturePeer::doCount($c);
+    
+    $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
   }
   public function executeRegister()
   {
@@ -61,14 +66,14 @@ class userActions extends sfActions
   {
     $this->user = $this->getUser()->getSubscriber();
     $this->cities = sfConfig::get('app_city');
-    $response = $this->getContext()->getResponse();
-    $response->addJavascript('tools');
 
     // save user
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
     {
       $this->updateProfileFromRequest();
       $this->user->save();
+      
+      $this->setFlash('notice', 'Profiliniz güncellendi.');
     }    
   }
     
@@ -185,21 +190,27 @@ class userActions extends sfActions
     {
     
     $cacheFileName = $this->getRequest()->getFileName('picture');
-    $fileName = time() . rand(100000, 999999) . '.' . substr($cacheFileName, strrpos($cacheFileName, '.') + 1);
+    $fileName = time() . rand(100000, 999999) . '.' . strtolower(substr($cacheFileName, strrpos($cacheFileName, '.') + 1));
     $filePath = sfConfig::get('app_upload_folder') . DIRECTORY_SEPARATOR . $fileName;
     $this->getRequest()->moveFile('picture', $filePath);
    
     $thumbnails = sfConfig::get('app_upload_thumbnail_params');
+
     foreach ($thumbnails as $thumbnail)
     { 
-      $image = wiImage::load(sfConfig::get('app_upload_folder') . DIRECTORY_SEPARATOR . $fileName );
-      if ( $thumbnail['width'] )
+    
+      $image = WideImage::load(sfConfig::get('app_upload_folder') . DIRECTORY_SEPARATOR . $fileName );
+
+      if ( $thumbnail['height'] )
       {
         $crop = ( ($image->getWidth() >= $image->getHeight()) ? $image->getHeight() : $image->getWidth() );
         $image = $image->crop(0, 0, $crop, $crop);
       }
       $resized = $image->resize($thumbnail['width'], $thumbnail['height']);
-      $resized->saveToFile(sfConfig::get('app_upload_folder') . $thumbnail['dir'] . DIRECTORY_SEPARATOR . $fileName );
+      $resized->saveToFile(sfConfig::get('app_upload_folder') . $thumbnail['dir'] . DIRECTORY_SEPARATOR . $fileName, null);
+      
+      //avoid memory limit exceed
+      unset($image);
     }
         
     $picture = new Picture();

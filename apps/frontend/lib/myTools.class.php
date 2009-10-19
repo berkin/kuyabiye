@@ -139,7 +139,7 @@ class myTools
   
   public static function checkSchizoid($nickname)
   {
-    return ( $nickname == sfContext::getInstance()->getUser()->getSubscriber()->getNickname() ? false : true );
+    return ( trim($nickname) == sfContext::getInstance()->getUser()->getSubscriber()->getNickname() ? false : true );
   }
   
 }

@@ -5,7 +5,9 @@ form .inputs {
   padding-bottom: 10px;
 } * html form .inputs { padding-bottom: 8px; } /* ie sucks */
 form span.text {
-  line-height: 23px;
+  font-size: 1.333em;
+  font-weight: bold;
+  line-height: 2.333em;
 }
 form .inline {
   float: left;
@@ -124,13 +126,16 @@ input.long {
   width: 317px;
 }
 select {
-  border: 1px solid #c8c8c8;
-  margin: 0 3px 0 0;
-  /*height: 25px;*/
-  }
+  border: 1px solid #e3e3e3;
+  font-size: 1.333em;
+  margin: 5px 0 0;
+  padding: 0 0 0 7px;
+}
 textarea {
-  border: 1px solid #c8c8c8;
-  font-size: 1em;
+  border: 1px solid #e3e3e3;
+  font-size: 1.333em;
+  padding: 10px;
+  height: 50px;
 	width: 600px;
 	}
 

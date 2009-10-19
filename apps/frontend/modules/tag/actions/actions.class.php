@@ -27,7 +27,6 @@ class tagActions extends sfActions
   {
     $this->getResponse()->addJavascript(sfConfig::get('app_jquery'));
     $this->getResponse()->addJavascript('cycle');
-    $this->getResponse()->addJavascript('tools');
 
     $this->loved_tags   = TagPeer::getPopularTags(true);
     $this->hated_tags   = TagPeer::getPopularTags(false);
@@ -72,11 +71,6 @@ class tagActions extends sfActions
     $response->addJavascript('tools');
     $this->comments = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId(), $this->getRequestParameter('page',1));
 
-    // $this->comments = new myArrayPager(null, 20);
-    // $this->comments->setResultArray($comments_array);
-    // $this->comments->setPage($this->getRequestParameter('page',1));
-    // $this->comments->init();
-
     $this->token = myTools::generate_random_key();
     $this->setFlash('token', $this->token);
   }
@@ -95,16 +89,16 @@ class tagActions extends sfActions
       $this->forward404();    
     }
     
-    $pager = new sfPropelPager('UserToTag', 11);    
+    $pager = new sfPropelPager('UserToTag', 40);    
     $c = new Criteria();
     $c->add(UserToTagPeer::TAGS_ID, $this->tag->getId());
     $c->addDescendingOrderByColumn(UserToTagPeer::CREATED_AT);
     switch ( $this->sense )
     {
-      case 'lovers':
+      case 'sevenler':
         $c->add(UserToTagPeer::LOVE, 1);
         break;
-      case 'haters':
+      case 'sevmeyenler':
         $c->add(UserToTagPeer::LOVE, 0);
         break;
     }

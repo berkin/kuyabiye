@@ -1,9 +1,12 @@
-<ul class="breadcrumb"><li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?></li>::<li><?php echo link_to('Üye Ol', '@register'); ?> </li></ul>
+<ul class="breadcrumb">
+  <li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li>
+  <li><?php echo link_to('Üye Ol', '@register'); ?> </li>
+</ul>
 <div class="content-wrap">
 <h1 class="home-header love">Üye Ol!</h1>
   <?php 
     use_helper('Validation');
-    echo form_tag('user/register');
+    echo form_tag('@register');
   ?>
 
     <div class="inputs">
@@ -39,7 +42,7 @@
     </div>
     
   <div class="inputs">
-    <label>Cinsiyet:</label>
+    <label>Cinsiyet*:</label>
     <?php echo radiobutton_tag('gender', 0, array( 'id' => 'male')); ?> <label class="radios" for="male">Erkek</label>
     <?php echo radiobutton_tag('gender', 1, array( 'id' => 'female')); ?><label class="radios" for="female">Kadın</label>
     <?php if ( $sf_request->hasError('gender') ) { ?>
@@ -48,7 +51,7 @@
     </div>
   
   <div class="inputs">
-    <label for="dob">Doğum Tarihi:</label>
+    <label for="dob">Doğum Tarihi*:</label>
     <?php echo input_date_tag('dob', '', array('include_blank' => true, 'culture' => 'tr_TR', 'year_start' => '1920', 'year_end' => date('Y') - 18), '')?>
     <?php if ( $sf_request->hasError('dob') ) { ?>
     <div class="form-error"><?php echo $sf_request->getError('dob'); ?></div>
@@ -70,4 +73,5 @@
   * first name and last name do not contain letters, only 1 space between words (this shouldn't be trig error, this should be done in the serverside<br />
   * recaptcha<br />
   * üye girişi yapan bu sayfayı göremesin<br />
+  * email kontrol
  

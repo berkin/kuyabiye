@@ -4,47 +4,30 @@
 
 use_helper('Date', 'Validation', 'User', 'Pagination');
 ?>
-      	<ul class="breadcrumb"><li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?></li>::<li><a href="#">Etiketler</a></li>::<li><?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag()); ?> </li></ul>
+      	<ul class="breadcrumb"><li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li><li><a href="#">Etiketler</a>::</li><li><?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag()); ?></li></ul>
         
-       	<div id="welcome" class="clearfix">
-        	<div class="tag-flash">
-        		<h2 class="tag"><?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag()) ?><small><?php echo link_to($tag->getUser()->getNickname(), '@user_profile?nick=' . $tag->getUser()->getNickname(), array('class' => 'love')) ?> ekledi.</small></h2>
-            <div class="love-buttons-wrap" id="love_<?php echo $tag->getId() ?>">
-            <?php include_partial('love_buttons', array('tag' => $tag)); ?>
-            </div>
-            
-            <ul class="tag-list">
-            	<li><?php echo $tag->getTotal() ?> kişi profiline eklemiş. <span class="love"><?php echo $tag->getLovers() ?></span> kişi seviyor, <span class="hate"><?php echo $tag->getHaters() ?></span> kişi sevmiyor.</li>
-            	<li><?php echo $tag->getNbComments() ?> yorum yapılmış.</li>
-            	<li><?php echo $tag->getLoverGirls() ?> kadın, <?php echo $tag->getLoverBoys() ?> erkek <span class="love">seviyor.</span></li>
-            	<li><?php echo $tag->getHaterGirls() ?> kadın, <?php echo $tag->getHaterBoys() ?> erkek <span class="hate">sevmiyor.</span></li>
-            </ul>
-      	  </div>
-        
-          <div class="ad">
-           	<a href="#"><?php echo image_tag('ad.jpg') ?></a>
-       	  </div>
-   	    </div>
+      <?php include_partial('tag/tag', array('tag' => $tag)) ?>
+      
 <div class="clearfix">
 <h2 class="home-header love"><?php
 switch ( $sense )
 {
-  case 'lovers':
+  case 'sevenler':
     echo 'Sevenler (' . $users->getNbResults() . ')<small>';
-    echo link_to('Sevmeyenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=haters') . ', ';
-    echo link_to('Hepsi', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=all');
+    echo link_to('Sevmeyenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=sevmeyenler&page=') . ', ';
+    echo link_to('Hepsi', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=hepsi&page=');
     echo '</small>';
     break;
-  case 'haters':
+  case 'sevmeyenler':
     echo 'Sevmeyenler (' . $users->getNbResults() . ')<small>';;
-    echo link_to('Sevenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=lovers') . ', ';
-    echo link_to('Hepsi', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=all');
+    echo link_to('Sevenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=sevenler&page=') . ', ';
+    echo link_to('Hepsi', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=hepsi&page=');
     echo '</small>';
     break;
   default:
     echo 'Hepsi (' . $users->getNbResults() . ')<small>';
-    echo link_to('Sevenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=lovers') . ', ';
-    echo link_to('Sevmeyenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=haters');
+    echo link_to('Sevenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=sevenler&page=') . ', ';
+    echo link_to('Sevmeyenler', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=sevmeyenler&page=');
     echo '</small>';
     break;
 }

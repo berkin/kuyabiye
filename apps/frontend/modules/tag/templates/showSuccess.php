@@ -6,33 +6,17 @@ use_helper('Date', 'Validation', 'User', 'Pagination');
 ?>
 
 
-      	<ul class="breadcrumb"><li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?></li>::<li><a href="#">Etiketler</a></li></ul>
+      	<ul class="breadcrumb"><li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li><li><a href="#">Etiketler</a></li></ul>
         
-       	<div id="welcome" class="clearfix">
-        	<div class="tag-flash">
-        		<h2 class="tag"><?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag()) ?><small><?php echo link_to($tag->getUser()->getNickname(), '@user_profile?nick=' . $tag->getUser()->getNickname(), array('class' => 'love')) ?> ekledi.</small></h2>
-            <div class="love-buttons-wrap" id="love_<?php echo $tag->getId() ?>">
-            <?php include_partial('love_buttons', array('tag' => $tag)); ?>
-            </div>
-            
-            <ul class="tag-list">
-            	<li><?php echo $tag->getTotal() ?> kişi profiline eklemiş. <span class="love"><?php echo $tag->getLovers() ?></span> kişi seviyor, <span class="hate"><?php echo $tag->getHaters() ?></span> kişi sevmiyor.</li>
-            	<li><?php echo $tag->getNbComments() ?> yorum yapılmış.</li>
-            	<li><?php echo $tag->getLoverGirls() ?> kadın, <?php echo $tag->getLoverBoys() ?> erkek <span class="love">seviyor.</span></li>
-            	<li><?php echo $tag->getHaterGirls() ?> kadın, <?php echo $tag->getHaterBoys() ?> erkek <span class="hate">sevmiyor.</span></li>
-            </ul>
-      	  </div>
-        
-          <div class="ad">
-           	<a href="#"><?php echo image_tag('ad.jpg') ?></a>
-       	  </div>
-   	    </div>
+      <?php include_partial('tag/tag', array('tag' => $tag)) ?>
+
         
 			<div id="scale" class="clearfix">
       	<div class="users-links">
-          <?php echo link_to('sevenler(' . $tag->getLovers() . '),', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=lovers&page=', array('class' => 'love')) ?>
-          <?php echo link_to('sevmeyenler(' . $tag->getHaters() . '),', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=haters&page=', array('class' => 'hate')) ?>
-          <?php echo link_to('hepsi(' . $tag->getTotal() . ')', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=all&page=') ?>   
+          <?php echo link_to('İlgi Metre', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=hepsi&page=', 'class=left') ?>
+          <?php echo link_to('sevenler(' . $tag->getLovers() . '),', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=sevenler&page=', array('class' => 'love')) ?>
+          <?php echo link_to('sevmeyenler(' . $tag->getHaters() . '),', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=sevmeyenler&page=', array('class' => 'hate')) ?>
+          <?php echo link_to('hepsi(' . $tag->getTotal() . ')', '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=hepsi&page=') ?>   
         </div>
         <?php if ( $total > 10 ) { ?>
         <div class="lovers clearfix">
@@ -90,7 +74,7 @@ use_helper('Date', 'Validation', 'User', 'Pagination');
           </form>   
           </div>
           <?php } else { ?>
-            <div class="notice">Yorum yapmak için <?php echo link_to('üye girişi', '@login', 'class=love'); ?> yapmalısınız.</div>
+            <div class="notice">Yorum yapmak için <?php echo link_to('üye girişi', '@login', 'class=love'); ?> yapmalısınız. Üye değilseniz, <?php echo link_to('üye olmak', '@register', 'class=love') ?> çok kolay!</div>
           <?php } ?>
         </div>
       

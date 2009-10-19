@@ -80,7 +80,7 @@ class UserToTagPeer extends BaseUserToTagPeer
    
   public static function getUserTagsPager($user, $love, $page)
   {
-    $tags = new sfPropelPager('UserToTag', 2);
+    $tags = new sfPropelPager('UserToTag', 40);
     $c = new Criteria();
     
     $sense = sfConfig::get('app_sense');

@@ -60,7 +60,7 @@ class UserPeer extends BaseUserPeer
   public static function checkUser($nickname)
   {
     $c = new Criteria;
-    $c->add(UserPeer::NICKNAME, $nickname);
+    $c->add(UserPeer::NICKNAME, trim($nickname));
     $found = ( UserPeer::doCount($c) ) ? true : false;
     
     return $found;
