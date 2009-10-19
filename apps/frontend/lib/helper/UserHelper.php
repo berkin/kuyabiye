@@ -77,10 +77,10 @@ function link_to_friend_request($user, $friend)
     switch ( $task )
     {
       case 'approve':
-        return 'kabul edildi';
+        return '<span>Kabul edildi.</span>';
         break;
       case 'disapprove':
-        return 'red edildi';
+        return '<span>Arkadaşlık isteği silindi.</span>';
         break;
     }
 
@@ -102,29 +102,33 @@ function link_to_friend_request($user, $friend)
        
       if ( $found )
       {
-        return link_to_remote('kabul et?', array(
+        return link_to_remote('Onayla', array(
               'url'       => '@friend_request?user=' . $friend->getNickname() . '&task=approve&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
               'update'    => array('success' => 'friend-request-' . $friend->getId()),
               'loading'   => "Element.show('indicator');",
               'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'friend-request-' . $friend->getId()),
-              'confirm'  => "Are you sure?",
+              'confirm'  => "Emin misiniz?",
+              ), array (
+              'class'   => 'accept-icon'
               )) . 
-              link_to_remote('red et?', array(
+              link_to_remote('İptal', array(
               'url'       => '@friend_request?user=' . $friend->getNickname() . '&task=disapprove&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
               'update'    => array('success' => 'friend-request-' . $friend->getId()),
               'loading'   => "Element.show('indicator');",
               'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'friend-request-' . $friend->getId()),
-              'confirm'  => "Are you sure?",
+              'confirm'  => "Emin misiniz?",
+              ), array(
+              'class'   => 'cancel-icon'
               ));
       }
       else
       {
-        return link_to_remote('Arkadaş Olarak Ekle?', array(
+        return link_to_remote('Arkadaş Olarak Ekle', array(
               'url'       => '@friend_request?user=' . $friend->getNickname() . '&_csrf_token=' . md5(sfConfig::get('app_csrf').session_id()),
               'update'    => array('success' => 'friend-request-' . $friend->getId()),
               'loading'   => "Element.show('indicator');",
               'complete'  => "Element.hide('indicator');" . visual_effect('highlight', 'friend-request-' . $friend->getId()),
-              'confirm'  => "Are you sure?",
+              'confirm'  => "Emin misiniz?",
               ));
       }
     }
@@ -132,13 +136,13 @@ function link_to_friend_request($user, $friend)
       switch ( $found->getStatus() )
       {
         case 0:
-          return 'arkadaş isteği gönderildi';
+          return 'Arkadaşlık İsteği Gönderildi';
           break;
         case 1:
-          return 'listemde';
+          return 'Listemde';
           break;
         case 2:
-          return 'blocked';
+          return 'Bloklandı';
           break;
         default:
           return '';

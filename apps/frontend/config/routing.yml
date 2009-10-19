@@ -79,19 +79,19 @@ user_password_request:
   param:  { module: user, action: passwordRequest }
 
 friends:
-  url:    /friends/*
+  url:    /arkadaslar/*
   param:  { module: friend, action: list }
 
 friend_request:
-  url:    /friend/add/*
+  url:    /arkadas-ekle/*
   param:  { module: friend, action: add }
 
 friend_request_list:
-  url:    /friend/requests/*
+  url:    /arkadaslik-istekleri/*
   param:  { module: friend, action: request }
 
 friend_remove:
-  url:    /friend/remove/*
+  url:    /arkadas-sil/*
   param:  { module: friend, action: remove }
   
 conversations:

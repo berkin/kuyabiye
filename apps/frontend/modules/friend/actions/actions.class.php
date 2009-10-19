@@ -88,14 +88,15 @@ class friendActions extends sfActions
     $c->add(FriendPeer::USER_TO, $friend->getId());
     FriendPeer::doSelectOne($c)->delete();   
     
-    $this->setFlash('notice', $friend->getNickname() . ' silindi');
+    $this->setFlash('notice', $friend->getNickname() . ' arkadaş listenizden silindi.');
     
     $this->redirect('@friends');
   }
 
   public function executeList()
   {
-    $pager = new sfPropelPager('Friend', 2);
+  
+    $pager = new sfPropelPager('Friend', 20);
     
     $c = new Criteria();
     $c->add(FriendPeer::USER_FROM, $this->getUser()->getSubscriberId());
@@ -112,7 +113,7 @@ class friendActions extends sfActions
 
   public function executeRequest()
   {
-    $pager = new sfPropelPager('Friend', 2);
+    $pager = new sfPropelPager('Friend', 20);
 
     $c = new Criteria();
     $c->add(FriendPeer::USER_TO, $this->getUser()->getSubscriberId());

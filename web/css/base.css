@@ -358,6 +358,17 @@ body {
 	float: left;
 }
 
+#scale .lovers .empty {
+  background: #cb1182;
+  height: 99px;
+  width: 10px;
+}
+#scale .haters .empty {
+  background: #670c68;
+  height: 99px;
+  width: 10px;
+}
+
 #scale .lovers .users {
 	background: #cb1182;
   float: left;
@@ -586,7 +597,8 @@ h2.sub-header {
   padding: 0 4px;
 }
 .conversation .message-from a,
-.conversation .message-subject a {
+.conversation .message-subject a,
+.conversation .message-subject span {
   font-size: 1.333em;
   padding: 0 4px;
 }
@@ -598,6 +610,17 @@ h2.sub-header {
   margin: 3px 0 0 0;
   padding: 8px 10px 0;
 }
+
+.conversation .message-subject .accept-icon {
+  background: url(../images/accept.png) no-repeat 0 2px;
+  padding: 0 30px 0 20px;
+}
+
+.conversation .message-subject .cancel-icon {
+  background: url(../images/delete.png) no-repeat 0 2px;
+  padding: 0 0 0 20px;
+}
+
 
 .no-message {
   font-size: 1.333em;
@@ -750,8 +773,7 @@ h2.sub-header {
   .notice img {
     vertical-align: middle;
   }
-
-
+  
 .push {
   height: 50px;
 }

@@ -12,7 +12,7 @@
   ?>
     <div class="inputs">
       <label for="recipent">Kime*:</label>
-      <?php echo input_tag('recipent', $sf_params->get('recipent'), array('class' => 'text medium')) ?>
+      <?php echo input_tag('recipent', trim($sf_params->get('recipent')), array('class' => 'text medium')) ?>
       <?php if ( $sf_request->hasError('recipent') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('recipent'); ?></div>
       <?php } ?>

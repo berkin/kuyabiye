@@ -19,7 +19,7 @@
       <ul class="menu">
         <?php if ( $sf_user->isAuthenticated() ) { ?>
         <li><?php echo link_to($sf_user->getNickname(), '@user_profile?nick=' . $sf_user->getNickname()); ?></li>
-        <li><?php echo link_to('arkadaşlar', '@friends'); ?></li>
+        <li><?php echo link_to('arkadaşlar' . ( $sf_user->getAttribute('nbFriendRequests') ? '(' . $sf_user->getAttribute('nbFriendRequests') . ')' : ''), '@friends'); ?></li>
         <li><?php echo link_to('mesajlar' . ( $sf_user->getAttribute('nbUnreadMessages') ? '(' . $sf_user->getAttribute('nbUnreadMessages') . ')' : ''), '@conversations?folder=&page='); ?></li>
         <li><?php echo link_to('hesabım', '@user_edit_profile'); ?></li>
         <li class="last"><?php echo link_to('çıkış', '@logout'); ?></li>

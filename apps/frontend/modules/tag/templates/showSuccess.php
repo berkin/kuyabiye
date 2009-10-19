@@ -20,6 +20,7 @@ use_helper('Date', 'Validation', 'User', 'Pagination');
         </div>
         <?php if ( $total > 10 ) { ?>
         <div class="lovers clearfix">
+          <?php if ( $lovers ) { ?>
     	    <ul class="users clearfix">
             <?php $last = end($lovers); foreach ( $lovers as $lover ) { ?>
               <li <?php echo ( $lover == $last ? 'class="last"' : '' ) ?>><?php include_partial('user/avatar', array( 'user' => $lover )) ?></li>
@@ -32,8 +33,12 @@ use_helper('Date', 'Validation', 'User', 'Pagination');
               echo link_to('%' . $percents['lovers'] . ( count($lovers) > 1 ? ' seviyor' : ''), '@tag_lovers?stripped_tag=' . $tag->getStrippedTag() . '&sense=lovers', array('class' => 'love'));
             }?>
        		</div>
+          <?php } else { ?>
+          <div class="empty">&nbsp;</div>
+          <?php } ?>
         </div>
         <div class="haters clearfix">
+          <?php if ( $haters ) { ?>
           <ul class="users clearfix">
             <?php $last = end($haters); foreach ( $haters as $hater ) { ?>
             <li <?php echo ( $hater == $last ? 'class="last"' : '' ) ?>><?php include_partial('user/avatar', array( 'user' => $hater )) ?></li>
@@ -46,6 +51,9 @@ use_helper('Date', 'Validation', 'User', 'Pagination');
               }
             ?>
           </div>
+          <?php } else { ?>
+          <div class="empty">&nbsp;</div>
+          <?php } ?>
         </div>
         <?php } else { ?>
           <div class="lack">
