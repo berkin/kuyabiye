@@ -124,8 +124,21 @@ class tagActions extends sfActions
   
   public function executeSearch()
   {
+    if ( $this->hasFlash('search') )
+    {
+      $this->search = mb_strtolower($this->getFlash('search'), 'UTF-8');  
+    }
+    else 
+    {
+      if ( $this->getRequest()->getMethod() != sfRequest::POST ) 
+      {
+        //redirect get requests
+        $this->forward404();    
+      }
+      
+      $this->search = mb_strtolower($this->getRequestParameter('search'), 'UTF-8');  
+    }
     
-    $this->search = mb_strtolower($this->getRequestParameter('search'), 'UTF-8');
     
     $c = new Criteria();
     $c->add(TagPeer::TAG, $this->search);
@@ -155,11 +168,6 @@ class tagActions extends sfActions
   
   public function executeAdd()
   {
-    if ( $this->getRequest()->getMethod() != sfRequest::GET ) 
-    {
-      //redirect get requests
-      $this->forward404();
-    }
     
     $c = new Criteria();
     $c->add(TagPeer::TAG, mb_strtolower($this->getRequestParameter('search'), 'UTF-8'));
@@ -174,14 +182,14 @@ class tagActions extends sfActions
     $tag->setCreatedBy($this->getUser()->getSubscriberId());
     $tag->save();
     
-    $sense = $this->getRequestParameter('loves');
+    $sense = $this->getRequestParameter('sense');
     
     if ( $sense )
     {
       $user_tag = new UserToTag();
       $user_tag->setUser($this->getUser()->getSubscriber());
       $user_tag->setTag($tag);
-      $user_tag->setLove($this->getRequestParameter('loves'));
+      $user_tag->setLove($sense == 'seviyorum' ? true : false);
       $user_tag->save();
     }
     

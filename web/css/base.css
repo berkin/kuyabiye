@@ -281,6 +281,9 @@ body {
     line-height: 1.333em;
     padding: 0 20px 0 10px;
   }	
+  .size0 {
+    background-position: 0 5px;
+  }
   .size1 {
   	background-position: 0 5px;
   }

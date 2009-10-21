@@ -17,7 +17,7 @@ class userActions extends sfActions
 
     $this->loved_tags = $this->subscriber->getUserToTagsJoinTag();
     $this->hated_tags = $this->subscriber->getUserToTagsJoinTag(false);
-    $this->comments = $this->subscriber->getCommentsJoinTag();
+    // $this->comments = $this->subscriber->getCommentsJoinTag();
     
     $c = new Criteria();
     $c->add(PicturePeer::USER_ID, $this->subscriber->getId());
@@ -85,15 +85,21 @@ class userActions extends sfActions
   public function executeLogin()
   {
     $user = $this->getUser();
-    if ( $this->getRequest()->getMethod() != sfRequest::POST )
+    $request = $this->getRequest();
+    if ( $request->getMethod() != sfRequest::POST )
     {
       //display form
-      $this->getRequest()->setAttribute('referer', $user->getAttribute('refererUri'));
+      $request->setAttribute('referer', $user->getAttribute('refererUri'));
     }
     else 
     {
+      if ( $user->hasAttribute('search') )
+      {
+        $this->setFlash('search', $user->getAttribute('search'));
+        $request->getAttributeHolder()->remove('search');
+      }
       return $this->redirect($this->getRequestParameter('referer', '@homepage'));      
-    } 
+    }
   }
   
   public function executeLove()

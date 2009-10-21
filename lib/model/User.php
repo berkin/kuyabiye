@@ -29,7 +29,7 @@ class User extends BaseUser
     }
     
     $criteria->add(UserToTagPeer::LOVE, $love);
-    $criteria->SetLimit(15);
+    $criteria->SetLimit(sfConfig::get('app_user_max_tags'));
     $criteria->addDescendingOrderByColumn(UserToTagPeer::CREATED_AT);
    
     return parent::getUserToTagsJoinTag($criteria, $con);
