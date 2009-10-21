@@ -7,7 +7,7 @@ class userdataFilter extends sfFilter
     if ( $this->isFirstCall() ) 
     {
       $user = sfContext::getInstance()->getUser();
-      if ( $user )
+      if ( $user->isAuthenticated() )
       {
         $user_id = $user->getSubscriberId();
         $c = new Criteria();
@@ -19,6 +19,14 @@ class userdataFilter extends sfFilter
         $c->add(FriendPeer::USER_TO, $user_id);
         $c->add(FriendPeer::STATUS, 0);
         $user->setAttribute('nbFriendRequests', FriendPeer::doCount($c));
+      }
+      else
+      {
+        $request = sfContext::getInstance()->getRequest();
+        if ( sfContext::getInstance()->getRequest()->getParameter('action') != 'login' )
+        {
+          $user->setAttribute('refererUri', $request->getUri());
+        }      
       }
     }
     // execute next filter

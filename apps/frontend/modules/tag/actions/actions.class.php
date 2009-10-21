@@ -12,14 +12,24 @@
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 3335 2007-01-23 16:19:56Z fabien $
 @TODO
-- tools js de form adresi vs. yi elle giriyorsun, yani adres değişince onlar çalışmayacak. ona bir helper lazım.
-- show comment'e iki kere arka arka tıklayınca sapıtıyor, jquery zıbırı için deliciousda linkler var konu hakkında. animate olurken return false göndercen. bi de gönder butonu hafif yanda çıkıo.
+- tools js de form adresi vs. yi elle giriyorsun, yani adres deÄŸiÅŸince onlar almayacak. ona bir helper lazÄ±m.
+- show comment'e iki kere arka arka tÄ±klayÄ±nca sapÄ±tÄ±yor, jquery zÄ±bÄ±rÄ± iÃ¶in deliciousda linkler var konu hakkÄ±nda. animate olurken return false gÃ¶ndercen. bi de gÃ¶nder butonu hafif yanda Ã§Ä±kÄ±o
 - comment sisteminde transaction veya locktable bi guvenlik lazim
 - bu comment save() methoduna bu commentpeer::updateCommentsTree methodunu eklemyi denedin olmadi ama deneyebilirsin yine:P
--- comment pager, array ile yaptıkta pek mantıklı diil, her seferinde bütün satırları çekiyor
-- comment'i lib/model/comment.php bunda commentjoinuser methodunu override etmeye çalışabilin http://trac.symfony-project.org/wiki/ApplyingCustomJoinsInDoSelect article a bak hydrate filanla startcolumn bunlarla deneyebilirsin.
-- reply de login vs. ayrıca bos gondermeyi engelle
+- comment'i lib/model/comment.php bunda commentjoinuser methodunu override etmeye Ã§alÄ±ÅŸabilin http://trac.symfony-project.org/wiki/ApplyingCustomJoinsInDoSelect article a bak hydrate filanla startcolumn bunlarla deneyebilirsin.
+- reply de login vs. ayrÄ±ca bos gondermeyi engelle
 - markdown
+
+<br />
+@TODO<br />
+-search yaptÄ±ÄŸÄ±n ÅŸeyi get ile ekliyorsun, misal tag/add/?vs vs. bunu postla yapsan daha mantÄ±klÄ± olur<br />
+-executeAdd metodunda tag'i ÅŸak diye ekliyorsun, arama sonucundan geliyor adam ama yine de tag var mÄ± yok mu kontrol et<br />
+-tag/add/ ve tag/search var adam search diye tag eklemeye kalkarsa nolcak<br />
+-komÅŸuluk Ã¶ldÃ¼ mÃ¼, komÅŸuluk oldu mu stripped tagleri aynÄ±?? napcaz<br />
+-boÅŸ aramayÄ± engelle, special charackterleri engelle<br />
+-search sqli Ã§ok Ã§akma oldu, ÅŸu 21.konudaki olayÄ± yap, kelime kelime arasÄ±n... senin ki did you mean? gibi biÅŸe oldu<br />
+-arama yaptÄ±ktan sonra seviyorum dedim, Ã¼ye giriÅŸi sayfasÄ± geldi(Ã¼ye giriÅŸi yapmamÄ±ÅŸtÄ±m), Ã¼ye giriÅŸinden sonra 404'e yÃ¶nlendi sayfa...<br />
+-bÃ¼yÃ¼k kÃ¼Ã§Ã¼k harf ile tag ekleniyor mesela 12 DeV AdAm diye biÅŸey eklenememesi lazÄ±m.<br />
  */
 class tagActions extends sfActions
 {
@@ -63,8 +73,8 @@ class tagActions extends sfActions
     if ( sizeof($this->counts) )
     {
       $users = UserPeer::getLovers($this->counts, $this->tag->getId());
-      $this->lovers = $users['lovers'];
-      $this->haters = $users['haters'];
+      $this->lovers = isset($users['lovers']) ? $users['lovers'] : array();
+      $this->haters = isset($users['haters']) ? $users['haters'] : array();
     }
     
     $response = $this->getContext()->getResponse();
@@ -114,20 +124,15 @@ class tagActions extends sfActions
   
   public function executeSearch()
   {
-    if ( $this->getRequest()->getMethod() != sfRequest::POST ) 
-    {
-      //redirect get requests
-      $this->forward404();
-    } 
     
-    $this->search = $this->getRequestParameter('search');
+    $this->search = mb_strtolower($this->getRequestParameter('search'), 'UTF-8');
     
     $c = new Criteria();
     $c->add(TagPeer::TAG, $this->search);
     $tag = TagPeer::doSelectOne($c);
     if ( $tag )
     {
-      $this->redirect('@tag?stripped_tag=' . $tag->getStrippedTag());
+      $this->redirect('@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=');
     }
     
     $conn = Propel::getConnection();
@@ -157,11 +162,11 @@ class tagActions extends sfActions
     }
     
     $c = new Criteria();
-    $c->add(TagPeer::TAG, $this->getRequestParameter('search'));
+    $c->add(TagPeer::TAG, mb_strtolower($this->getRequestParameter('search'), 'UTF-8'));
     $search = TagPeer::doSelectOne($c);
     if ( $search )
     {
-      $this->redirect('@tag?stripped_tag=' . $search->getStrippedTag());
+      $this->redirect('@tag?stripped_tag=' . $search->getStrippedTag() . '&page=');
     }
 
     $tag = new Tag();
@@ -169,14 +174,18 @@ class tagActions extends sfActions
     $tag->setCreatedBy($this->getUser()->getSubscriberId());
     $tag->save();
     
-    $user_tag = new UserToTag();
-    $user_tag->setUser($this->getUser()->getSubscriber());
-    $user_tag->setTag($tag);
-    $user_tag->setLove($this->getRequestParameter('loves'));
-    $user_tag->save();
+    $sense = $this->getRequestParameter('loves');
     
-    $this->redirect('@tag?stripped_tag=' . $tag->getStrippedTag());
-    return sfView::NONE;
+    if ( $sense )
+    {
+      $user_tag = new UserToTag();
+      $user_tag->setUser($this->getUser()->getSubscriber());
+      $user_tag->setTag($tag);
+      $user_tag->setLove($this->getRequestParameter('loves'));
+      $user_tag->save();
+    }
+    
+    $this->redirect('@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=');
   }
   
   public function handleErrorSearch()

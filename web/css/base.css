@@ -118,6 +118,10 @@ body {
     width: 230px;
 	}
   
+.search-error {
+  margin: 20px 0 0;
+}
+  
 .tagline {
 	color: #2c2c2c;
 	font-size: 1.5em;
@@ -163,7 +167,7 @@ body {
 .tag {
 	background: url(../images/tag-bullet.gif) no-repeat 0 15px;
 }
-	.tag a {
+	.tag a, .tag span {
 		font-size: 2.5em;
     line-height: 1.166em;
   	padding: 0 0 0 15px;
@@ -209,6 +213,11 @@ body {
     .love-buttons li.hate a {
       color: #971298;
     }
+    
+.sounds-like h2.love {
+  font-size: 2em;
+  margin: 0 0 20px 0;
+}
     
 .tags .home-header .user {
   color: #112000;

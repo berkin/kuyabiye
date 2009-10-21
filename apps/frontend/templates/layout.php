@@ -11,8 +11,7 @@
 
 </head>
 <body>
-  <div id="indicator" style="display: none"></div>
-  
+ 
   <div class="wrap">
     
     <div id="header" class="clearfix">
@@ -33,9 +32,9 @@
       <div class="sub-content">
 	      <?php echo link_to(image_tag('kuyabiye-logo.gif', array('alt' => 'kuyabiye logo', 'title' => 'Ana sayfaya dönmek için tıklayın')), '@homepage', array('class' => 'logo', 'title' => 'Sevdiğin sevmediğin herşeyi profiline ekle, arkadaşlarınla paylaş!')) ?>
         <div class="search">
-          <form action="<?php echo url_for('@tag_search') ?>" method="post">
+          <?php echo form_tag('@tag_search', 'method=post') ?>
           <?php echo label_for('search', 'Sevdiğin / Sevmediğin her şey') ?>
-          <?php echo input_tag('search', '', array('class' => 'search-input')) ?>
+          <?php echo input_tag('search', $sf_params->get('search'), array('class' => 'search-input')) ?>
           <?php echo submit_image_tag('search-button.gif') ?>
           </form>
         </div>

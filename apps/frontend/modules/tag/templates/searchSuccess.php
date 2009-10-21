@@ -4,25 +4,38 @@
 
 use_helper('Date', 'Validation');
 ?>
-<h1><?php echo $search ?></h1>
-<div class="tag-actions">
-  <span class="lover"><?php echo link_to('seviyor musun?', '@tag_add?loves=1&search=' . $sf_params->get('search')) . ' ' . link_to('sevmiyor musun?', '@tag_add?loves=0&search=' . $sf_params->get('search')) ?></span>
-</div>
-<br />
-<?php echo form_error('search'); ?>
-dediğinizden yok ama, bunlar var:
-<ul id="related-search">
-<?php foreach ( $sounds as $sound ) { ?>
-  <li><?php echo link_to($sound['tag'], '@tag?stripped_tag=' . $sound['stripped_tag']) ?></li>
-<?php } ?>
+<ul class="breadcrumb">
+  <li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li>
+  <li><a href="#">Arama</a></li>
 </ul>
-<br />
-@TODO<br />
--search yaptığın şeyi get ile ekliyorsun, misal tag/add/?vs vs. bunu postla yapsan daha mantıklı olur<br />
--executeAdd metodunda tag'i şak diye ekliyorsun, arama sonucundan geliyor adam ama yine de tag var mı yok mu kontrol et<br />
--tag/add/ ve tag/search var adam search diye tag eklemeye kalkarsa nolcak<br />
--komşuluk öldü mü, komşuluk oldu mu stripped tagleri aynı?? napcaz<br />
--boş aramayı engelle, special charackterleri engelle<br />
--search sqli çok çakma oldu, şu 21.konudaki olayı yap, kelime kelime arasın... senin ki did you mean? gibi bişe oldu<br />
--arama yaptıktan sonra seviyorum dedim, üye girişi sayfası geldi(üye girişi yapmamıştım), üye girişinden sonra 404'e yönlendi sayfa...<br />
--büyük küçük harf ile tag ekleniyor mesela 12 DeV AdAm diye bişey eklenememesi lazım.<br />
+
+<div id="welcome" class="clearfix">
+  <div class="tag-flash">
+    <h1 class="tag"><a href="#"><?php echo $search ?></a></h1>
+      <div class="love-buttons-wrap">
+        <ul class="love-buttons">
+          <li class="love"><?php echo link_to('Seviyor musun?', '@tag_add?sense=seviyorum&search=' . $search) ?></li>
+          <li class="hate"><?php echo link_to('Sevmiyor musun?', '@tag_add?sense=sevmiyorum&search=' . $search) ?></li>
+        </ul>
+      </div>
+      <div class="notice">
+        <div class="success">
+          <?php echo 'Bu etiket henüz eklenmemiş, bu etiketi profiline yukarıdaki seviyor musun veya sevmiyor musun bağlantılarına tıklayarak ekleyebilirsin. Sadece yorum yapmak için ' . link_to('buraya', '@tag_add?search=' . $search . '&sense=', 'class=bold') . ' tıklayın.' ?>
+        </div>      
+      </div>
+  </div>
+
+  <?php include_partial('tag/ad') ?>
+</div>
+
+<?php if ( $sounds ) { ?>
+<div class="sounds-like">
+  <h2 class="love">Aradığınız bu olabilir mi?</h1>
+  <ul class="tag-list">
+  <?php foreach ( $sounds as $sound ) { ?>
+    <li><?php echo link_to($sound['tag'], '@tag?stripped_tag=' . $sound['stripped_tag'] . '&page=') ?></li>
+  <?php } ?>
+  </ul>
+</div>
+<?php } ?>
+

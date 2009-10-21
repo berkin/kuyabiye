@@ -4,9 +4,10 @@
 
 use_helper('Date', 'Validation', 'User', 'Pagination');
 ?>
-
-
-      	<ul class="breadcrumb"><li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li><li><a href="#">Etiketler</a></li></ul>
+      <ul class="breadcrumb">
+        <li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li>
+        <li><a href="#">Etiketler</a></li>
+      </ul>
         
       <?php include_partial('tag/tag', array('tag' => $tag)) ?>
 

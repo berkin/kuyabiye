@@ -4,11 +4,11 @@ methods:
 names:
   search:
     required: true
-    required_msg: required
+    required_msg: Arama yapmak için en az 2 karakter girmeniz gerekiyor.
     validators: [searchValidator]
 
 searchValidator:
   class: sfStringValidator
   param:
     min: 2
-    min_error: en az 2 karakter olmalı
+    min_error: Arama yapmak için en az 2 karakter girmeniz gerekiyor.

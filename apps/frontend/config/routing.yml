@@ -16,11 +16,11 @@ logout:
   param: { module: user, action: logout }
 
 tag_add:
-  url:    /tag/add/*
-  param:  { module: tag, action: add }
+  url:    /etiket-ekle/:search/:sense/*
+  param:  { module: tag, action: add, sense: ' ' }
 
 tag_search:
-  url:    /tag/search/*
+  url:    /etiket/ara/*
   param:  { module: tag, action: search }
 
 tag:

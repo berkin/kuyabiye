@@ -4,6 +4,22 @@
 
 use_helper('Validation');
 ?>
-<h1><?php echo $search ?></h1>
-<br />
-<?php echo form_error('search'); ?>
+<ul class="breadcrumb">
+  <li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li>
+  <li><a href="#">Arama</a></li>
+</ul>
+
+<div id="welcome" class="clearfix">
+  <div class="tag-flash">
+    <h1 class="tag"><span>Hata!</span></h1>
+      <div class="search-error notice">
+        <div class="error">
+          <?php echo $sf_request->getError('search'); ?>
+
+        </div>      
+      </div>
+  </div>
+
+  <?php include_partial('tag/ad') ?>
+</div>
+

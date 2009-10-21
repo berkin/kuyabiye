@@ -44,6 +44,11 @@ class userActions extends sfActions
   }
   public function executeRegister()
   {
+    if ( $this->getUser()->isAuthenticated() ) 
+    {
+      $this->redirect('@homepage');
+    }
+  
     // save user
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
     {
@@ -79,14 +84,15 @@ class userActions extends sfActions
     
   public function executeLogin()
   {
+    $user = $this->getUser();
     if ( $this->getRequest()->getMethod() != sfRequest::POST )
     {
       //display form
-      $this->getRequest()->setAttribute('referer', $this->getRequest()->getReferer());
+      $this->getRequest()->setAttribute('referer', $user->getAttribute('refererUri'));
     }
     else 
     {
-      return $this->redirect($this->getRequestParameter('referer', '@homepage'));
+      return $this->redirect($this->getRequestParameter('referer', '@homepage'));      
     } 
   }
   
