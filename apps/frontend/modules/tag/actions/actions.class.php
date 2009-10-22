@@ -77,8 +77,6 @@ class tagActions extends sfActions
       $this->haters = isset($users['haters']) ? $users['haters'] : array();
     }
     
-    $response = $this->getContext()->getResponse();
-    $response->addJavascript('tools');
     $this->comments = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId(), $this->getRequestParameter('page',1));
 
     $this->token = myTools::generate_random_key();
@@ -192,7 +190,7 @@ class tagActions extends sfActions
       $user_tag->setLove($sense == 'seviyorum' ? true : false);
       $user_tag->save();
     }
-    
+        
     $this->redirect('@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=');
   }
   
