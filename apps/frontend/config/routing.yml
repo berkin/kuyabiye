@@ -33,7 +33,7 @@ tag_lovers:
   param:  { module: tag, action: lovers, page: 1 }
 
 add_comment:
-  url:    /comment/add/*
+  url:    /yorum/ekle/*
   param:  { module: comment, action: add }
 
 user_pictures:
@@ -114,18 +114,6 @@ conversation_reply:
 conversation_remove:
   url:    /mesaj/sil/*
   param:  { module: conversation, action: remove }
-  
-messages:
-  url:    /messages/*
-  param:  { module: message, action: index }
-
-message_read:
-  url:    /message/read/*
-  param:  { module: message, action: read }
-
-message_add:
-  url:    /message/new/*
-  param:  { module: message, action: add }
 
 default_symfony:
   url:   /symfony/:action/*

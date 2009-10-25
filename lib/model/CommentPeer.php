@@ -23,24 +23,6 @@ class CommentPeer extends BaseCommentPeer
                     AND parent_comments.tree_right
                 GROUP BY ' . self::ID . '
                 ORDER BY ' . self::TREE_LEFT;
-  
-    // $stmt = $conn->prepareStatement($query);
-    // $stmt->setInt(1, $tags_id);
-    // $rs = $stmt->executeQuery();
-    
-    // $comments = array();
-    // while ( $rs->next() ) 
-    // {
-      // $comments[] = array('comments_id' => $rs->getInt('ID'),
-                          // 'nickname'    => $rs->getString('NICKNAME'),
-                          // 'avatar'      => $rs->getString('AVATAR'),
-                          // 'love'        => $rs->getInt('LOVE'),
-                          // 'body'        => $rs->getString('BODY'),
-                          // 'depth'       => $rs->getInt('DEPTH'),
-                          // 'created_at'  => $rs->getTimestamp('CREATED_AT', 'U'));
-    // }
-
-    // return $comments;
     
     $count = 'SELECT COUNT(' . self::ID . ') as count
                 FROM ' . self::TABLE_NAME . ' 
@@ -71,5 +53,33 @@ class CommentPeer extends BaseCommentPeer
     $stmt2 = $con->PrepareStatement($sql);
     $stmt2->setInt(1, $comment);
     $stmt2->executeQuery();
+  }
+  
+  public static function getTagPage($tag_id, $comment_id, $tree_left)
+  {
+    $conn = Propel::getConnection();
+    $query = 'SELECT count(*) AS COUNT 
+                FROM (
+                  SELECT count(' . self::ID . ')
+                    FROM ' . self::TABLE_NAME . ' AS parent_comments, ' . 
+                      self::TABLE_NAME . '
+                    WHERE ' . self::TAGS_ID . ' = ?
+                    AND ' . self::TREE_LEFT . ' 
+                      BETWEEN parent_comments.tree_left 
+                        AND parent_comments.tree_right
+                    AND ' . self::TREE_LEFT . ' <= ?
+                    GROUP BY ' . self::ID . '
+                    ORDER BY ' . self::TREE_LEFT . ')
+                AS c;';
+  
+  
+    $stmt = $conn->prepareStatement($query);
+    $stmt->setInt(1, $tag_id);
+    $stmt->setInt(2, $tree_left);
+    $rs = $stmt->executeQuery();
+    $rs->next();
+    $page = ceil(($rs->getInt('COUNT')) / 20);
+
+    return $page;
   }
 }

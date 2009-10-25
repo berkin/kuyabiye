@@ -27,7 +27,7 @@
       <?php echo checkbox_tag('remember') ?> Beni Hatırla
     </div>
     
-    <?php echo input_hidden_tag('referer', $sf_request->hasAttribute('referer') ? $sf_request->getAttribute('referer') : $sf_params->get('referer') ) ?>
+    <?php echo input_hidden_tag('referer', $sf_request->hasAttribute('referer') ? $sf_request->getAttribute('referer') . ( $sf_params->get('link') ? '#' . $sf_params->get('link') : '' ) : $sf_params->get('referer') ) ?>
     <div class="inputs">
       <label for="submit">&nbsp;</label>
       <?php echo submit_image_tag('login-button.gif') ?><?php echo link_to('Şifremi Unuttum', '@user_password_request', array('class' => 'forgot-password-link')) ?>

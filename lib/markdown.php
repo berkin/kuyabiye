@@ -536,12 +536,8 @@ class Markdown_Parser {
 	#
 	# These are all the transformations that form block-level
 	# tags like paragraphs, headers, and list items.
-	#
-		"doHeaders"         => 10,
-		"doHorizontalRules" => 20,
-		
+	# berkin dohorizontal doheaders doCodeblocks doBlockquote i sildim
 		"doLists"           => 40,
-		"doCodeBlocks"      => 50,
 		"doBlockQuotes"     => 60,
 		);
 
@@ -605,16 +601,17 @@ class Markdown_Parser {
 
 		# Process anchor and image tags. Images must come first,
 		# because ![foo][f] looks like an anchor.
-		"doImages"            =>  10,
+    # berkin doImage i sildim
 		"doAnchors"           =>  20,
 		
 		# Make links out of things like `<http://example.com/>`
 		# Must come after doAnchors, because you can use < and >
 		# delimiters in inline links like [this](<url>).
 		"doAutoLinks"         =>  30,
+		"doInlineTagAnchors"  =>  35,
 		"encodeAmpsAndAngles" =>  40,
 
-		"doItalicsAndBold"    =>  50,
+    #"doItalicsAndBold"    =>  50,
 		"doHardBreaks"        =>  60,
 		);
 
@@ -631,8 +628,8 @@ class Markdown_Parser {
 	
 	
 	function doHardBreaks($text) {
-		# Do hard breaks:
-		return preg_replace_callback('/ {2,}\n/', 
+		# Do hard breaks: berkin '/ {2,}\n/' 2 boslukdu sildim
+		return preg_replace_callback('/\n/', 
 			array(&$this, '_doHardBreaks_callback'), $text);
 	}
 	function _doHardBreaks_callback($matches) {
@@ -686,7 +683,7 @@ class Markdown_Parser {
 				  ([\'"])	# quote char = $6
 				  (.*?)		# Title = $7
 				  \6		# matching quote
-				  [ ]*	# ignore any spaces/tabs between closing quote and )
+				#  [ ]*	 ignore any spaces/tabs between closing quote and )
 				)?			# title is optional
 			  \)
 			)
@@ -763,7 +760,21 @@ class Markdown_Parser {
 
 		return $this->hashPart($result);
 	}
+  
+ function doInlineTagAnchors($text) {
+		$text = preg_replace_callback('/\*\*([^}]*)\*\*/',
+			array(&$this, '_doInlineTagAnchors_callback'), $text);
 
+		return $text;
+	}
+  
+  function _doInlineTagAnchors_callback($matches)
+  {
+    $match = $matches[1];
+    $result = link_to($match, '@tag_search?stripped_tag=' . myTools::slugify($match) . '&page=', array('class' => 'tag-link', 'query_string' => 'ara=' . $match));
+    
+    return $this->hashPart($result);
+  }
 
 	function doImages($text) {
 	#
@@ -1403,19 +1414,20 @@ class Markdown_Parser {
 
 
 	function doAutoLinks($text) {
-		$text = preg_replace_callback('{<((https?|ftp|dict):[^\'">\s]+)>}i', 
+    //berkin original {<((https?|ftp|dict):[^\'">\s]+)>}i
+		$text = preg_replace_callback('{((https?|ftp|dict):[^\'">\s]+)}i', 
 			array(&$this, '_doAutoLinks_url_callback'), $text);
 
 		# Email addresses: <address@domain.foo>
 		$text = preg_replace_callback('{
-			<
+			
 			(?:mailto:)?
 			(
 				[-.\w\x80-\xFF]+
 				\@
 				[-a-z0-9\x80-\xFF]+(\.[-a-z0-9\x80-\xFF]+)*\.[a-z]+
 			)
-			>
+			
 			}xi',
 			array(&$this, '_doAutoLinks_email_callback'), $text);
 
@@ -1423,7 +1435,7 @@ class Markdown_Parser {
 	}
 	function _doAutoLinks_url_callback($matches) {
 		$url = $this->encodeAttribute($matches[1]);
-		$link = "<a href=\"$url\">$url</a>";
+		$link = "<a class=\"out-link\" target=\"_blank\" href=\"$url\">$url</a>";
 		return $this->hashPart($link);
 	}
 	function _doAutoLinks_email_callback($matches) {

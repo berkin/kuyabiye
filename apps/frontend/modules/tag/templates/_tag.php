@@ -1,6 +1,6 @@
        	<div id="welcome" class="clearfix">
         	<div class="tag-flash">
-        		<h1 class="tag"><?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=') ?><small><?php echo link_to($tag->getUser()->getNickname(), '@user_profile?nick=' . $tag->getUser()->getNickname(), array('class' => 'user')) ?> ekledi.</small></h1>
+        		<h1 class="tag"><?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=') ?><small><?php echo link_to($tag->getUser()->getNickname(), '@user_profile?nick=' . $tag->getUser()->getNickname(), array('class' => 'user', 'title' => $tag->getCreatedAt() . ' tarihinde ekledi.')) ?> ekledi.</small></h1>
             <div class="love-buttons-wrap" id="love_<?php echo $tag->getId() ?>">
             <?php include_partial('love_buttons', array('tag' => $tag)); ?>
             </div>

@@ -43,7 +43,7 @@
           <h2 class="home-header"><a class="hate" href="#">bugünlerde sevilmeyenler</a></h2>
           <div class="tag-cloud tag-hate">
             <?php foreach ($hated_tags as $tag): ?>
-              <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag(), array('class' => 'tag size' . $tag->getWeight())) ?>
+              <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
             <?php endforeach; ?>
           </div>
         </div>

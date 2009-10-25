@@ -63,19 +63,19 @@ use_helper('Date', 'Validation', 'User', 'Pagination', 'Javascript');
         <?php } ?>
       </div>
       
-      <div id="comment-0" class="comments">
+      <div id="yorum" class="comments">
       	<h2 class="love sub-header">Yorumlar (<?php echo $tag->getNbComments() ?>)</h2>
         <?php foreach ( $comments->getResults() as $comment ) { ?>
           <?php $comment = array_change_key_case($comment); ?>
           <?php include_partial('comment/comment', array('comment' => $comment, 'tag' => $tag->getId())) ?>
         <?php } ?>
-        
-        <div class="comment no-border">
+        <div id="yorum-ekle" class="comment no-border">
           <?php if ( $sf_user->isAuthenticated() ) { ?>
           <?php include_partial('user/avatar', array('user' => $sf_user)) ?>
           <div class="comment-main-form">
           <form name="main-comment" action="<?php echo url_for('@add_comment'); ?>" method="post" class="comment-reply-form">
           <?php
+            echo input_hidden_tag('page', $page);
             echo input_hidden_tag('tag', $tag->getId());
             echo textarea_tag('body');
             echo submit_image_tag('reply-button.gif');

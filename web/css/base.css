@@ -398,6 +398,7 @@ body {
   height: 85px;
 } 
   #scale .lack p {
+    font-size: 1.333em;
     padding: 35px 0 0 20px;
   }
 
@@ -526,13 +527,28 @@ h2.sub-header {
     margin: 0 0 10px;
     padding: 10px;
   }
-  
+  .markdown-body {
+    overflow: hidden;
+  }
   .markdown-body strong {
     font-weight: bold;
   }
   
   .markdown-body p {
     margin: 0 0 25px;
+  }
+  
+  .mardown-body em {
+    font-style: italic;
+  }
+  
+  .markdown-body a {
+    color: #0060ff;
+    text-decoration: underline;
+  }
+  
+  .markdown-body a:hover {
+    color: #154ba4;
   }
   
 .markdown-help {

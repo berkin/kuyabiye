@@ -63,7 +63,11 @@ class tagActions extends sfActions
     $c->add(TagPeer::STRIPPED_TAG, $this->getRequestParameter('stripped_tag'));
     $this->tag = TagPeer::doSelectOne($c);
     
-    $this->forward404Unless($this->tag);
+    if ( !$this->tag )
+    {
+      $this->setFlash('search', $this->getRequestParameter('ara'));
+      $this->redirect('@tag_search');
+    }
    
     $this->counts = UserToTagPeer::getCountOfLovers($this->tag->getId());
     $this->percents = myTools::getLimitOfLovers($this->counts, 100, 1);
@@ -77,7 +81,8 @@ class tagActions extends sfActions
       $this->haters = isset($users['haters']) ? $users['haters'] : array();
     }
     
-    $this->comments = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId(), $this->getRequestParameter('page',1));
+    $this->page = $this->getRequestParameter('page', 1);
+    $this->comments = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId(), $this->page);
 
     $this->token = myTools::generate_random_key();
     $this->setFlash('token', $this->token);
