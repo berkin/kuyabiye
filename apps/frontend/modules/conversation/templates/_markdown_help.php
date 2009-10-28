@@ -5,46 +5,12 @@ echo javascript_tag("function toggleMarkdownHelp()
   ( document.getElementById('markdown_help').style.display == 'none' ) ? document.getElementById('markdown_help').style.display = 'block' : document.getElementById('markdown_help').style.display = 'none';
 }") ?>
 
-<div class="small"><?php echo 'basic ' . link_to_function('markdown', "toggleMarkdownHelp()") . ' formatting allowed' ?></div>
-<div id="markdown_help" style="display: none">
-  <p>Phrase Emphasis</p>
-
-  <pre><code>*italic*   **bold**
-  </code></pre>
-
-  <p>Manual Line Breaks</p>
-
-  <p>End a line with two or more spaces:</p>
-
-  <pre><code>Roses are red,   
-  Violets are blue.
-  </code></pre>
-
-  <p>Images (titles are optional):</p>
-
-  <pre><code>![alt text](/path/img.jpg "Title")
-  </code></pre>
-
-  <p>Lists:</p>
-
-  <pre><code>*   stuff
-      * thing
-  *   whatchamacallit
-      1.  thingy
-      2.  thingumajig
-          * what's-his-name
-  </code></pre>
-
-  <p>Links:</p>
-
-  <pre><code>An [example](http://url.com/ "Title")
-  </code></pre>
-
-  <p>Blockquotes</p>
-
-  <pre><code>&gt; Email-style angle brackets
-  &gt; are used for blockquotes.
-
-  &gt; &gt; And, they can be nested.
-  </code></pre>
+<div class="small">
+  <?php echo link_to_function('Mesajınızı düzenlemek için bilgiler ', "toggleMarkdownHelp()", 'class=toggle') ?>
+</div>
+<div class="formatting-help" id="markdown_help" style="display: none">
+  <p>**kuyabiye** =><?php echo link_to('kuyabiye', '@tag_search', array('query_string' => 'ara=kuyabiye')) ?>, kuyabiye etiketine gider.</p>
+  <p>[kelime](kuyabiye) => <?php echo link_to('kelime', '@tag_search', array('query_string' => 'ara=Kuyabiye')) ?>, kuyabiye etiketine gider. </p>
+  <p>http://kuyabiye.com => <?php echo link_to('http://kuyabiye.com', '', 'class=out-link') ?>, http://kuyabiye.com adresine gider.</p>
+  <p>[kelime][http://kuyabiye.com] => <?php echo link_to('kelime', 'http://www.kuyabiye.com') ?>, http://kuyabiye.com adresine gider.</p>
 </div>

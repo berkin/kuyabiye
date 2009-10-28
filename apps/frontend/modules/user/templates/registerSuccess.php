@@ -34,7 +34,7 @@
     </div>
     
     <div class="inputs">
-      <label for="password">Şifre(Tekrar)*:</label>
+      <label for="password">Şifre (Tekrar)*:</label>
       <?php echo input_password_tag('repassword', '', array('class' => 'text medium')) ?>
       <?php if ( $sf_request->hasError('repassword') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('repassword'); ?></div>

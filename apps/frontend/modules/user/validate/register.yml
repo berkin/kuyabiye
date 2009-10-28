@@ -9,7 +9,7 @@ names:
   
   email:
     required:     true
-    required_msg: E-posta Adresiniz gerekli.
+    required_msg: E-posta adresiniz gerekli.
     validators:   [emailValidator, uniqueEmailValidator ]
 
   password:

@@ -518,6 +518,40 @@ h2.sub-header {
     margin: 0 0 0 100px;
   }
   
+  .comment .notice {
+    font-size: 1.333em;
+  }
+  
+  .form-submit .submit-button {
+    float: right;
+  }
+  
+  .form-submit .small {
+    float: left;
+    line-height: 1.5em;
+    text-align: left;
+  }
+
+  .form-submit .small a.toggle {
+    color: #a3a3a3;  
+  }
+  
+  .formatting-help {
+    float: left;
+    text-align: left;
+  }
+  
+  .formatting-help p {
+    margin: 10px 0 20px;
+  }
+  
+  .formatting-help a {
+    color: #0060ff;
+    text-decoration: underline;  
+  }
+
+  
+  
   .add-comment {
     margin: 10px 0 20px;
   }

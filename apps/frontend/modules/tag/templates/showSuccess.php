@@ -74,12 +74,17 @@ use_helper('Date', 'Validation', 'User', 'Pagination', 'Javascript');
           <?php include_partial('user/avatar', array('user' => $sf_user)) ?>
           <div class="comment-main-form">
           <form name="main-comment" action="<?php echo url_for('@add_comment'); ?>" method="post" class="comment-reply-form">
-          <?php
-            echo input_hidden_tag('page', $page);
-            echo input_hidden_tag('tag', $tag->getId());
-            echo textarea_tag('body');
-            echo submit_image_tag('reply-button.gif');
-          ?>
+            <?php
+              echo input_hidden_tag('page', $page);
+              echo input_hidden_tag('tag', $tag->getId());
+              echo textarea_tag('body');
+            ?>
+            <div class="form-submit clearfix">
+              <div class="submit-button">
+                <?php echo submit_image_tag('reply-button.gif'); ?>
+              </div> 
+              <?php include_partial('conversation/markdown_help'); ?>
+            </div>
           </form>   
           </div>
           <?php } else { ?>
@@ -90,36 +95,41 @@ use_helper('Date', 'Validation', 'User', 'Pagination', 'Javascript');
       </div>
       <?php echo pager_navigation($comments, '@tag?stripped_tag=' . $tag->getStrippedTag()); ?>
       
-<?php echo javascript_tag("function showReply(comment_id) {
-  var aHref = 'href-' + comment_id;
-  var objHref = $(aHref);
-  var commentHolder = 'comment-' + comment_id;
-  var objCommentHolder = $(commentHolder);
-  var commentFormHolder = $('comment-form-' + comment_id);
-  var objCommentFormHolder = $(commentFormHolder);
-  
-  if ( objCommentFormHolder ) {
-    if ( objCommentFormHolder.style.display == 'none' ) {
-      new Effect.BlindDown(commentFormHolder, { duration: 0.2 });
-      objHref.innerHTML = 'yorum yaz';
-    } 
-    else {
-      new Effect.BlindUp(commentFormHolder, { duration: 0.2 });
-      objHref.innerHTML = 'yorum yaz';
+<?php
+if ( $sf_user->isAuthenticated() )
+{
+  echo javascript_tag("function showReply(comment_id) 
+    {
+      var aHref = 'href-' + comment_id;
+      var objHref = $(aHref);
+      var commentHolder = 'comment-' + comment_id;
+      var objCommentHolder = $(commentHolder);
+      var commentFormHolder = $('comment-form-' + comment_id);
+      var objCommentFormHolder = $(commentFormHolder);
+      
+      if ( objCommentFormHolder ) 
+      {
+        if ( objCommentFormHolder.style.display == 'none' ) {
+          new Effect.BlindDown(commentFormHolder, { duration: 0.2 });
+          objHref.innerHTML = 'yorum yaz';
+        } 
+        else {
+          new Effect.BlindUp(commentFormHolder, { duration: 0.2 });
+          objHref.innerHTML = 'yorum yaz';
+        }
+      }
+      else 
+      {
+        var commentForm = '<form action=\"" . url_for('@add_comment') . "\" method=\"post\" class=\"comment-reply-form\" id=\"comment-form-' + comment_id + '\">\
+                              <input type=\"hidden\" name=\"tag\" value=\"" . $tag->getId() . "\">\
+                              <input type=\"hidden\" name=\"comment_id\" value=\"' + comment_id + '\">\
+                              <textarea name=\"body\"><\/textarea>" . submit_image_tag('reply-button.gif') . "\
+                           <\/form>';
+        new Insertion.After(commentHolder, commentForm);
+        new Effect.BlindDown('comment-form-' + comment_id, { duration: 0.2 });          
+        objHref.innerHTML = 'yorum yaz';
+      }
     }
-  }
-  else {
-    var commentForm = '<form action=\"" . url_for('@add_comment') . "\" method=\"post\" class=\"comment-reply-form\" id=\"comment-form-' + comment_id + '\">\
-                          <input type=\"hidden\" name=\"tag\" value=\"" . $tag->getId() . "\">\
-                          <input type=\"hidden\" name=\"comment_id\" value=\"' + comment_id + '\">\
-                          <textarea name=\"body\"><\/textarea>" . submit_image_tag('reply-button.gif') . "\
-                       <\/form>';
-    new Insertion.After(commentHolder, commentForm);
-    new Effect.BlindDown('comment-form-' + comment_id, { duration: 0.2 });          
-    objHref.innerHTML = 'yorum yaz';
-  }
+  ");
 }
-
-
-");
 ?>

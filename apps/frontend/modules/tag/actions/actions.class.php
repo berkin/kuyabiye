@@ -28,8 +28,6 @@
 -komşuluk öldü mü, komşuluk oldu mu stripped tagleri aynı?? napcaz<br />
 -boş aramayı engelle, special charackterleri engelle<br />
 -search sqli çok çakma oldu, şu 21.konudaki olayı yap, kelime kelime arasın... senin ki did you mean? gibi bişe oldu<br />
--arama yaptıktan sonra seviyorum dedim, üye girişi sayfası geldi(üye girişi yapmamıştım), üye girişinden sonra 404'e yönlendi sayfa...<br />
--büyük küçük harf ile tag ekleniyor mesela 12 DeV AdAm diye bişey eklenememesi lazım.<br />
  */
 class tagActions extends sfActions
 {
@@ -127,20 +125,8 @@ class tagActions extends sfActions
   
   public function executeSearch()
   {
-    if ( $this->hasFlash('search') )
-    {
-      $this->search = mb_strtolower($this->getFlash('search'), 'UTF-8');  
-    }
-    else 
-    {
-      if ( $this->getRequest()->getMethod() != sfRequest::POST ) 
-      {
-        //redirect get requests
-        $this->forward404();    
-      }
-      
-      $this->search = mb_strtolower($this->getRequestParameter('search'), 'UTF-8');  
-    }
+
+    $this->search = mb_strtolower($this->getRequestParameter('ara'), 'UTF-8');  
     
     
     $c = new Criteria();

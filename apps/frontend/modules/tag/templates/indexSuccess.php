@@ -3,7 +3,7 @@
 // date: 2009/01/01 18:26:05
 ?>
 <?php use_helper('Javascript'); ?>
-      	<div class="tagline">Sevdiğin sevmediğin her şeyi profiline ekle, arkadaşlarınla paylaş!</div>
+      	<div class="tagline">Sevdiğin sevmediğin herşeyi profiline ekle, arkadaşlarınla paylaş!</div>
         
        	<div id="welcome" class="clearfix">
           <div class="tag-flash" id="tag-slideshow">

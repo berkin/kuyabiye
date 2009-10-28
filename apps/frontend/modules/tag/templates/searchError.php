@@ -14,7 +14,7 @@ use_helper('Validation');
     <h1 class="tag"><span>Hata!</span></h1>
       <div class="search-error notice">
         <div class="error">
-          <?php echo $sf_request->getError('search'); ?>
+          <?php echo $sf_request->getError('ara'); ?>
 
         </div>      
       </div>

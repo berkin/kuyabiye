@@ -1,8 +1,8 @@
 methods:
-  post: [search]
+  get: [ara]
 
 names:
-  search:
+  ara:
     required: true
     required_msg: Arama yapmak için en az 2 karakter girmeniz gerekiyor.
     validators: [searchValidator]

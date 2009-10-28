@@ -228,6 +228,10 @@ class Markdown_Parser {
 	
 		$this->nested_url_parenthesis_re = 
 			str_repeat('(?>[^()\s]+|\(', $this->nested_url_parenthesis_depth).
+			str_repeat('(?>\)))*', $this->nested_url_parenthesis_depth);		
+      
+    $this->nested_url_parenthesis_re2 = 
+			str_repeat('(?>[^()]+|\(', $this->nested_url_parenthesis_depth).
 			str_repeat('(?>\)))*', $this->nested_url_parenthesis_depth);
 		
 		$this->escape_chars_re = '['.preg_quote($this->escape_chars).']';
@@ -676,7 +680,7 @@ class Markdown_Parser {
 				(?:
 					<(\S*)>	# href = $3
 				|
-					('.$this->nested_url_parenthesis_re.')	# href = $4
+					('.$this->nested_url_parenthesis_re2.')	# href = $4
 				)
 				[ ]*
 				(			# $5
@@ -748,21 +752,22 @@ class Markdown_Parser {
 		$title			=& $matches[7];
 
 		$url = $this->encodeAttribute($url);
-
-		$result = "<a href=\"$url\"";
-		if (isset($title)) {
-			$title = $this->encodeAttribute($title);
-			$result .=  " title=\"$title\"";
-		}
+    
+    $result = link_to($link_text, '@tag_search', array('class' => 'tag-link', 'query_string' => 'ara=' . $url));
+		// $result = "<a href=\"" . url_for('@tag_search') . "$url\"";
+		// if (isset($title)) {
+			// $title = $this->encodeAttribute($title);
+			// $result .=  " title=\"$title\"";
+		// }
 		
-		$link_text = $this->runSpanGamut($link_text);
-		$result .= ">$link_text</a>";
+		// $link_text = $this->runSpanGamut($link_text);
+		// $result .= ">$link_text</a>";
 
 		return $this->hashPart($result);
 	}
   
  function doInlineTagAnchors($text) {
-		$text = preg_replace_callback('/\*\*([^}]*)\*\*/',
+		$text = preg_replace_callback('/\*\*([^\*\*]*)\*\*/',
 			array(&$this, '_doInlineTagAnchors_callback'), $text);
 
 		return $text;
@@ -771,7 +776,7 @@ class Markdown_Parser {
   function _doInlineTagAnchors_callback($matches)
   {
     $match = $matches[1];
-    $result = link_to($match, '@tag_search?stripped_tag=' . myTools::slugify($match) . '&page=', array('class' => 'tag-link', 'query_string' => 'ara=' . $match));
+    $result = link_to($match, '@tag_search', array('class' => 'tag-link', 'query_string' => 'ara=' . $match));
     
     return $this->hashPart($result);
   }

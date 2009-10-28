@@ -10,7 +10,7 @@
   <div class="notice">
     <?php if ( $sf_user->getAttribute('nbFriendRequests') ) { ?>
       <div class="success">
-        <?php echo link_to($sf_user->getAttribute('nbFriendRequests') . ' tane arkadaşlık isteği var.', '@friend_request_list'); ?>
+        <?php echo link_to($sf_user->getAttribute('nbFriendRequests') . ' tane arkadaşlık isteği var. Görmek için tıklayın.', '@friend_request_list'); ?>
       </div>
     <?php } ?>
     <?php if ($sf_flash->has('notice')) { ?>

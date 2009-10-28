@@ -26,10 +26,6 @@ class userdataFilter extends sfFilter
         if ( $request->getParameter('action') != 'login' )
         {
           $user->setAttribute('refererUri', $request->getUri());
-          
-          if ( $request->getParameter('module') == 'tag' && $request->getParameter('action') == 'search' ) {
-            $user->setAttribute('search', $request->getParameter('search'));
-          }
         }      
       }
     }
