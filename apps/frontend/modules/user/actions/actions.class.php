@@ -89,6 +89,7 @@ class userActions extends sfActions
     if ( $request->getMethod() != sfRequest::POST )
     {
       //display form
+      $request->setAttribute('comment', (int)str_replace('yorum-', '', $this->getRequestParameter('link')));
       $request->setAttribute('referer', $user->getAttribute('refererUri'));
     }
     else 
@@ -98,6 +99,7 @@ class userActions extends sfActions
         $this->setFlash('search', $user->getAttribute('search'));
         $request->getAttributeHolder()->remove('search');
       }
+      $this->setFlash('redirected', $this->getRequestParameter('comment'));
       return $this->redirect($this->getRequestParameter('referer', '@homepage'));      
     }
   }
@@ -134,8 +136,8 @@ class userActions extends sfActions
       $user_tag->setNew($new);
       $flag = $user_tag->save();
     }
-    
-    return $flag ? sfView::SUCCESS : sfView::ERROR;
+    $this->setFlash('tag_notice', 'Seçiminiz kaydedildi.');
+    $this->redirect('@tag?stripped_tag=' . $this->tag->getStrippedTag() . '&page=');
   }
   
   public function executePicture()

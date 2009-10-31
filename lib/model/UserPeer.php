@@ -19,6 +19,7 @@ class UserPeer extends BaseUserPeer
                   ON %4$s = %5$s
                 WHERE %6$s = ?
                   AND %7$s = ?
+                ORDER BY %9$s DESC
                   LIMIT ?)
                 UNION (
                 SELECT %1$s AS nickname, %8$s AS avatar, %7$s AS love FROM %2$s
@@ -26,6 +27,7 @@ class UserPeer extends BaseUserPeer
                     ON %4$s = %5$s
                   WHERE %6$s = ?
                     AND %7$s = ?
+                  ORDER BY %9$s DESC
                     LIMIT ?)';
                 
     $query = sprintf($query,
@@ -36,7 +38,8 @@ class UserPeer extends BaseUserPeer
       self::ID,
       UserToTagPeer::TAGS_ID,
       UserToTagPeer::LOVE,
-      self::AVATAR);
+      self::AVATAR,
+      UserToTagPeer::CREATED_AT);
     
     $stmt = $conn->prepareStatement($query);
     $stmt->setInt(1, $tags_id);

@@ -26,7 +26,7 @@
       <label for="password">&nbsp;</label>
       <?php echo checkbox_tag('remember') ?> Beni Hatırla
     </div>
-    
+    <?php echo input_hidden_tag('comment', $sf_request->hasAttribute('comment') ? $sf_request->getAttribute('comment') : $sf_params->get('comment')) ?>
     <?php echo input_hidden_tag('referer', $sf_request->hasAttribute('referer') ? $sf_request->getAttribute('referer') . ( $sf_params->get('link') ? '#' . $sf_params->get('link') : '' ) : $sf_params->get('referer') ) ?>
     <div class="inputs">
       <label for="submit">&nbsp;</label>

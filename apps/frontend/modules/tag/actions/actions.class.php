@@ -79,6 +79,11 @@ class tagActions extends sfActions
       $this->haters = isset($users['haters']) ? $users['haters'] : array();
     }
     
+    if ( $this->getUser()->isAuthenticated() )
+    {
+      $this->getResponse()->addJavascript(sfConfig::get('app_jquery'));
+    }
+    
     $this->page = $this->getRequestParameter('page', 1);
     $this->comments = CommentPeer::getCommentsJoinUserWithDepth($this->tag->getId(), $this->page);
 

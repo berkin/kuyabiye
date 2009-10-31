@@ -67,6 +67,51 @@ function link_to_users_love($user, $tag)
   return '<ul class="love-buttons">' . $link . '</ul>';
 }
 
+function link_to_users_love2($user, $tag)
+{
+  $link = '';
+  if ( $user->isAuthenticated() )
+  {
+    $love = UserToTagPeer::retrieveByPK($user->getSubscriberId(), $tag->getId());
+
+    $loved     = '<li class="love">Seviyorum ' . link_to('(x)', '@user_love?remove=1&id=' . $tag->getId()) . '</li>';
+      
+    $love_link = '<li class="love">' . link_to('Seviyor musun?', '@user_love?loves=1&id=' . $tag->getId()) . '</li>';
+    
+    $hated     = '<li class="hate">Sevmiyorum ' . link_to('(x)', '@user_love?remove=1&id=' . $tag->getId()) . '</li>';
+      
+    $hate_link = '<li class="hate">' . link_to('Sevmiyor musun?', '@user_love?loves=0&id=' . $tag->getId()) . '</li>';
+    if ( $love )
+    {
+      switch ($love->getLove())
+      {
+        case 0:
+          // hates
+          $link = $love_link . $hated;
+          break;
+        case 1:
+          // loves
+          $link = $loved . $hate_link;
+          break;
+        default:
+          // neither
+          $link = $love_link . $hate_link;
+          break;
+      }
+    }
+    else
+    {
+      $link = $love_link . $hate_link;
+    }
+  }
+  else
+  {
+    $link = '<li class="love">' . link_to('Seviyor musun?', '@login') . '</li><li class="hate">' . link_to('Sevmiyor musun?', '@login') . '</li>';
+  }
+  
+  return '<ul class="love-buttons">' . $link . '</ul>';
+}
+
 function link_to_friend_request($user, $friend)
 {
   
