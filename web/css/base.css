@@ -532,7 +532,7 @@ h2.sub-header {
     text-align: left;
   }
 
-  .form-submit .small a.toggle {
+  .form-submit .small a.toggle-markdown {
     color: #a3a3a3;  
   }
   
@@ -543,6 +543,13 @@ h2.sub-header {
   
   .formatting-help p {
     margin: 10px 0 20px;
+  }
+  .formatting-help h6 {
+    font-weight: bold;
+    margin: 40px 0 10px;
+  }
+  .formatting-help h6.first {
+    margin: 20px 0 10px;
   }
   
   .formatting-help a {

@@ -77,7 +77,7 @@ use_helper('Date', 'Validation', 'User', 'Pagination', 'Javascript');
             <?php
               echo input_hidden_tag('page', $page);
               echo input_hidden_tag('tag', $tag->getId());
-              echo textarea_tag('body');
+              echo textarea_tag('body', '', 'class=expand50-500');
             ?>
             <div class="form-submit clearfix">
               <div class="submit-button">
@@ -99,23 +99,55 @@ use_helper('Date', 'Validation', 'User', 'Pagination', 'Javascript');
 if ( $sf_user->isAuthenticated() )
 {  
   echo javascript_tag("$(document).ready(function(){
-        $('a.comment-reply-link').click(function() {
-        var comment_id = $(this).attr('id').replace('href-', '');
-        if ( !document.getElementById('comment-form-' + comment_id) )
-        {
-        var commentForm = '<form action=\"" . url_for('@add_comment') . "\" method=\"post\" class=\"comment-reply-form\" id=\"comment-form-' + comment_id + '\" style=\"display: none;\">\
-                              <input type=\"hidden\" name=\"tag\" value=\"" . $tag->getId() . "\">\
-                              <input type=\"hidden\" name=\"comment_id\" value=\"' + comment_id + '\">\
-                              <textarea id=\"comment-form-textarea-' + comment_id + '\" name=\"body\"><\/textarea>" . submit_image_tag('reply-button.gif') . "\
-                           <\/form>';
-            $('#comment-' + comment_id).after(commentForm);
-         }
+      $('a.comment-reply-link').click(function() {
+      var comment_id = $(this).attr('id').replace('href-', '');
+      if ( !document.getElementById('comment-form-' + comment_id) )
+      {
+      var commentForm = '<form action=\"" . url_for('@add_comment') . "\" method=\"post\" class=\"comment-reply-form\" id=\"comment-form-' + comment_id + '\" style=\"display: none;\">\
+                            <input type=\"hidden\" name=\"tag\" value=\"" . $tag->getId() . "\">\
+                            <input type=\"hidden\" name=\"comment_id\" value=\"' + comment_id + '\">\
+                            <textarea class=\"expand50-500\" id=\"comment-form-textarea-' + comment_id + '\" name=\"body\"><\/textarea>\
+                            <div class=\"form-submit clearfix\">\
+                              <div class=\"submit-button\">\
+                                " . submit_image_tag('reply-button.gif') . "\
+                              <\/div>\
+                              <div class=\"small\">\
+                              " . link_to('Mesajınızı düzenlemeniz için gerekli bilgiler', "#", 'class=toggle-markdown') . "\
+                              <\/div>\
+                              <div class=\"formatting-help\" style=\"display: none\">\
+                                <h6 class=\"first\">Etiklet Linkleme:<\/h6>\
+                                <p>**kuyabiye** => " . link_to('kuyabiye', '@tag_search', array('query_string' => 'ara=kuyabiye')) . ", kuyabiye etiketine gider.<\/p>\
+                                <p>[kelime](kuyabiye) => " . link_to('kelime', '@tag_search', array('query_string' => 'ara=Kuyabiye')) . ", kuyabiye etiketine gider. <\/p>\
+                                <h6>Web Adresi Linkleme:<\/h6>\
+                                <p>http:\/\/kuyabiye.com => " . link_to('http://kuyabiye.com', '', 'class=out-link') . ", http:\/\/kuyabiye.com adresine gider.<\/p>\
+                                <p>[kelime][http:\/\/kuyabiye.com] => " . link_to('kelime', 'http://www.kuyabiye.com') . ", http:\/\/kuyabiye.com adresine gider.<\/p>\
+                              <\/div>\
+                              <\/div>\
+                         <\/form>';
+          $('#comment-' + comment_id).after(commentForm);
+       }
 
-          $('#comment-form-' + comment_id).slideToggle('fast');
-          $('#comment-form-textarea-' + comment_id).focus();
-          return false;
-        
-        });
-});");
+        $('#comment-form-' + comment_id).slideToggle('fast');
+        $('#comment-form-textarea-' + comment_id).focus();
+        return false;
+      
+      });
+    
+      $('a.toggle-markdown').live('click', function() {
+        $(this).parent().next().slideToggle('fast');
+        return false;
+      });
+      
+      $('#focus-this').focus();
+      
+      
+      $('textarea[class*=expand]').livequery(function() {
+     
+        $(this).TextAreaExpander()
+     
+      });
+      
+    });");
+  
 }
 ?>

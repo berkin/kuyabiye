@@ -82,6 +82,8 @@ class tagActions extends sfActions
     if ( $this->getUser()->isAuthenticated() )
     {
       $this->getResponse()->addJavascript(sfConfig::get('app_jquery'));
+      $this->getResponse()->addJavascript('jquery.textarea-expander.js');
+      $this->getResponse()->addJavascript('jquery.livequery.js');
     }
     
     $this->page = $this->getRequestParameter('page', 1);
