@@ -31,7 +31,7 @@
       <?php if ( $sf_request->hasError('body') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('body'); ?></div>
       <?php } ?>
-      <div class="markdown-help">&nbsp;</label><?php include_partial('markdown_help'); ?></div>
+      <?php //include_partial('conversation/markdown_help'); ?>
     </div>
     
     <div class="inputs">  

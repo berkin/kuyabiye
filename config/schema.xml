@@ -133,5 +133,24 @@
     <column name="read" type="tinyint" required="true" default="0" size="1" />
     <column name="created_at" type="timestamp" />
   </table>
+  
+  <table name="contents" phpName="Content">
+    <column name="id" type="integer" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="author" type="INTEGER" />
+      <foreign-key foreignTable="users">
+        <reference local="author" foreign="id" />
+      </foreign-key>
+    <column name="categories_id" type="integer" required="true" default="0" />
+      <foreign-key foreignTable="contents_categories">
+        <reference local="categories_id" foreign="id" />
+      </foreign-key>
+    <column name="body" type="longvarchar" />
+    <column name="html_body" type="longvarchar" /> 
+  </table>
+  
+  <table name="contents_categories" phpName="Category">
+    <column name="id" type="integer" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="title" type="varchar" size="100" />
+  </table>
 
 </database>

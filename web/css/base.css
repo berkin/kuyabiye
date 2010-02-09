@@ -96,7 +96,7 @@ body {
 #header .search {
 	float: right;
   margin: 40px 0 0;
-  width: 553px;
+  width: 555px;
 }
 	#header .search label {
   	color: #971298;
@@ -310,6 +310,7 @@ body {
 
 .users {
 	float: left;
+  height: 79px;
 }
 .users li {
 	float: left;
@@ -807,6 +808,11 @@ h2.sub-header {
 	font-size: 2.5em;
   height: 34px;
   padding: 10px 0 20px;
+}
+
+.ad-sibling {
+  float: left;
+  width: 600px;
 }
 
 #upload-form {

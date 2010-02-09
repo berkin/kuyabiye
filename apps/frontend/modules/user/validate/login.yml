@@ -4,22 +4,22 @@ methods:
 names:
   nickname:
     required: true
-    required_msg: Kullanıcı adınızı girmeniz gerekiyor.
-    validators: [nicknameValidator, userValidator]
+    required_msg: Rumuzunuzu veya e-posta adresinizi girmeniz gerekiyor.
+    validators: [userValidator]
   
   password:
     required: true
     required_msg: Şifrenizi girmeniz gerekiyor.
 
-nicknameValidator:
-  class: sfStringValidator
-  param:
-    min: 5
-    min_error: Kullanıcı adınız en az 5 karakter olmalı.
+# nicknameValidator:
+  # class: sfStringValidator
+  # param:
+    # min: 5
+    # min_error: Kullanıcı adınız en az 5 karakter olmalı.
 
 userValidator:
   class: myLoginValidator
   param:
     remember: remember
     password: password
-    login_error: Kullanıcı adı veya şifre hatalı.
+    login_error: Giriş bilgileriniz hatalı.

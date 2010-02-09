@@ -53,7 +53,7 @@
   
   <div id="footer">
   	<div class="footer-wrap">
-	  	<div class="left">kuyabiye © 2009</div>
+	  	<div class="left">kuyabiye © <?php echo date('Y') ?></div>
 	 		  <ul class="footer-list">
    		 		<li><a href="#">kuyabiye nedir?</a></li>
   		  	<li><a class="break" href="#">arkadaşına gönder</a></li>

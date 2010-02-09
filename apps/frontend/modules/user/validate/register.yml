@@ -34,8 +34,8 @@ usernameValidator:  # only space character allowed, but we should trim more than
   class:            sfRegexValidator
   param:
     match:          true
-    pattern:        /^[a-zA-Z0-9 ]+$/
-    match_error:    Kullanıcı adında harfler, rakamlar, boşluk kullanabilirsiniz.
+    pattern:        /^[a-zA-Z0-9-]+$/
+    match_error:    Kullanıcı adınız geçerli olmayan karakterler içeriyor.
 
 uniqueNicknameValidator:
   class:            sfPropelUniqueValidator
@@ -73,4 +73,4 @@ passwordValidator:
 dobValidator:
   class:            myDobValidator
   param:
-    date_error:     not valid date
+    date_error:     Tarih Geçerli değil.

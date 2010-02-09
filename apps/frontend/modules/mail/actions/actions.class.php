@@ -37,4 +37,18 @@ class mailActions extends sfActions
     
     $this->password = $this->getRequest()->getAttribute('password');
   }
+  
+  public function executeUserRegister()
+  {
+    $this->email = $this->getRequest()->getAttribute('email');
+    $this->nickname = $this->getRequest()->getAttribute('nickname');
+    $this->conversation = $this->getRequest()->getAttribute('password');  
+    
+    $mail = new sfMail();
+    $mail->addAddress($this->email);
+    $mail->setFrom('From: Kuyabiye <info@kuyabiye.com>');
+    $mail->setSubject('kuyabiye.com üyelik bilgileriniz');
+
+    $this->mail = $mail;
+  }
 }

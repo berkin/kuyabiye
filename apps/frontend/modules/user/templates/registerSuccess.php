@@ -12,6 +12,7 @@
     <div class="inputs">
       <label for="nickname">Kullanıcı Adı*:</label>
       <?php echo input_tag('nickname', $sf_params->get('nickname'), array('class' => 'text medium')) ?>
+      <div class="form-notice">Kullanıcı adında harfler, rakamlar, tire(-) kullanabilirsiniz. Türkçe karakter kullanamazsınız.</div>
       <?php if ( $sf_request->hasError('nickname') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('nickname'); ?></div>
       <?php } ?>
@@ -20,6 +21,7 @@
     <div class="inputs">
       <label for="nickname">E-posta Adresi*:</label>
       <?php echo input_tag('email', $sf_params->get('email'), array('class' => 'text medium')) ?>
+      <div class="form-notice">E-posta adresiniz 3. şahıslarla paylaşılmaz.</div>
       <?php if ( $sf_request->hasError('email') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('email'); ?></div>
       <?php } ?>
@@ -43,8 +45,8 @@
     
   <div class="inputs">
     <label>Cinsiyet*:</label>
-    <?php echo radiobutton_tag('gender', 0, array( 'id' => 'male')); ?> <label class="radios" for="male">Erkek</label>
-    <?php echo radiobutton_tag('gender', 1, array( 'id' => 'female')); ?><label class="radios" for="female">Kadın</label>
+    <?php echo radiobutton_tag('gender', 0, $sf_params->get('gender') == 0 ? true : false, array( 'id' => 'male')); ?> <label class="radios" for="male">Erkek</label>
+    <?php echo radiobutton_tag('gender', 1, $sf_params->get('gender') == 1 ? true : false, array( 'id' => 'female')); ?><label class="radios" for="female">Kadın</label>
     <?php if ( $sf_request->hasError('gender') ) { ?>
     <div class="form-error"><?php echo $sf_request->getError('gender'); ?></div>
     <?php } ?>
@@ -52,7 +54,18 @@
   
   <div class="inputs">
     <label for="dob">Doğum Tarihi*:</label>
-    <?php echo input_date_tag('dob', '', array('include_blank' => true, 'culture' => 'tr_TR', 'year_start' => '1920', 'year_end' => date('Y') - 18), '')?>
+    <?php 
+    $dob = '';
+    if ( $sf_params->get('dob') )
+    {
+      $_dob = $sf_params->get('dob');
+      if ( $_dob['day'] != '' && $_dob['month'] != '' && $_dob['year'] )
+      {
+        $dob = ($_dob['day'] != '' ? $_dob['day'] : '') . '-' . ($_dob['month'] != '' ? $_dob['month'] : '') . '-' . ($_dob['year'] != '' ? $_dob['year'] : '');
+      }
+    }
+    ?>
+    <?php echo input_date_tag('dob', $dob, array('include_blank' => true, 'culture' => 'tr_TR', 'year_start' => '1920', 'year_end' => date('Y') - 18), '')?>
     <?php if ( $sf_request->hasError('dob') ) { ?>
     <div class="form-error"><?php echo $sf_request->getError('dob'); ?></div>
     <?php } ?>
@@ -66,12 +79,4 @@
    
   </form>
 </div>
-
-
-@todo<br />
-  * nickname, do not begin or end with space, do not contain more than 1 space between words. validate class must be external<br />
-  * first name and last name do not contain letters, only 1 space between words (this shouldn't be trig error, this should be done in the serverside<br />
-  * recaptcha<br />
-  * üye girişi yapan bu sayfayı göremesin<br />
-  * email kontrol
  

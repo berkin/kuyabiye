@@ -74,6 +74,11 @@ class conversationActions extends sfActions
   {
     $id = $this->getRequestParameter('id');
     $this->user = $this->getUser()->getSubscriberId();
+
+    // $this->getResponse()->addJavascript(sfConfig::get('app_jquery'));
+    // $this->getResponse()->addJavascript('jquery.textarea-expander.js');
+    // $this->getResponse()->addJavascript('jquery.livequery.js');
+
     
     $c = new Criteria();
     $c->add(ConversationPeer::CONVERSATION, $id);

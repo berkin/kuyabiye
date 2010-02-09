@@ -20,7 +20,11 @@
       $login = $value;
       
       $c = new Criteria();
-      $c->add(UserPeer::NICKNAME, $login);
+      $c_email = $c->getNewCriterion(UserPeer::EMAIL, $login);
+      $c_nickname = $c->getNewCriterion(UserPeer::NICKNAME, $login);
+      $c_email->addOr($c_nickname);
+      $c->add($c_email);
+      // $c->add(UserPeer::NICKNAME, $login);
       $user = UserPeer::doSelectOne($c);
       
       // nickname exists?

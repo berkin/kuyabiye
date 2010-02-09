@@ -7,6 +7,12 @@
  * @subpackage user
  * @author     Your name here
  * @version    SVN: $Id: actions.class.php 2692 2006-11-15 21:03:55Z fabien $
+ 
+
+@todo<br />
+  * nickname, do not begin or end with space, do not contain more than 1 space between words. validate class must be external<br />
+  * email kontrol
+  
  */
 class userActions extends sfActions
 {
@@ -42,6 +48,7 @@ class userActions extends sfActions
     
     $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
   }
+  
   public function executeRegister()
   {
     if ( $this->getUser()->isAuthenticated() ) 
@@ -62,8 +69,11 @@ class userActions extends sfActions
       
       $user->save();
       
+      //sent mail    
+      $this->sendEmailNotice($user->getEmail(), $user->getNickname(), $this->getRequestParameter('password'));
+      
       $this->getUser()->signIn($user);
-      $this->redirect('@user_profile?nick=' . $user->getUser()->getNickname());
+      $this->redirect('@user_profile?nick=' . $this->getUser()->getNickname());
     }
   }
   
@@ -279,6 +289,16 @@ class userActions extends sfActions
    
       return sfView::SUCCESS;
     }  
+  }
+  
+  private function sendEmailNotice($email, $nickname, $password)
+  {
+    $this->getRequest()->setAttribute('email', $email);
+    $this->getRequest()->setAttribute('nickname', $nickname);
+    $this->getRequest()->setAttribute('password', $password);
+    
+    $raw_email = $this->sendEmail('mail', 'userRegister');
+    $this->getLogger()->debug($raw_email);  
   }
   
   public function handleError()

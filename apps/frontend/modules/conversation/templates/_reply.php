@@ -9,7 +9,7 @@
     ?>
       <div class="inputs">
         <?php echo textarea_tag('body') ?>
-        <?php include_partial('markdown_help'); ?>
+        <?php //include_partial('conversation/markdown_help'); ?>
       </div>
       
       <div class="inputs">
