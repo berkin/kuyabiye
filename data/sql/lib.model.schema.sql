@@ -102,6 +102,7 @@ CREATE TABLE `users`
 	`salt` VARCHAR(32),
 	`remember_key` VARCHAR(255),
 	`avatar` VARCHAR(255),
+	`activation_code` INTEGER,
 	`first_name` VARCHAR(100),
 	`last_name` VARCHAR(100),
 	`country` VARCHAR(2),
@@ -109,7 +110,11 @@ CREATE TABLE `users`
 	`gender` TINYINT(1),
 	`dob` DATE,
 	`created_at` DATETIME,
-	PRIMARY KEY (`id`)
+	PRIMARY KEY (`id`),
+	INDEX `users_FI_1` (`activation_code`),
+	CONSTRAINT `users_FK_1`
+		FOREIGN KEY (`activation_code`)
+		REFERENCES `activation_codes` (`id`)
 )Type=MyISAM;
 
 #-----------------------------------------------------------------------------
@@ -217,6 +222,66 @@ CREATE TABLE `messages`
 	CONSTRAINT `messages_FK_2`
 		FOREIGN KEY (`writer`)
 		REFERENCES `users` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- activation_codes
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `activation_codes`;
+
+
+CREATE TABLE `activation_codes`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`code` VARCHAR(100),
+	`total` INTEGER,
+	`available` INTEGER,
+	PRIMARY KEY (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- articles
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `articles`;
+
+
+CREATE TABLE `articles`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`author` INTEGER,
+	`categories_id` INTEGER default 0 NOT NULL,
+	`title` VARCHAR(64),
+	`stripped_title` VARCHAR(100),
+	`body` TEXT,
+	`html_body` TEXT,
+	`commentable` TINYINT(1) default 0 NOT NULL,
+	`created_at` DATETIME,
+	PRIMARY KEY (`id`),
+	INDEX `articles_FI_1` (`author`),
+	CONSTRAINT `articles_FK_1`
+		FOREIGN KEY (`author`)
+		REFERENCES `users` (`id`),
+	INDEX `articles_FI_2` (`categories_id`),
+	CONSTRAINT `articles_FK_2`
+		FOREIGN KEY (`categories_id`)
+		REFERENCES `articles_categories` (`id`)
+)Type=MyISAM;
+
+#-----------------------------------------------------------------------------
+#-- articles_categories
+#-----------------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `articles_categories`;
+
+
+CREATE TABLE `articles_categories`
+(
+	`id` INTEGER  NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(64),
+	`stripped_title` VARCHAR(100),
+	PRIMARY KEY (`id`)
 )Type=MyISAM;
 
 # This restores the fkey checks, after having unset them earlier

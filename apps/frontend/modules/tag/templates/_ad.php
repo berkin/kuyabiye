@@ -1,3 +1,3 @@
   <div class="ad">
-    <a href="#"><?php echo image_tag('ad.jpg') ?></a>
+    <?php echo link_to('Bu alana reklam verin!', '@contact') ?>
   </div>

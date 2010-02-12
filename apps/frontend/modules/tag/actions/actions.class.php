@@ -79,11 +79,16 @@ class tagActions extends sfActions
       $this->haters = isset($users['haters']) ? $users['haters'] : array();
     }
     
+    $response = $this->getResponse();
+    $response->addMeta('description', $this->tag . ' etiketini ' . $this->tag->getTotal() . ' kişi profiline eklemiş. ' . $this->tag->getLovers() . ' kişi seviyor, ' . $this->tag->getHaters() . ' kişi sevmiyor. ');
+    $response->setTitle($this->tag->getTag() . ' - kuyabiye.com');
+    $response->addMeta('keywords', $this->tag->getTag());
+    
     if ( $this->getUser()->isAuthenticated() )
     {
-      $this->getResponse()->addJavascript(sfConfig::get('app_jquery'));
-      $this->getResponse()->addJavascript('jquery.textarea-expander.js');
-      $this->getResponse()->addJavascript('jquery.livequery.js');
+      $response->addJavascript(sfConfig::get('app_jquery'));
+      $response->addJavascript('jquery.textarea-expander.js');
+      $response->addJavascript('jquery.livequery.js');
     }
     
     $this->page = $this->getRequestParameter('page', 1);
@@ -120,6 +125,12 @@ class tagActions extends sfActions
         $c->add(UserToTagPeer::LOVE, 0);
         break;
     }
+    
+    $response = $this->getResponse();
+    $response->addMeta('description', $this->tag . ' etiketini ' . $this->tag->getTotal() . ' kişi profiline eklemiş. ' . $this->tag->getLovers() . ' kişi seviyor, ' . $this->tag->getHaters() . ' kişi sevmiyor. ');
+    $response->setTitle($this->tag->getTag() . ' etiketini ' . $this->sense  . ' - kuyabiye.com');
+    $response->addMeta('keywords', $this->tag->getTag());
+
     
     $pager->setCriteria($c);
     $pager->setPage($this->getRequestParameter('page', 1));

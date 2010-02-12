@@ -25,6 +25,9 @@ class userActions extends sfActions
     $this->hated_tags = $this->subscriber->getUserToTagsJoinTag(false);
     // $this->comments = $this->subscriber->getCommentsJoinTag();
     
+    $response = $this->getResponse();
+    $response->setTitle($this->subscriber->getNickname()  . ' - kuyabiye.com');
+    
     $c = new Criteria();
     $c->add(PicturePeer::USER_ID, $this->subscriber->getId());
     $this->nbPictures = PicturePeer::doCount($c);
@@ -58,7 +61,11 @@ class userActions extends sfActions
   
     // save user
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
-    {
+    {    
+      $c = new Criteria();
+      $c->add(ActivationPeer::CODE, $this->getRequestParameter('activation'));
+      $activation = ActivationPeer::doSelectOne($c);
+
       $user = new User();
       
       $user->setNickname($this->getRequestParameter('nickname'));
@@ -66,8 +73,12 @@ class userActions extends sfActions
       $user->setPassword($this->getRequestParameter('password'));
       $user->setFirstname($this->getRequestParameter('firstname'));
       $user->setLastname($this->getRequestParameter('lastname'));
+      $user->setActivationCode($activation->getId());
       
       $user->save();
+      
+      $activation->setAvailable($activation->getAvailable() - 1);
+      $activation->save();
       
       //sent mail    
       $this->sendEmailNotice($user->getEmail(), $user->getNickname(), $this->getRequestParameter('password'));
@@ -75,6 +86,7 @@ class userActions extends sfActions
       $this->getUser()->signIn($user);
       $this->redirect('@user_profile?nick=' . $this->getUser()->getNickname());
     }
+
   }
   
   public function executeProfile()

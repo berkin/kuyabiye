@@ -114,6 +114,26 @@ conversation_reply:
 conversation_remove:
   url:    /mesaj/sil/*
   param:  { module: conversation, action: remove }
+  
+contact:
+  url:    /iletisim
+  param:  { module: article, action: contact }
+  
+invite_friends:
+  url:    /arkadasina-gonder
+  param:  { module: article, action: inviteFriends }
+
+category:
+  url:    /blog/:page
+  param:  { module: article, action: list, display: true, page: 1 }
+  
+category_articles:
+  url:    /blog/:stripped_title
+  param:  { module: article, action: index }
+  
+article:
+  url:    /:stripped_title/*
+  param:  { module: article, action: index }
 
 default_symfony:
   url:   /symfony/:action/*

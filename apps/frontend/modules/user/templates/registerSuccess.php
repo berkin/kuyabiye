@@ -4,11 +4,24 @@
 </ul>
 <div class="content-wrap">
 <h1 class="home-header love">Üye Ol!</h1>
+  <div class="notice">
+    <div class="success">
+      <?php echo 'Merhaba, sitemiz henüz test aşamasında olduğundan sadece davetiye ile üye alımı yapmaktadır. Davetiye isteği için bizi twitter.com veya facebook\'dan takip edin!' ?>
+    </div>      
+  </div>  
   <?php 
     use_helper('Validation');
     echo form_tag('@register');
   ?>
-
+  
+    <div class="inputs">
+      <label for="activation">Davetiye Kodu*:</label>
+      <?php echo input_tag('activation', $sf_params->get('activation'), array('class' => 'text medium')) ?>
+      <?php if ( $sf_request->hasError('activation') ) { ?>
+      <div class="form-error"><?php echo $sf_request->getError('activation'); ?></div>
+      <?php } ?>
+    </div>
+    
     <div class="inputs">
       <label for="nickname">Kullanıcı Adı*:</label>
       <?php echo input_tag('nickname', $sf_params->get('nickname'), array('class' => 'text medium')) ?>

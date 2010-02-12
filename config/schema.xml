@@ -62,6 +62,10 @@
     <column name="salt" type="VARCHAR" size="32" />
     <column name="remember_key" type="VARCHAR" size="255" />
     <column name="avatar" type="VARCHAR" size="255" />
+    <column name="activation_code" type="integer" />
+      <foreign-key foreignTable="activation_codes">
+        <reference local="activation_code" foreign="id" />
+      </foreign-key>
     <column name="first_name" type="VARCHAR" size="100" />
     <column name="last_name" type="VARCHAR" size="100" />
     <column name="country" type="VARCHAR" size="2" />
@@ -134,23 +138,35 @@
     <column name="created_at" type="timestamp" />
   </table>
   
-  <table name="contents" phpName="Content">
+  <table name="activation_codes" phpName="Activation">
+    <column name="id" type="integer" required="true" autoIncrement="true" primaryKey="true" />
+    <column name="code" type="varchar" size="100" />
+    <column name="total" type="integer" />
+    <column name="available" type="integer" />
+  </table>
+  
+  <table name="articles" phpName="Article">
     <column name="id" type="integer" required="true" autoIncrement="true" primaryKey="true" />
     <column name="author" type="INTEGER" />
       <foreign-key foreignTable="users">
         <reference local="author" foreign="id" />
       </foreign-key>
     <column name="categories_id" type="integer" required="true" default="0" />
-      <foreign-key foreignTable="contents_categories">
+      <foreign-key foreignTable="articles_categories">
         <reference local="categories_id" foreign="id" />
       </foreign-key>
+    <column name="title" type="varchar" size="64" />
+    <column name="stripped_title" type="varchar" size="100" />
     <column name="body" type="longvarchar" />
     <column name="html_body" type="longvarchar" /> 
+    <column name="commentable" type="tinyint" required="true" default="0" size="1" />
+    <column name="created_at" type="timestamp" />
   </table>
   
-  <table name="contents_categories" phpName="Category">
+  <table name="articles_categories" phpName="Category">
     <column name="id" type="integer" required="true" autoIncrement="true" primaryKey="true" />
-    <column name="title" type="varchar" size="100" />
+    <column name="title" type="varchar" size="64" />
+    <column name="stripped_title" type="varchar" size="100" />
   </table>
 
 </database>

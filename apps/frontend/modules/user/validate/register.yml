@@ -1,7 +1,11 @@
 methods:
-  post: [nickname, email, password, repassword, gender, dob]
+  post: [activation, nickname, email, password, repassword, gender, dob]
 
 names:
+  activation:
+    required:     true
+    required_msg: Davetiye kodu gerekli.
+    validators:   [activationValidator]
   nickname:
     required:     true
     required_msg: Kullanıcı adınız gerekli.
@@ -74,3 +78,9 @@ dobValidator:
   class:            myDobValidator
   param:
     date_error:     Tarih Geçerli değil.
+    
+activationValidator:
+  class:            myActivationValidator
+  param:
+    activation_error: Davetiye kodu geçerli değil.
+    activation_error2: Bu kod için davetiye tükenmiş.

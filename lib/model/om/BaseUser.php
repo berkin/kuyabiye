@@ -37,6 +37,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $activation_code;
+
+
+	
 	protected $first_name;
 
 
@@ -62,6 +66,9 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	
 	protected $created_at;
+
+	
+	protected $aActivation;
 
 	
 	protected $collFriendsRelatedByUserFrom;
@@ -124,6 +131,12 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	protected $lastMessageCriteria = null;
 
 	
+	protected $collArticles;
+
+	
+	protected $lastArticleCriteria = null;
+
+	
 	protected $alreadyInSave = false;
 
 	
@@ -176,6 +189,13 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	{
 
 		return $this->avatar;
+	}
+
+	
+	public function getActivationCode()
+	{
+
+		return $this->activation_code;
 	}
 
 	
@@ -370,6 +390,26 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setActivationCode($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->activation_code !== $v) {
+			$this->activation_code = $v;
+			$this->modifiedColumns[] = UserPeer::ACTIVATION_CODE;
+		}
+
+		if ($this->aActivation !== null && $this->aActivation->getId() !== $v) {
+			$this->aActivation = null;
+		}
+
+	} 
+	
 	public function setFirstName($v)
 	{
 
@@ -502,25 +542,27 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->avatar = $rs->getString($startcol + 6);
 
-			$this->first_name = $rs->getString($startcol + 7);
+			$this->activation_code = $rs->getInt($startcol + 7);
 
-			$this->last_name = $rs->getString($startcol + 8);
+			$this->first_name = $rs->getString($startcol + 8);
 
-			$this->country = $rs->getString($startcol + 9);
+			$this->last_name = $rs->getString($startcol + 9);
 
-			$this->city = $rs->getString($startcol + 10);
+			$this->country = $rs->getString($startcol + 10);
 
-			$this->gender = $rs->getInt($startcol + 11);
+			$this->city = $rs->getString($startcol + 11);
 
-			$this->dob = $rs->getDate($startcol + 12, null);
+			$this->gender = $rs->getInt($startcol + 12);
 
-			$this->created_at = $rs->getTimestamp($startcol + 13, null);
+			$this->dob = $rs->getDate($startcol + 13, null);
+
+			$this->created_at = $rs->getTimestamp($startcol + 14, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 14; 
+						return $startcol + 15; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -615,6 +657,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$this->alreadyInSave = true;
 
 
+												
+			if ($this->aActivation !== null) {
+				if ($this->aActivation->isModified()) {
+					$affectedRows += $this->aActivation->save($con);
+				}
+				$this->setActivation($this->aActivation);
+			}
+
+
 						if ($this->isModified()) {
 				if ($this->isNew()) {
 					$pk = UserPeer::doInsert($this, $con);
@@ -706,6 +757,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				}
 			}
 
+			if ($this->collArticles !== null) {
+				foreach($this->collArticles as $referrerFK) {
+					if (!$referrerFK->isDeleted()) {
+						$affectedRows += $referrerFK->save($con);
+					}
+				}
+			}
+
 			$this->alreadyInSave = false;
 		}
 		return $affectedRows;
@@ -740,6 +799,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$retval = null;
 
 			$failureMap = array();
+
+
+												
+			if ($this->aActivation !== null) {
+				if (!$this->aActivation->validate($columns)) {
+					$failureMap = array_merge($failureMap, $this->aActivation->getValidationFailures());
+				}
+			}
 
 
 			if (($retval = UserPeer::doValidate($this, $columns)) !== true) {
@@ -827,6 +894,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 					}
 				}
 
+				if ($this->collArticles !== null) {
+					foreach($this->collArticles as $referrerFK) {
+						if (!$referrerFK->validate($columns)) {
+							$failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+						}
+					}
+				}
+
 
 			$this->alreadyInValidation = false;
 		}
@@ -867,24 +942,27 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getAvatar();
 				break;
 			case 7:
-				return $this->getFirstName();
+				return $this->getActivationCode();
 				break;
 			case 8:
-				return $this->getLastName();
+				return $this->getFirstName();
 				break;
 			case 9:
-				return $this->getCountry();
+				return $this->getLastName();
 				break;
 			case 10:
-				return $this->getCity();
+				return $this->getCountry();
 				break;
 			case 11:
-				return $this->getGender();
+				return $this->getCity();
 				break;
 			case 12:
-				return $this->getDob();
+				return $this->getGender();
 				break;
 			case 13:
+				return $this->getDob();
+				break;
+			case 14:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -904,13 +982,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[4] => $this->getSalt(),
 			$keys[5] => $this->getRememberKey(),
 			$keys[6] => $this->getAvatar(),
-			$keys[7] => $this->getFirstName(),
-			$keys[8] => $this->getLastName(),
-			$keys[9] => $this->getCountry(),
-			$keys[10] => $this->getCity(),
-			$keys[11] => $this->getGender(),
-			$keys[12] => $this->getDob(),
-			$keys[13] => $this->getCreatedAt(),
+			$keys[7] => $this->getActivationCode(),
+			$keys[8] => $this->getFirstName(),
+			$keys[9] => $this->getLastName(),
+			$keys[10] => $this->getCountry(),
+			$keys[11] => $this->getCity(),
+			$keys[12] => $this->getGender(),
+			$keys[13] => $this->getDob(),
+			$keys[14] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -948,24 +1027,27 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setAvatar($value);
 				break;
 			case 7:
-				$this->setFirstName($value);
+				$this->setActivationCode($value);
 				break;
 			case 8:
-				$this->setLastName($value);
+				$this->setFirstName($value);
 				break;
 			case 9:
-				$this->setCountry($value);
+				$this->setLastName($value);
 				break;
 			case 10:
-				$this->setCity($value);
+				$this->setCountry($value);
 				break;
 			case 11:
-				$this->setGender($value);
+				$this->setCity($value);
 				break;
 			case 12:
-				$this->setDob($value);
+				$this->setGender($value);
 				break;
 			case 13:
+				$this->setDob($value);
+				break;
+			case 14:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -982,13 +1064,14 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[4], $arr)) $this->setSalt($arr[$keys[4]]);
 		if (array_key_exists($keys[5], $arr)) $this->setRememberKey($arr[$keys[5]]);
 		if (array_key_exists($keys[6], $arr)) $this->setAvatar($arr[$keys[6]]);
-		if (array_key_exists($keys[7], $arr)) $this->setFirstName($arr[$keys[7]]);
-		if (array_key_exists($keys[8], $arr)) $this->setLastName($arr[$keys[8]]);
-		if (array_key_exists($keys[9], $arr)) $this->setCountry($arr[$keys[9]]);
-		if (array_key_exists($keys[10], $arr)) $this->setCity($arr[$keys[10]]);
-		if (array_key_exists($keys[11], $arr)) $this->setGender($arr[$keys[11]]);
-		if (array_key_exists($keys[12], $arr)) $this->setDob($arr[$keys[12]]);
-		if (array_key_exists($keys[13], $arr)) $this->setCreatedAt($arr[$keys[13]]);
+		if (array_key_exists($keys[7], $arr)) $this->setActivationCode($arr[$keys[7]]);
+		if (array_key_exists($keys[8], $arr)) $this->setFirstName($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setLastName($arr[$keys[9]]);
+		if (array_key_exists($keys[10], $arr)) $this->setCountry($arr[$keys[10]]);
+		if (array_key_exists($keys[11], $arr)) $this->setCity($arr[$keys[11]]);
+		if (array_key_exists($keys[12], $arr)) $this->setGender($arr[$keys[12]]);
+		if (array_key_exists($keys[13], $arr)) $this->setDob($arr[$keys[13]]);
+		if (array_key_exists($keys[14], $arr)) $this->setCreatedAt($arr[$keys[14]]);
 	}
 
 	
@@ -1003,6 +1086,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::SALT)) $criteria->add(UserPeer::SALT, $this->salt);
 		if ($this->isColumnModified(UserPeer::REMEMBER_KEY)) $criteria->add(UserPeer::REMEMBER_KEY, $this->remember_key);
 		if ($this->isColumnModified(UserPeer::AVATAR)) $criteria->add(UserPeer::AVATAR, $this->avatar);
+		if ($this->isColumnModified(UserPeer::ACTIVATION_CODE)) $criteria->add(UserPeer::ACTIVATION_CODE, $this->activation_code);
 		if ($this->isColumnModified(UserPeer::FIRST_NAME)) $criteria->add(UserPeer::FIRST_NAME, $this->first_name);
 		if ($this->isColumnModified(UserPeer::LAST_NAME)) $criteria->add(UserPeer::LAST_NAME, $this->last_name);
 		if ($this->isColumnModified(UserPeer::COUNTRY)) $criteria->add(UserPeer::COUNTRY, $this->country);
@@ -1051,6 +1135,8 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setRememberKey($this->remember_key);
 
 		$copyObj->setAvatar($this->avatar);
+
+		$copyObj->setActivationCode($this->activation_code);
 
 		$copyObj->setFirstName($this->first_name);
 
@@ -1110,6 +1196,10 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$copyObj->addMessage($relObj->copy($deepCopy));
 			}
 
+			foreach($this->getArticles() as $relObj) {
+				$copyObj->addArticle($relObj->copy($deepCopy));
+			}
+
 		} 
 
 		$copyObj->setNew(true);
@@ -1133,6 +1223,35 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			self::$peer = new UserPeer();
 		}
 		return self::$peer;
+	}
+
+	
+	public function setActivation($v)
+	{
+
+
+		if ($v === null) {
+			$this->setActivationCode(NULL);
+		} else {
+			$this->setActivationCode($v->getId());
+		}
+
+
+		$this->aActivation = $v;
+	}
+
+
+	
+	public function getActivation($con = null)
+	{
+		if ($this->aActivation === null && ($this->activation_code !== null)) {
+						include_once 'lib/model/om/BaseActivationPeer.php';
+
+			$this->aActivation = ActivationPeer::retrieveByPK($this->activation_code, $con);
+
+			
+		}
+		return $this->aActivation;
 	}
 
 	
@@ -1938,6 +2057,111 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$this->lastMessageCriteria = $criteria;
 
 		return $this->collMessages;
+	}
+
+	
+	public function initArticles()
+	{
+		if ($this->collArticles === null) {
+			$this->collArticles = array();
+		}
+	}
+
+	
+	public function getArticles($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseArticlePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collArticles === null) {
+			if ($this->isNew()) {
+			   $this->collArticles = array();
+			} else {
+
+				$criteria->add(ArticlePeer::AUTHOR, $this->getId());
+
+				ArticlePeer::addSelectColumns($criteria);
+				$this->collArticles = ArticlePeer::doSelect($criteria, $con);
+			}
+		} else {
+						if (!$this->isNew()) {
+												
+
+				$criteria->add(ArticlePeer::AUTHOR, $this->getId());
+
+				ArticlePeer::addSelectColumns($criteria);
+				if (!isset($this->lastArticleCriteria) || !$this->lastArticleCriteria->equals($criteria)) {
+					$this->collArticles = ArticlePeer::doSelect($criteria, $con);
+				}
+			}
+		}
+		$this->lastArticleCriteria = $criteria;
+		return $this->collArticles;
+	}
+
+	
+	public function countArticles($criteria = null, $distinct = false, $con = null)
+	{
+				include_once 'lib/model/om/BaseArticlePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		$criteria->add(ArticlePeer::AUTHOR, $this->getId());
+
+		return ArticlePeer::doCount($criteria, $distinct, $con);
+	}
+
+	
+	public function addArticle(Article $l)
+	{
+		$this->collArticles[] = $l;
+		$l->setUser($this);
+	}
+
+
+	
+	public function getArticlesJoinCategory($criteria = null, $con = null)
+	{
+				include_once 'lib/model/om/BaseArticlePeer.php';
+		if ($criteria === null) {
+			$criteria = new Criteria();
+		}
+		elseif ($criteria instanceof Criteria)
+		{
+			$criteria = clone $criteria;
+		}
+
+		if ($this->collArticles === null) {
+			if ($this->isNew()) {
+				$this->collArticles = array();
+			} else {
+
+				$criteria->add(ArticlePeer::AUTHOR, $this->getId());
+
+				$this->collArticles = ArticlePeer::doSelectJoinCategory($criteria, $con);
+			}
+		} else {
+									
+			$criteria->add(ArticlePeer::AUTHOR, $this->getId());
+
+			if (!isset($this->lastArticleCriteria) || !$this->lastArticleCriteria->equals($criteria)) {
+				$this->collArticles = ArticlePeer::doSelectJoinCategory($criteria, $con);
+			}
+		}
+		$this->lastArticleCriteria = $criteria;
+
+		return $this->collArticles;
 	}
 
 

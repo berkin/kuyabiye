@@ -13,7 +13,7 @@ abstract class BaseUserPeer {
 	const CLASS_DEFAULT = 'lib.model.User';
 
 	
-	const NUM_COLUMNS = 14;
+	const NUM_COLUMNS = 15;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -39,6 +39,9 @@ abstract class BaseUserPeer {
 
 	
 	const AVATAR = 'users.AVATAR';
+
+	
+	const ACTIVATION_CODE = 'users.ACTIVATION_CODE';
 
 	
 	const FIRST_NAME = 'users.FIRST_NAME';
@@ -67,18 +70,18 @@ abstract class BaseUserPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nickname', 'Email', 'Sha1Password', 'Salt', 'RememberKey', 'Avatar', 'FirstName', 'LastName', 'Country', 'City', 'Gender', 'Dob', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::NICKNAME, UserPeer::EMAIL, UserPeer::SHA1_PASSWORD, UserPeer::SALT, UserPeer::REMEMBER_KEY, UserPeer::AVATAR, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::COUNTRY, UserPeer::CITY, UserPeer::GENDER, UserPeer::DOB, UserPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nickname', 'email', 'sha1_password', 'salt', 'remember_key', 'avatar', 'first_name', 'last_name', 'country', 'city', 'gender', 'dob', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nickname', 'Email', 'Sha1Password', 'Salt', 'RememberKey', 'Avatar', 'ActivationCode', 'FirstName', 'LastName', 'Country', 'City', 'Gender', 'Dob', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::NICKNAME, UserPeer::EMAIL, UserPeer::SHA1_PASSWORD, UserPeer::SALT, UserPeer::REMEMBER_KEY, UserPeer::AVATAR, UserPeer::ACTIVATION_CODE, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::COUNTRY, UserPeer::CITY, UserPeer::GENDER, UserPeer::DOB, UserPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nickname', 'email', 'sha1_password', 'salt', 'remember_key', 'avatar', 'activation_code', 'first_name', 'last_name', 'country', 'city', 'gender', 'dob', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nickname' => 1, 'Email' => 2, 'Sha1Password' => 3, 'Salt' => 4, 'RememberKey' => 5, 'Avatar' => 6, 'FirstName' => 7, 'LastName' => 8, 'Country' => 9, 'City' => 10, 'Gender' => 11, 'Dob' => 12, 'CreatedAt' => 13, ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::NICKNAME => 1, UserPeer::EMAIL => 2, UserPeer::SHA1_PASSWORD => 3, UserPeer::SALT => 4, UserPeer::REMEMBER_KEY => 5, UserPeer::AVATAR => 6, UserPeer::FIRST_NAME => 7, UserPeer::LAST_NAME => 8, UserPeer::COUNTRY => 9, UserPeer::CITY => 10, UserPeer::GENDER => 11, UserPeer::DOB => 12, UserPeer::CREATED_AT => 13, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nickname' => 1, 'email' => 2, 'sha1_password' => 3, 'salt' => 4, 'remember_key' => 5, 'avatar' => 6, 'first_name' => 7, 'last_name' => 8, 'country' => 9, 'city' => 10, 'gender' => 11, 'dob' => 12, 'created_at' => 13, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nickname' => 1, 'Email' => 2, 'Sha1Password' => 3, 'Salt' => 4, 'RememberKey' => 5, 'Avatar' => 6, 'ActivationCode' => 7, 'FirstName' => 8, 'LastName' => 9, 'Country' => 10, 'City' => 11, 'Gender' => 12, 'Dob' => 13, 'CreatedAt' => 14, ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::NICKNAME => 1, UserPeer::EMAIL => 2, UserPeer::SHA1_PASSWORD => 3, UserPeer::SALT => 4, UserPeer::REMEMBER_KEY => 5, UserPeer::AVATAR => 6, UserPeer::ACTIVATION_CODE => 7, UserPeer::FIRST_NAME => 8, UserPeer::LAST_NAME => 9, UserPeer::COUNTRY => 10, UserPeer::CITY => 11, UserPeer::GENDER => 12, UserPeer::DOB => 13, UserPeer::CREATED_AT => 14, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nickname' => 1, 'email' => 2, 'sha1_password' => 3, 'salt' => 4, 'remember_key' => 5, 'avatar' => 6, 'activation_code' => 7, 'first_name' => 8, 'last_name' => 9, 'country' => 10, 'city' => 11, 'gender' => 12, 'dob' => 13, 'created_at' => 14, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
 	);
 
 	
@@ -145,6 +148,8 @@ abstract class BaseUserPeer {
 		$criteria->addSelectColumn(UserPeer::REMEMBER_KEY);
 
 		$criteria->addSelectColumn(UserPeer::AVATAR);
+
+		$criteria->addSelectColumn(UserPeer::ACTIVATION_CODE);
 
 		$criteria->addSelectColumn(UserPeer::FIRST_NAME);
 
@@ -244,6 +249,167 @@ abstract class BaseUserPeer {
 		}
 		return $results;
 	}
+
+	
+	public static function doCountJoinActivation(Criteria $criteria, $distinct = false, $con = null)
+	{
+				$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(UserPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(UserPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(UserPeer::ACTIVATION_CODE, ActivationPeer::ID);
+
+		$rs = UserPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinActivation(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		UserPeer::addSelectColumns($c);
+		$startcol = (UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+		ActivationPeer::addSelectColumns($c);
+
+		$c->addJoin(UserPeer::ACTIVATION_CODE, ActivationPeer::ID);
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = UserPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+			$omClass = ActivationPeer::getOMClass();
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol);
+
+			$newObject = true;
+			foreach($results as $temp_obj1) {
+				$temp_obj2 = $temp_obj1->getActivation(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+										$temp_obj2->addUser($obj1); 					break;
+				}
+			}
+			if ($newObject) {
+				$obj2->initUsers();
+				$obj2->addUser($obj1); 			}
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
+
+	
+	public static function doCountJoinAll(Criteria $criteria, $distinct = false, $con = null)
+	{
+		$criteria = clone $criteria;
+
+				$criteria->clearSelectColumns()->clearOrderByColumns();
+		if ($distinct || in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+			$criteria->addSelectColumn(UserPeer::COUNT_DISTINCT);
+		} else {
+			$criteria->addSelectColumn(UserPeer::COUNT);
+		}
+
+				foreach($criteria->getGroupByColumns() as $column)
+		{
+			$criteria->addSelectColumn($column);
+		}
+
+		$criteria->addJoin(UserPeer::ACTIVATION_CODE, ActivationPeer::ID);
+
+		$rs = UserPeer::doSelectRS($criteria, $con);
+		if ($rs->next()) {
+			return $rs->getInt(1);
+		} else {
+						return 0;
+		}
+	}
+
+
+	
+	public static function doSelectJoinAll(Criteria $c, $con = null)
+	{
+		$c = clone $c;
+
+				if ($c->getDbName() == Propel::getDefaultDB()) {
+			$c->setDbName(self::DATABASE_NAME);
+		}
+
+		UserPeer::addSelectColumns($c);
+		$startcol2 = (UserPeer::NUM_COLUMNS - UserPeer::NUM_LAZY_LOAD_COLUMNS) + 1;
+
+		ActivationPeer::addSelectColumns($c);
+		$startcol3 = $startcol2 + ActivationPeer::NUM_COLUMNS;
+
+		$c->addJoin(UserPeer::ACTIVATION_CODE, ActivationPeer::ID);
+
+		$rs = BasePeer::doSelect($c, $con);
+		$results = array();
+
+		while($rs->next()) {
+
+			$omClass = UserPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj1 = new $cls();
+			$obj1->hydrate($rs);
+
+
+					
+			$omClass = ActivationPeer::getOMClass();
+
+
+			$cls = Propel::import($omClass);
+			$obj2 = new $cls();
+			$obj2->hydrate($rs, $startcol2);
+
+			$newObject = true;
+			for ($j=0, $resCount=count($results); $j < $resCount; $j++) {
+				$temp_obj1 = $results[$j];
+				$temp_obj2 = $temp_obj1->getActivation(); 				if ($temp_obj2->getPrimaryKey() === $obj2->getPrimaryKey()) {
+					$newObject = false;
+					$temp_obj2->addUser($obj1); 					break;
+				}
+			}
+
+			if ($newObject) {
+				$obj2->initUsers();
+				$obj2->addUser($obj1);
+			}
+
+			$results[] = $obj1;
+		}
+		return $results;
+	}
+
 	
 	public static function getTableMap()
 	{

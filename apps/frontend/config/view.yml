@@ -3,10 +3,10 @@ default:
     content-type: text/html
 
   metas:
-    title:        symfony project
+    title:        kuyabiye.com
     robots:       index, follow
-    description:  symfony project
-    keywords:     symfony, project
+    description:  Sevdiðin sevmediðin herþeyi profiline ekle, arkadaþlarýnla paylaþ!
+    keywords:     kuyabiye, arkadaþlýk, sosyal að, seviyor, sevmiyor
     language:     tr
 
   stylesheets:    [default]

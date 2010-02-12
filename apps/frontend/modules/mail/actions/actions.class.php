@@ -51,4 +51,18 @@ class mailActions extends sfActions
 
     $this->mail = $mail;
   }
+  
+  public function executeInviteFriends()
+  {
+    $this->email = $this->getRequest()->getAttribute('email');
+    $this->nickname = $this->getRequest()->getAttribute('fullname');
+    $this->conversation = $this->getRequest()->getAttribute('body');  
+    
+    $mail = new sfMail();
+    $mail->addAddress($this->email);
+    $mail->setFrom('From: Kuyabiye <info@kuyabiye.com>');
+    $mail->setSubject($this->fullname . ' size kuyabiye.com\'u tavsiye etti.');
+
+    $this->mail = $mail;  
+  }
 }

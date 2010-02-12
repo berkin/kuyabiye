@@ -46,6 +46,8 @@ class UserMapBuilder {
 
 		$tMap->addColumn('AVATAR', 'Avatar', 'string', CreoleTypes::VARCHAR, false, 255);
 
+		$tMap->addForeignKey('ACTIVATION_CODE', 'ActivationCode', 'int', CreoleTypes::INTEGER, 'activation_codes', 'ID', false, null);
+
 		$tMap->addColumn('FIRST_NAME', 'FirstName', 'string', CreoleTypes::VARCHAR, false, 100);
 
 		$tMap->addColumn('LAST_NAME', 'LastName', 'string', CreoleTypes::VARCHAR, false, 100);

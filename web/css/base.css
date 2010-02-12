@@ -159,9 +159,18 @@ body {
 }
 
 .ad {
+  border: 2px solid #333;
+  background: #e3e3e3;
 	float: right;
-  text-align: right;
-  width: 270px;
+  text-align: center;
+  height: 250px;
+  width: 250px;
+}
+
+.ad a {
+  font-size: 1.5em;
+  display: block;
+  margin: 110px 0 0;
 }
 
 .tag {
@@ -309,7 +318,6 @@ body {
   }
 
 .users {
-	float: left;
   height: 79px;
 }
 .users li {
@@ -425,6 +433,11 @@ body {
 h2.sub-header {
 	font-size: 2em;
   margin: 0 0 20px;
+}
+
+.blog-entry 
+{
+  margin: 0 0 30px;
 }
 
 

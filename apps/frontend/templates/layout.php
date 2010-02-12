@@ -23,7 +23,7 @@
         <li><?php echo link_to('hesabım', '@user_edit_profile'); ?></li>
         <li class="last"><?php echo link_to('çıkış', '@logout'); ?></li>
         <?php } else { ?>
-        <li><?php echo link_to('kuyabiye nedir?', '@homepage') ?></li>
+        <li><?php echo link_to('kuyabiye nedir?', '@article?stripped_title=kuyabiye-nedir') ?></li>
         <li><?php echo link_to('giriş', '@login') ?></li>
         <li class="last"><?php echo link_to('üye ol', '@register') ?></li>
         <?php } ?>
@@ -55,10 +55,10 @@
   	<div class="footer-wrap">
 	  	<div class="left">kuyabiye © <?php echo date('Y') ?></div>
 	 		  <ul class="footer-list">
-   		 		<li><a href="#">kuyabiye nedir?</a></li>
-  		  	<li><a class="break" href="#">arkadaşına gönder</a></li>
- 			   	<li><a href="#">blog</a></li>
-		    	<li><a href="#">iletişim</a></li>
+   		 		<li><?php echo link_to('kuyabiye nedir?', '@article?stripped_title=kuyabiye-nedir') ?></li>
+  		  	<li><?php echo link_to('arkadaşına gönder', '@invite_friends', 'class=break') ?></li>
+ 			   	<li><?php echo link_to('blog', '@category') ?></li>
+		    	<li><?php echo link_to('iletişim', '@contact') ?></li>
 		    </ul>
     </div>
   </div>

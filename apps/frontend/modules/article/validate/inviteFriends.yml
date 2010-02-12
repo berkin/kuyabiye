@@ -1,0 +1,22 @@
+methods:
+  post: [fullname, email, email2]
+
+names:
+  fullname:
+    required:     true
+    required_msg: Lütfen isminizi giriniz.
+  
+  email:
+    required:     true
+    required_msg: Lütfen arkadaşınızın e-posta adresinizi giriniz.
+    validators:   [emailValidator]  
+  
+  email2:
+    required:     true
+    required_msg: Lütfen e-posta adresinizi giriniz.
+    validators:   [emailValidator]
+
+emailValidator:
+  class:            sfEmailValidator
+  param:
+    email_error:    Lütfen e-posta adresini kontrol ediniz.
