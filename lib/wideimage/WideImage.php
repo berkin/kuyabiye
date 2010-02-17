@@ -1,7 +1,7 @@
 <?php
 	/**
  * @author Gasper Kozak
- * @copyright 2007, 2008, 2009
+ * @copyright 2007-2010
 
     This file is part of WideImage.
 		
@@ -22,21 +22,27 @@
     * @package WideImage
   **/
 	
-	require_once(WideImage::path() . 'Exception.php');
-	require_once(WideImage::path() . 'Image.php');
-	require_once(WideImage::path() . 'TrueColorImage.php');
-	require_once(WideImage::path() . 'PaletteImage.php');
+	require_once WideImage::path() . 'Image.php';
+	require_once WideImage::path() . 'TrueColorImage.php';
+	require_once WideImage::path() . 'PaletteImage.php';
 	
-	require_once(WideImage::path() . 'Coordinate.php');
-	require_once(WideImage::path() . 'Canvas.php');
-	require_once(WideImage::path() . 'PaletteImage.php');
-	require_once(WideImage::path() . 'TrueColorImage.php');
-	require_once(WideImage::path() . 'MapperFactory.php');
-	require_once(WideImage::path() . 'OperationFactory.php');
+	require_once WideImage::path() . 'Coordinate.php';
+	require_once WideImage::path() . 'Canvas.php';
+	require_once WideImage::path() . 'PaletteImage.php';
+	require_once WideImage::path() . 'TrueColorImage.php';
+	require_once WideImage::path() . 'MapperFactory.php';
+	require_once WideImage::path() . 'OperationFactory.php';
 	
-	require_once(WideImage::path() . 'Font/TTF.php');
-	require_once(WideImage::path() . 'Font/GDF.php');
-	require_once(WideImage::path() . 'Font/PS.php');
+	require_once WideImage::path() . 'Font/TTF.php';
+	require_once WideImage::path() . 'Font/GDF.php';
+	require_once WideImage::path() . 'Font/PS.php';
+	
+	/**
+	 * Base Exception class
+	 * 
+	 * @package Exceptions
+	 **/
+	class WideImage_Exception extends RuntimeException {}
 	
 	/**
 	 * @package Exceptions
@@ -64,7 +70,7 @@
 		 */
 		static function version()
 		{
-			return '9.09.04';
+			return '10.02.08';
 		}
 		
 		/**
@@ -213,6 +219,28 @@
 		}
 		
 		/**
+		 * Factory method for creating a palette image
+		 * 
+		 * @param int $width
+		 * @param int $height
+		 */
+		static function createPaletteImage($width, $height)
+		{
+			return WideImage_PaletteImage::create($width, $height);
+		}
+		
+		/**
+		 * Factory method for creating a true-color image
+		 * 
+		 * @param int $width
+		 * @param int $height
+		 */
+		static function createTrueColorImage($width, $height)
+		{
+			return WideImage_TrueColorImage::create($width, $height);
+		}
+		
+		/**
 		 * Check whether the given handle is a valid GD resource
 		 * 
 		 * @param mixed $handle The variable to check
@@ -233,6 +261,4 @@
 			if (!self::isValidImageHandle($handle))
 				throw new WideImage_InvalidImageHandleException("{$handle} is not a valid image handle.");
 		}
-		
 	}
-?>

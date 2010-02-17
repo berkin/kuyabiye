@@ -41,6 +41,7 @@
     <div class="inputs">
       <label for="repassword">Şifre(Tekrar)*:</label>
       <?php echo input_password_tag('repassword', '', array('class' => 'text medium')) ?>
+      <div class="form-notice">Şifrenizi değiştirmek istemiyorsanız şifre alanlarını boş bırakınız.</div>
       <?php if ( $sf_request->hasError('repassword') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('repassword'); ?></div>
       <?php } ?>
@@ -64,7 +65,7 @@
     
     <div class="inputs">
       <label for="country">Ülke:</label>
-      <?php echo object_select_country_tag($user, 'getCountry',  array('onChange' => 'checkCity(this);')) ?>
+      <?php echo object_select_country_tag($user, 'getCountry',  array('include_blank' => true, 'onChange' => 'checkCity(this);')) ?>
       <?php if ( $sf_request->hasError('country') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('country'); ?></div>
       <?php } ?>
@@ -80,8 +81,8 @@
     
     <div class="inputs">
       <label>Cinsiyet*:</label>
-      <?php echo object_radiobutton_tag($user, 'getGender', 0, array( 'id' => 'male')); ?> <label class="radios" for="male">Male</label>
-      <?php echo object_radiobutton_tag($user, 'getGender', 1, array( 'id' => 'female')); ?><label class="radios" for="female">Female</label>
+      <?php echo object_radiobutton_tag($user, 'getGender', 0, array( 'id' => 'male')); ?> <label class="radios" for="male">Erkek</label>
+      <?php echo object_radiobutton_tag($user, 'getGender', 1, array( 'id' => 'female')); ?><label class="radios" for="female">Kadın</label>
       <?php if ( $sf_request->hasError('gender') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('gender'); ?></div>
       <?php } ?>
@@ -121,10 +122,3 @@ function checkCity(seld)
 }
 ");
 ?>
-
-@todo<br />
-  - nickname, do not begin or end with space, do not contain more than 1 space between words. validate class must be external<br />
-  - first name and last name do not contain letters, only 1 space between words (this shouldn't be trig error, this should be done in the serverside<br />
-  - recaptcha<br />
-  - city country server side check, compare validatordaki gibi context ile request i alcan, ülke türkiye ise city olacak yoksa olmayacak
-  - 

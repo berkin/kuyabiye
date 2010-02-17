@@ -19,7 +19,10 @@
           </span>
       </li>
       <li class="email-icon"><?php echo link_to('Mesaj Gönder', '@conversation_compose?recipent=' . $subscriber->getNickname()) ?></li>
-      <li class="picture-icon"><?php echo link_to('Fotoğraflar (' . $nbPictures . ')', '@user_pictures?nick=' . $subscriber->getNickname()); ?></li>
+      <li class="picture-icon"><?php echo link_to('Fotoğraflar (' . $nbPictures . ')', '@user_pictures?nick=' . $subscriber->getNickname()); ?></li>      
+      <?php if ( $owner ) { ?>
+      <li class="picture-icon"><?php echo link_to('Fotağraf Yükle', '@user_pictures?nick=' . $subscriber->getNickname()); ?></li>
+      <?php } ?>
       <li class="tag-icon"><?php echo link_to('Etiketleri', '@user_tags?nick=' . $subscriber->getNickname() . '&sense=hepsi&page=') ?></li>
     </ul>
   </div>

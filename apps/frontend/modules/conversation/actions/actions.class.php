@@ -135,7 +135,7 @@ class conversationActions extends sfActions
     $this->message->save();
       
     //sent mail    
-    $this->sendEmailNotice($reply_to->getEmail(), $reply_to->getNickname(), $this->conversation->getId());
+    $this->sendEmailNotice($reply_to->getEmail(), $this->getUser()->getNickname(), $this->conversation->getId());
   }
   
   public function executeCompose()
@@ -173,7 +173,7 @@ class conversationActions extends sfActions
       $message->save();
       
       //sent mail    
-      $this->sendEmailNotice($this->recipent->getEmail(), $this->recipent->getNickname(), $conversation->getId());
+      $this->sendEmailNotice($this->recipent->getEmail(), $this->getUser()->getNickname(), $conversation->getId());
       
       $this->redirect('@conversation_read?id=' . $conversation->getConversation());
       

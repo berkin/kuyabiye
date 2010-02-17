@@ -2,3 +2,5 @@
 /web/uploads/*
 /cache/*
 /log/*
+/config/*
+/web/.htaccess

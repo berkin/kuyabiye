@@ -66,7 +66,11 @@ class articleActions extends sfActions
   {
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
     {
-    
+      $this->getRequest()->setAttribute('fullname', $this->getRequestParameter('fullname'));
+      $this->getRequest()->setAttribute('email', $this->getRequestParameter('email'));
+      $this->getRequest()->setAttribute('email2', $this->getRequestParameter('email2'));
+      $this->getRequest()->setAttribute('body', $this->getRequestParameter('body'));    
+      
       $raw_email = $this->sendEmail('mail', 'inviteFriends');
       $this->getLogger()->debug($raw_email);  
 

@@ -1,7 +1,7 @@
 <?php
 	/**
  * @author Gasper Kozak
- * @copyright 2007, 2008, 2009
+ * @copyright 2007-2010
 
     This file is part of WideImage.
 		
@@ -40,16 +40,14 @@
 		 */
 		function execute($image, $mask, $left = 0, $top = 0)
 		{
-			$left = WideImage_Coordinate::fix($image->getWidth(), $left);
-			$top = WideImage_Coordinate::fix($image->getHeight(), $top);
+			$left = WideImage_Coordinate::fix($image->getWidth(), $left, false, $mask->getWidth());
+			$top = WideImage_Coordinate::fix($image->getHeight(), $top, false, $mask->getHeight());
 			
 			$width = $image->getWidth();
-			if ($width > $mask->getWidth())
-				$width = $mask->getWidth();
+			$mask_width = $mask->getWidth();
 			
 			$height = $image->getHeight();
-			if ($height > $mask->getHeight())
-				$height = $mask->getHeight();
+			$mask_height = $mask->getHeight();
 			
 			$result = $image->asTrueColor();
 			$result->alphaBlending(false);
@@ -68,19 +66,22 @@
 			
 			for ($x = 0; $x < $width; $x++)
 				for ($y = 0; $y < $height; $y++)
-					if ($left + $x < $image->getWidth() && $top + $y < $image->getHeight())
+				{
+					$mx = $x - $left;
+					$my = $y - $top;
+					if ($mx >= 0 && $mx < $mask_width && $my >= 0 && $my < $mask_height)
 					{
-						$srcColor = $image->getColorAt($left + $x, $top + $y);
+						$srcColor = $image->getColorAt($x, $y);
 						if ($srcColor == $srcTransparentColor)
 							$destColor = $destTransparentColor;
 						else
 						{
-							$maskRGB = $mask->getRGBAt($x, $y);
+							$maskRGB = $mask->getRGBAt($mx, $my);
 							if ($maskRGB['red'] == 0)
 								$destColor = $destTransparentColor;
 							elseif ($srcColor >= 0)
 							{
-								$imageRGB = $image->getRGBAt($left + $x, $top + $y);
+								$imageRGB = $image->getRGBAt($x, $y);
 								$level = ($maskRGB['red'] / 255) * (1 - $imageRGB['alpha'] / 127);
 								$imageRGB['alpha'] = 127 - round($level * 127);
 								if ($imageRGB['alpha'] == 127)
@@ -91,10 +92,9 @@
 							else
 								$destColor = $destTransparentColor;
 						}
-						$result->setColorAt($left + $x, $top + $y, $destColor);
+						$result->setColorAt($x, $y, $destColor);
 					}
-			
+				}
 			return $result;
 		}
 	}
-?>

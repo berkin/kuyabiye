@@ -191,7 +191,7 @@ class tagActions extends sfActions
     
     $sense = $this->getRequestParameter('sense');
     
-    if ( $sense )
+    if ( $sense == 'seviyorum' || $sense == 'sevmiyorum' )
     {
       $user_tag = new UserToTag();
       $user_tag->setUser($this->getUser()->getSubscriber());

@@ -9,11 +9,11 @@ names:
 
   password:
     required:     false
-    required_msg: �ifreniz gerekli.
+    required_msg: Şifreniz gerekli.
 
   repassword:
     required:     false
-    required_msg: �ifreniz gerekli.
+    required_msg: Şifreniz gerekli.
     validators:   [passwordValidator]
 
   firstname:
@@ -26,40 +26,40 @@ names:
   
   gender:
     required:     true
-    required_msg: Cinsiyetinizi se�meniz gerekli.
+    required_msg: Cinsiyetinizi seçmeniz gerekli.
     
   dob:
     required:     true
-    required_msg: Do�um tarihinizi girmeniz gerekli.
+    required_msg: Doğum tarihinizi girmeniz gerekli.
     validators:   dobValidator
 
 emailValidator:
   class:            sfEmailValidator
   param:
-    email_error:    check your email
+    email_error:    Lütfen e-posta adresinizi kontrol ediniz.
     
 uniqueEmailValidator:
   class:            sfPropelUniqueValidator
   param:
       class:        User
       column:       email
-      unique_error: This email already exists. Please choose another one.
+      unique_error: Bu e-posta adresi zaten kullanımda.
 
 passwordValidator:
   class:            sfCompareValidator
   param:
     check:          password
-    compare_error:  passwords do not match
+    compare_error:  Şifreler uyuşmuyor.
 
 nameValidator:
   class:            sfStringValidator
   param:
     min:            2
-    min_error:      2 characters min
+    min_error:      İsminiz en az 2 karakter olmalı.
     max:            100
-    max_error:      100 characters max
+    max_error:      İsminiz en fazla 100 karaketer olabilir.
 
 dobValidator:
   class:            myDobValidator
   param:
-    date_error:     not valid date
+    date_error:     Doğum tarihiniz geçerli değil

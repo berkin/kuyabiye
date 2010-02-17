@@ -32,10 +32,13 @@ class myTools
    
     // trim
     $text = trim($text, '-');
+    
+    $text = str_replace('ı', 'i', $text);
    
     // transliterate
     if (function_exists('iconv'))
     {
+      setLocale(LC_ALL, 'en_US.utf8');
       $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
     }
    

@@ -1,9 +1,10 @@
-Merhaba <?php echo $nickname; ?>
-Üyelik bilgileriniz:
-Kullanıcı adı: <?php echo link_to($nickname, '@user_profile?nick=' . $nickname) ?>
-Şifre: <?php echo $password ?>
+Merhaba <?php echo $nickname; ?><br /><br />
 
-Profil sayfanıza <?php echo link_to('buraya', '@user_profile?nick=' . $nickname) ?> tıklayarak ulaşabilirsiniz.
+Üyelik bilgileriniz:<br />
+Kullanıcı adı: <?php echo link_to($nickname, '@user_profile?nick=' . $nickname, 'absolute=true') ?><br />
+Şifre: <?php echo htmlspecialchars($password) ?><br /><br />
+
+Profil sayfanıza <?php echo link_to('buraya', '@user_profile?nick=' . $nickname, 'absolute=true') ?> tıklayarak ulaşabilirsiniz.<br /><br />
  
-Sevgiley,
+Sevgiley,<br />
 kuyabiye.com ^__^

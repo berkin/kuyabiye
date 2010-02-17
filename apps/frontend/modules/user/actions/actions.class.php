@@ -62,18 +62,24 @@ class userActions extends sfActions
     // save user
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
     {    
-      $c = new Criteria();
-      $c->add(ActivationPeer::CODE, $this->getRequestParameter('activation'));
-      $activation = ActivationPeer::doSelectOne($c);
-
       $user = new User();
-      
+      $_dob = $this->getRequestParameter('dob');
+      $dob = $_dob['year'] . '-' . $_dob['month'] . '-' . $_dob['day'];
       $user->setNickname($this->getRequestParameter('nickname'));
       $user->setEmail($this->getRequestParameter('email'));
       $user->setPassword($this->getRequestParameter('password'));
       $user->setFirstname($this->getRequestParameter('firstname'));
       $user->setLastname($this->getRequestParameter('lastname'));
-      $user->setActivationCode($activation->getId());
+      $user->setGender($this->getRequestParameter('gender'));
+      $user->setDob($dob);
+      
+      if ( sfConfig::get('app_activation_is_on') )
+      {
+        $c = new Criteria();
+        $c->add(ActivationPeer::CODE, $this->getRequestParameter('activation'));
+        $activation = ActivationPeer::doSelectOne($c);      
+        $user->setActivationCode($activation->getId());
+      }
       
       $user->save();
       
@@ -226,7 +232,8 @@ class userActions extends sfActions
     {
     
     $cacheFileName = $this->getRequest()->getFileName('picture');
-    $fileName = time() . rand(100000, 999999) . '.' . strtolower(substr($cacheFileName, strrpos($cacheFileName, '.') + 1));
+    $fileExt = strtolower(substr($cacheFileName, strrpos($cacheFileName, '.') + 1));
+    $fileName = time() . rand(100000, 999999) . '.' . $fileExt;
     $filePath = sfConfig::get('app_upload_folder') . DIRECTORY_SEPARATOR . $fileName;
     $this->getRequest()->moveFile('picture', $filePath);
    
@@ -240,10 +247,12 @@ class userActions extends sfActions
       if ( $thumbnail['height'] )
       {
         $crop = ( ($image->getWidth() >= $image->getHeight()) ? $image->getHeight() : $image->getWidth() );
-        $image = $image->crop(0, 0, $crop, $crop);
+        $image = $image->crop('center', 'center', $crop, $crop);
       }
+      
+      $compression = ( $fileExt == 'png' ? '6' : '80' );
       $resized = $image->resize($thumbnail['width'], $thumbnail['height']);
-      $resized->saveToFile(sfConfig::get('app_upload_folder') . $thumbnail['dir'] . DIRECTORY_SEPARATOR . $fileName, null);
+      $resized->saveToFile(sfConfig::get('app_upload_folder') . $thumbnail['dir'] . DIRECTORY_SEPARATOR . $fileName, $compression);
       
       //avoid memory limit exceed
       unset($image);

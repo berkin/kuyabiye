@@ -33,7 +33,7 @@
         
         <div id="homepage" class="tags">
         	<h2 class="home-header"><a class="love" href="#">bugünlerde sevilenler</a></h2>
-          <div class="tag-cloud tag-love">
+          <div class="tag-cloud">
             <?php foreach ($loved_tags as $tag): ?>
               <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
             <?php endforeach; ?>
@@ -41,7 +41,7 @@
 
           
           <h2 class="home-header"><a class="hate" href="#">bugünlerde sevilmeyenler</a></h2>
-          <div class="tag-cloud tag-hate">
+          <div class="tag-cloud">
             <?php foreach ($hated_tags as $tag): ?>
               <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
             <?php endforeach; ?>

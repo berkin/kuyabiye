@@ -28,7 +28,7 @@ class TagPeer extends BaseTagPeer
         $c->add(TagPeer::STICKY, $sticky);      
       }
       $c->add(TagPeer::UPDATED_AT, $days, Criteria::GREATER_THAN);
-      $c->setLimit(15);
+      $c->setLimit(50);
         
       $tags = TagPeer::doSelect($c);
       

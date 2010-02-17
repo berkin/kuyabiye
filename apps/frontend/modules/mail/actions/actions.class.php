@@ -17,8 +17,10 @@ class mailActions extends sfActions
     $this->conversation = $this->getRequest()->getAttribute('conversation');
   
     $mail = new sfMail();
+    $mail->setCharset('utf-8');      
+    $mail->setContentType('text/html');
     $mail->addAddress($this->email);
-    $mail->setFrom('From: Kuyabiye <info@kuyabiye.com>');
+    $mail->setFrom('Kuyabiye <info@kuyabiye.com>');
     $mail->setSubject($this->nickname . ' size mesaj gönderdi');
 
     $this->mail = $mail;
@@ -29,8 +31,10 @@ class mailActions extends sfActions
     $this->email = $this->getRequest()->getAttribute('email');
   
     $mail = new sfMail();
+    $mail->setCharset('utf-8');      
+    $mail->setContentType('text/html');
     $mail->addAddress($this->email);
-    $mail->setFrom('From: Kuyabiye <info@kuyabiye.com>');
+    $mail->setFrom('Kuyabiye <info@kuyabiye.com>');
     $mail->setSubject('Yeni Þifre Ýsteði');
 
     $this->mail = $mail;  
@@ -45,9 +49,11 @@ class mailActions extends sfActions
     $this->conversation = $this->getRequest()->getAttribute('password');  
     
     $mail = new sfMail();
+    $mail->setCharset('utf-8');      
+    $mail->setContentType('text/html');
     $mail->addAddress($this->email);
-    $mail->setFrom('From: Kuyabiye <info@kuyabiye.com>');
-    $mail->setSubject('kuyabiye.com üyelik bilgileriniz');
+    $mail->setFrom('Kuyabiye <info@kuyabiye.com>');
+    $mail->setSubject('Üyelik bilgileriniz');
 
     $this->mail = $mail;
   }
@@ -55,12 +61,15 @@ class mailActions extends sfActions
   public function executeInviteFriends()
   {
     $this->email = $this->getRequest()->getAttribute('email');
-    $this->nickname = $this->getRequest()->getAttribute('fullname');
-    $this->conversation = $this->getRequest()->getAttribute('body');  
+    $this->email2 = $this->getRequest()->getAttribute('email2');
+    $this->fullname = $this->getRequest()->getAttribute('fullname');
+    $this->body = $this->getRequest()->getAttribute('body');  
     
     $mail = new sfMail();
+    $mail->setCharset('utf-8');      
+    $mail->setContentType('text/html');
     $mail->addAddress($this->email);
-    $mail->setFrom('From: Kuyabiye <info@kuyabiye.com>');
+    $mail->setFrom('Kuyabiye <info@kuyabiye.com>');
     $mail->setSubject($this->fullname . ' size kuyabiye.com\'u tavsiye etti.');
 
     $this->mail = $mail;  

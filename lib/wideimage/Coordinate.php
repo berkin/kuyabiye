@@ -1,7 +1,7 @@
 <?php
 	/**
  * @author Gasper Kozak
- * @copyright 2007, 2008, 2009
+ * @copyright 2007-2010
 
     This file is part of WideImage.
 		
@@ -35,7 +35,8 @@
 	 **/
 	class WideImage_Coordinate
 	{
-		static protected $coord_regex = array("[0-9]+", "[0-9]+\.[0-9]+", "[0-9]+%", "[0-9]+\.[0-9]+%");
+		static protected $coord_align = array("left", "center", "right", "top", "middle", "bottom");
+		static protected $coord_numeric = array("[0-9]+", "[0-9]+\.[0-9]+", "[0-9]+%", "[0-9]+\.[0-9]+%");
 		
 		/**
 		 * Parses a numeric or string representation of a corrdinate into a structure
@@ -50,16 +51,16 @@
 			if (strlen($coord) == 0)
 				return array('type' => 'abs', 'value' => '+0');
 			
-			$comp_regex = implode('|', self::$coord_regex);
+			$comp_regex = implode('|', self::$coord_align) . '|' . implode('|', self::$coord_numeric);
 			
-			if (preg_match("/^([+-])?(\s+)?({$comp_regex})$/", $coord, $match))
+			if (preg_match("/^([+-])?(\s+)?({$comp_regex})$/i", $coord, $match))
 			{
 				if ($match[1] == '')
 					$match[1] = '+';
 				return array('type' => 'abs', 'value' => $match[1] . $match[3]);
 			}
 			
-			if (preg_match("/^([+-])?(\s+)?({$comp_regex})(\s+)?([+-])(\s+)?({$comp_regex})$/", $coord, $match))
+			if (preg_match("/^([+-])?(\s+)?({$comp_regex})(\s+)?([+-])(\s+)?({$comp_regex})$/i", $coord, $match))
 			{
 				if ($match[1] == '')
 					$match[1] = '+';
@@ -72,16 +73,60 @@
 		 * 
 		 * @param string $coord A numeric value or percent string
 		 * @param int $dim Dimension
+		 * @param int $sec_dim Secondary dimension (for align)
 		 * @return int Calculated value
 		 */
-		static function evaluate($coord, $dim)
+		static function evaluate($coord, $dim, $sec_dim = null)
 		{
-			$comp_regex = implode('|', self::$coord_regex);
+			$comp_regex = implode('|', self::$coord_align) . '|' . implode('|', self::$coord_numeric);
 			if (preg_match("/^([+-])?({$comp_regex})$/", $coord, $matches))
 			{
 				$sign = intval($matches[1] . "1");
 				$val = $matches[2];
-				if (substr($val, -1) === '%')
+				if (in_array($val, self::$coord_align))
+				{
+					if ($sec_dim === null)
+					{
+						switch ($val)
+						{
+							case 'left':
+							case 'top':
+								return 0;
+								break;
+							case 'center':
+							case 'middle':
+								return $sign * intval($dim / 2);
+								break;
+							case 'right':
+							case 'bottom':
+								return $sign * $dim;
+								break;
+							default:
+								return null;
+						}
+					}
+					else
+					{
+						switch ($val)
+						{
+							case 'left':
+							case 'top':
+								return 0;
+								break;
+							case 'center':
+							case 'middle':
+								return $sign * intval($dim / 2 - $sec_dim / 2);
+								break;
+							case 'right':
+							case 'bottom':
+								return $sign * ($dim - $sec_dim);
+								break;
+							default:
+								return null;
+						}
+					}
+				}
+				elseif (substr($val, -1) === '%')
 					return intval(round($sign * $dim * floatval(str_replace('%', '', $val)) / 100));
 				else
 					return $sign * intval(round($val));
@@ -94,9 +139,10 @@
 		 * @param int $dim Dimension
 		 * @param mixed $value Smart coordinate, relative to $dim
 		 * @param bool $clip Clip if $value outside [0, $dim]
+		 * @param int $sec_dim Secondary dimension (for align)
 		 * @return int Calculated value
 		 */
-		static function fix($dim, $value, $clip = false)
+		static function fix($dim, $value, $clip = false, $sec_dim = null)
 		{
 			$coord = self::parse($value);
 			if ($coord === null)
@@ -104,12 +150,12 @@
 			
 			if ($coord['type'] === 'abs')
 			{
-				$result = self::evaluate($coord['value'], $dim);
+				$result = self::evaluate($coord['value'], $dim, $sec_dim);
 			}
 			elseif ($coord['type'] === 'cal')
 			{
-				$p = self::evaluate($coord['pivot'], $dim);
-				$v = self::evaluate($coord['value'], $dim);
+				$p = self::evaluate($coord['pivot'], $dim, $sec_dim);
+				$v = self::evaluate($coord['value'], $dim, $sec_dim);
 				$result = $p + $v;
 			}
 			

@@ -3,7 +3,7 @@
 <h1 class="home-header love">Üye Girişi</h1>
   <div class="notice">
     <div class="success">
-      <?php echo 'Üye olmak için ' . link_to('buraya', '@login', 'class=bold') . ' tıklayın.' ?>
+      <?php echo 'Üye olmak için ' . link_to('buraya', '@register', 'class=bold') . ' tıklayın.' ?>
     </div>      
   </div>   
   <div class="clearfix">

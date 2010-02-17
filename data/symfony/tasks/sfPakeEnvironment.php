@@ -78,5 +78,5 @@ function run_sync($task, $args)
   $dry_run = ($dryrun == 'go' || $dryrun == 'ok') ? '' : '--dry-run';
   $cmd = "rsync --progress $dry_run $parameters -e $ssh ./ $user$host:$dir";
 
-  echo pake_sh($cmd);
+  echo pake_sh('start '.$cmd);
 }

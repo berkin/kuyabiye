@@ -20,10 +20,10 @@ test:
 
 all:
   .actions:
-    login_module: User
+    login_module: user
     login_action: login
 
-    secure_module: User
+    secure_module: user
     secure_module: login
     
   .settings:

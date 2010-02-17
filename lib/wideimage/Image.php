@@ -1,7 +1,7 @@
 <?php
 	/**
  * @author Gasper Kozak
- * @copyright 2007, 2008, 2009
+ * @copyright 2007-2010
 
     This file is part of WideImage.
 		
@@ -125,6 +125,21 @@
 		 * compression quality and filters (for png images). See http://www.php.net/imagejpeg and
 		 * http://www.php.net/imagepng for details.
 		 * 
+		 * Examples:
+		 * <code>
+		 * // save to a GIF
+		 * $image->saveToFile('image.gif');
+		 * 
+		 * // save to a PNG with compression=7 and no filters
+		 * $image->saveToFile('image.png', 7, PNG_NO_FILTER);
+		 * 
+		 * // save to a JPEG with quality=80
+		 * $image->saveToFile('image.jpg', 80);
+		 * 
+		 * // save to a JPEG with default quality=100
+		 * $image->saveToFile('image.jpg');
+		 * </code>
+		 * 
 		 * @param string $uri The file locator (can be url)
 		 * @return mixed Whatever the mapper returns
 		 */
@@ -132,7 +147,6 @@
 		{
 			$mapper = WideImage_MapperFactory::selectMapper($uri, null);
 			$args = func_get_args();
-			unset($args[1]);
 			array_unshift($args, $this->getHandle());
 			return call_user_func_array(array($mapper, 'save'), $args);
 		}
@@ -170,7 +184,8 @@
 		/**
 		 * Outputs the image to browser
 		 * 
-		 * Sets headers Content-length and Content-type, and echoes the image in the specified format. 
+		 * Sets headers Content-length and Content-type, and echoes the image in the specified format.
+		 * All other headers (such as Content-disposition) must be added manually. 
 		 * 
 		 * @param string $format Image format
 		 */
@@ -478,6 +493,14 @@
 		 * 
 		 * Hint: if the overlay is a truecolor image with alpha channel, you should leave $pct at 100.
 		 * 
+		 * This operation supports alignment notation in coordinates:
+		 * <code>
+		 * $watermark = WideImage::load('logo.gif');
+		 * $base = WideImage::load('picture.jpg');
+		 * $result = $base->merge($watermark, "right - 10", "bottom - 10", 50);
+		 * // applies a logo aligned to bottom-right corner with a 10 pixel margin
+		 * </code>
+		 * 
 		 * @param WideImage_Image $overlay The overlay image
 		 * @param mixed $left Left position of the overlay, smart coordinate
 		 * @param mixed $top Top position of the overlay, smart coordinate
@@ -544,6 +567,13 @@
 		 * $cropped = $img->crop(-100, -50, 100, 50); // crops a 100x50 rect at the right-bottom of the image
 		 * $cropped = $img->crop('c-50', 'c-50', 100, 100); // crops a 100x100 rect from the center of the image
 		 * $cropped = $img->crop('c-25%', 'c-25%', '50%', '50%'); // crops a 50%x50% rect from the center of the image
+		 * </code>
+		 * 
+		 * This operation supports alignment notation in left/top coordinates.
+		 * Example:
+		 * <code>
+		 * $cropped = $img->crop("right", "bottom", 100, 200); // crops a 100x200 rect from right bottom
+		 * $cropped = $img->crop("center", "middle", 50, 30); // crops a 50x30 from the center of the image
 		 * </code>
 		 * 
 		 * @param mixed $left Left-coordinate of the crop rect, smart coordinate
