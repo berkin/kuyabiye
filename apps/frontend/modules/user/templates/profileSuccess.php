@@ -1,11 +1,11 @@
 <?php use_helper('Validation', 'Object', 'DateForm', 'Radio', 'Javascript'); ?>
 <ul class="breadcrumb">
   <li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li>
-  <li><?php echo link_to($user->getNickname(), '@user_profile?nick=' . $user->getNickname()); ?>::</li>
-  <li><?php echo link_to('Hesabım', '@user_edit_profile'); ?></li>
+  <li><?php echo link_to('Hesabım', '@user_edit'); ?>::</li>
+  <li><?php echo link_to('Üyelik Bilgileri', '@user_edit_profile'); ?></li>
 </ul>
 <div class="content-wrap">
-<h1 class="home-header love">Hesabım</h1>
+<h1 class="home-header love">Üyelik Bilgileri</h1>
 
 <?php if ($sf_flash->has('notice')) { ?>
   <div class="notice">

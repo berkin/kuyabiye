@@ -2,7 +2,7 @@
 homepage:
   url:   /
   param: { module: tag, action: index }
-
+  
 register:
   url:    /uye-ol/*
   param: { module: user, action: register }
@@ -10,6 +10,10 @@ register:
 login:
   url:    /giris/*
   param: { module: user, action: login }
+  
+facebook:
+  url:    /facebook/*
+  param:  { module: user, action: facebook }
 
 logout:
   url:    /cikis/*
@@ -53,9 +57,17 @@ user_profile:
   url:    /uye/:nick
   param:  { module: user, action: show }
 
+user_edit:
+  url:    /hesabim
+  param:  { module: user, action: userEdit }
+  
 user_edit_profile:
-  url:    /hesabim/*
+  url:    /hesabim/uyelik-bilgileri/*
   param:  { module: user, action: profile }
+  
+user_edit_facebook:
+  url:    /hesabim/facebook-ayarlari
+  param:  { module: user, action: facebookSettings }
   
 user_love:
   url:    /seviyor-musun/*

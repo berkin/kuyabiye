@@ -65,6 +65,42 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 
 	
+	protected $quote;
+
+
+	
+	protected $nb_loves = 0;
+
+
+	
+	protected $nb_hates = 0;
+
+
+	
+	protected $fb_is_on = 0;
+
+
+	
+	protected $fb_uuid;
+
+
+	
+	protected $fb_session_key;
+
+
+	
+	protected $fb_publish_status = 1;
+
+
+	
+	protected $fb_publish_love = 1;
+
+
+	
+	protected $fb_publish_comment = 1;
+
+
+	
 	protected $created_at;
 
 	
@@ -253,6 +289,69 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		} else {
 			return date($format, $ts);
 		}
+	}
+
+	
+	public function getQuote()
+	{
+
+		return $this->quote;
+	}
+
+	
+	public function getNbLoves()
+	{
+
+		return $this->nb_loves;
+	}
+
+	
+	public function getNbHates()
+	{
+
+		return $this->nb_hates;
+	}
+
+	
+	public function getFbIsOn()
+	{
+
+		return $this->fb_is_on;
+	}
+
+	
+	public function getFbUuid()
+	{
+
+		return $this->fb_uuid;
+	}
+
+	
+	public function getFbSessionKey()
+	{
+
+		return $this->fb_session_key;
+	}
+
+	
+	public function getFbPublishStatus()
+	{
+
+		return $this->fb_publish_status;
+	}
+
+	
+	public function getFbPublishLove()
+	{
+
+		return $this->fb_publish_love;
+	}
+
+	
+	public function getFbPublishComment()
+	{
+
+		return $this->fb_publish_comment;
 	}
 
 	
@@ -507,6 +606,150 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 	} 
 	
+	public function setQuote($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->quote !== $v) {
+			$this->quote = $v;
+			$this->modifiedColumns[] = UserPeer::QUOTE;
+		}
+
+	} 
+	
+	public function setNbLoves($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->nb_loves !== $v || $v === 0) {
+			$this->nb_loves = $v;
+			$this->modifiedColumns[] = UserPeer::NB_LOVES;
+		}
+
+	} 
+	
+	public function setNbHates($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->nb_hates !== $v || $v === 0) {
+			$this->nb_hates = $v;
+			$this->modifiedColumns[] = UserPeer::NB_HATES;
+		}
+
+	} 
+	
+	public function setFbIsOn($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->fb_is_on !== $v || $v === 0) {
+			$this->fb_is_on = $v;
+			$this->modifiedColumns[] = UserPeer::FB_IS_ON;
+		}
+
+	} 
+	
+	public function setFbUuid($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->fb_uuid !== $v) {
+			$this->fb_uuid = $v;
+			$this->modifiedColumns[] = UserPeer::FB_UUID;
+		}
+
+	} 
+	
+	public function setFbSessionKey($v)
+	{
+
+		
+		
+		if ($v !== null && !is_string($v)) {
+			$v = (string) $v; 
+		}
+
+		if ($this->fb_session_key !== $v) {
+			$this->fb_session_key = $v;
+			$this->modifiedColumns[] = UserPeer::FB_SESSION_KEY;
+		}
+
+	} 
+	
+	public function setFbPublishStatus($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->fb_publish_status !== $v || $v === 1) {
+			$this->fb_publish_status = $v;
+			$this->modifiedColumns[] = UserPeer::FB_PUBLISH_STATUS;
+		}
+
+	} 
+	
+	public function setFbPublishLove($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->fb_publish_love !== $v || $v === 1) {
+			$this->fb_publish_love = $v;
+			$this->modifiedColumns[] = UserPeer::FB_PUBLISH_LOVE;
+		}
+
+	} 
+	
+	public function setFbPublishComment($v)
+	{
+
+		
+		
+		if ($v !== null && !is_int($v) && is_numeric($v)) {
+			$v = (int) $v;
+		}
+
+		if ($this->fb_publish_comment !== $v || $v === 1) {
+			$this->fb_publish_comment = $v;
+			$this->modifiedColumns[] = UserPeer::FB_PUBLISH_COMMENT;
+		}
+
+	} 
+	
 	public function setCreatedAt($v)
 	{
 
@@ -556,13 +799,31 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->dob = $rs->getDate($startcol + 13, null);
 
-			$this->created_at = $rs->getTimestamp($startcol + 14, null);
+			$this->quote = $rs->getString($startcol + 14);
+
+			$this->nb_loves = $rs->getInt($startcol + 15);
+
+			$this->nb_hates = $rs->getInt($startcol + 16);
+
+			$this->fb_is_on = $rs->getInt($startcol + 17);
+
+			$this->fb_uuid = $rs->getString($startcol + 18);
+
+			$this->fb_session_key = $rs->getString($startcol + 19);
+
+			$this->fb_publish_status = $rs->getInt($startcol + 20);
+
+			$this->fb_publish_love = $rs->getInt($startcol + 21);
+
+			$this->fb_publish_comment = $rs->getInt($startcol + 22);
+
+			$this->created_at = $rs->getTimestamp($startcol + 23, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 15; 
+						return $startcol + 24; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating User object", $e);
 		}
@@ -963,6 +1224,33 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				return $this->getDob();
 				break;
 			case 14:
+				return $this->getQuote();
+				break;
+			case 15:
+				return $this->getNbLoves();
+				break;
+			case 16:
+				return $this->getNbHates();
+				break;
+			case 17:
+				return $this->getFbIsOn();
+				break;
+			case 18:
+				return $this->getFbUuid();
+				break;
+			case 19:
+				return $this->getFbSessionKey();
+				break;
+			case 20:
+				return $this->getFbPublishStatus();
+				break;
+			case 21:
+				return $this->getFbPublishLove();
+				break;
+			case 22:
+				return $this->getFbPublishComment();
+				break;
+			case 23:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -989,7 +1277,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 			$keys[11] => $this->getCity(),
 			$keys[12] => $this->getGender(),
 			$keys[13] => $this->getDob(),
-			$keys[14] => $this->getCreatedAt(),
+			$keys[14] => $this->getQuote(),
+			$keys[15] => $this->getNbLoves(),
+			$keys[16] => $this->getNbHates(),
+			$keys[17] => $this->getFbIsOn(),
+			$keys[18] => $this->getFbUuid(),
+			$keys[19] => $this->getFbSessionKey(),
+			$keys[20] => $this->getFbPublishStatus(),
+			$keys[21] => $this->getFbPublishLove(),
+			$keys[22] => $this->getFbPublishComment(),
+			$keys[23] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -1048,6 +1345,33 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 				$this->setDob($value);
 				break;
 			case 14:
+				$this->setQuote($value);
+				break;
+			case 15:
+				$this->setNbLoves($value);
+				break;
+			case 16:
+				$this->setNbHates($value);
+				break;
+			case 17:
+				$this->setFbIsOn($value);
+				break;
+			case 18:
+				$this->setFbUuid($value);
+				break;
+			case 19:
+				$this->setFbSessionKey($value);
+				break;
+			case 20:
+				$this->setFbPublishStatus($value);
+				break;
+			case 21:
+				$this->setFbPublishLove($value);
+				break;
+			case 22:
+				$this->setFbPublishComment($value);
+				break;
+			case 23:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -1071,7 +1395,16 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[11], $arr)) $this->setCity($arr[$keys[11]]);
 		if (array_key_exists($keys[12], $arr)) $this->setGender($arr[$keys[12]]);
 		if (array_key_exists($keys[13], $arr)) $this->setDob($arr[$keys[13]]);
-		if (array_key_exists($keys[14], $arr)) $this->setCreatedAt($arr[$keys[14]]);
+		if (array_key_exists($keys[14], $arr)) $this->setQuote($arr[$keys[14]]);
+		if (array_key_exists($keys[15], $arr)) $this->setNbLoves($arr[$keys[15]]);
+		if (array_key_exists($keys[16], $arr)) $this->setNbHates($arr[$keys[16]]);
+		if (array_key_exists($keys[17], $arr)) $this->setFbIsOn($arr[$keys[17]]);
+		if (array_key_exists($keys[18], $arr)) $this->setFbUuid($arr[$keys[18]]);
+		if (array_key_exists($keys[19], $arr)) $this->setFbSessionKey($arr[$keys[19]]);
+		if (array_key_exists($keys[20], $arr)) $this->setFbPublishStatus($arr[$keys[20]]);
+		if (array_key_exists($keys[21], $arr)) $this->setFbPublishLove($arr[$keys[21]]);
+		if (array_key_exists($keys[22], $arr)) $this->setFbPublishComment($arr[$keys[22]]);
+		if (array_key_exists($keys[23], $arr)) $this->setCreatedAt($arr[$keys[23]]);
 	}
 
 	
@@ -1093,6 +1426,15 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(UserPeer::CITY)) $criteria->add(UserPeer::CITY, $this->city);
 		if ($this->isColumnModified(UserPeer::GENDER)) $criteria->add(UserPeer::GENDER, $this->gender);
 		if ($this->isColumnModified(UserPeer::DOB)) $criteria->add(UserPeer::DOB, $this->dob);
+		if ($this->isColumnModified(UserPeer::QUOTE)) $criteria->add(UserPeer::QUOTE, $this->quote);
+		if ($this->isColumnModified(UserPeer::NB_LOVES)) $criteria->add(UserPeer::NB_LOVES, $this->nb_loves);
+		if ($this->isColumnModified(UserPeer::NB_HATES)) $criteria->add(UserPeer::NB_HATES, $this->nb_hates);
+		if ($this->isColumnModified(UserPeer::FB_IS_ON)) $criteria->add(UserPeer::FB_IS_ON, $this->fb_is_on);
+		if ($this->isColumnModified(UserPeer::FB_UUID)) $criteria->add(UserPeer::FB_UUID, $this->fb_uuid);
+		if ($this->isColumnModified(UserPeer::FB_SESSION_KEY)) $criteria->add(UserPeer::FB_SESSION_KEY, $this->fb_session_key);
+		if ($this->isColumnModified(UserPeer::FB_PUBLISH_STATUS)) $criteria->add(UserPeer::FB_PUBLISH_STATUS, $this->fb_publish_status);
+		if ($this->isColumnModified(UserPeer::FB_PUBLISH_LOVE)) $criteria->add(UserPeer::FB_PUBLISH_LOVE, $this->fb_publish_love);
+		if ($this->isColumnModified(UserPeer::FB_PUBLISH_COMMENT)) $criteria->add(UserPeer::FB_PUBLISH_COMMENT, $this->fb_publish_comment);
 		if ($this->isColumnModified(UserPeer::CREATED_AT)) $criteria->add(UserPeer::CREATED_AT, $this->created_at);
 
 		return $criteria;
@@ -1149,6 +1491,24 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 		$copyObj->setGender($this->gender);
 
 		$copyObj->setDob($this->dob);
+
+		$copyObj->setQuote($this->quote);
+
+		$copyObj->setNbLoves($this->nb_loves);
+
+		$copyObj->setNbHates($this->nb_hates);
+
+		$copyObj->setFbIsOn($this->fb_is_on);
+
+		$copyObj->setFbUuid($this->fb_uuid);
+
+		$copyObj->setFbSessionKey($this->fb_session_key);
+
+		$copyObj->setFbPublishStatus($this->fb_publish_status);
+
+		$copyObj->setFbPublishLove($this->fb_publish_love);
+
+		$copyObj->setFbPublishComment($this->fb_publish_comment);
 
 		$copyObj->setCreatedAt($this->created_at);
 

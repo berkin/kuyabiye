@@ -1,13 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" <?php echo isset($facebook) ? $facebook : '' ?> xml:lang="tr" lang="tr">
 <head>
 
 <?php include_http_metas() ?>
 <?php include_metas() ?>
 
 <?php include_title() ?>
-
-<link rel="shortcut icon" href="/favicon.ico" />
 
 </head>
 <body>
@@ -20,7 +18,7 @@
         <li><?php echo link_to($sf_user->getNickname(), '@user_profile?nick=' . $sf_user->getNickname()); ?></li>
         <li><?php echo link_to('arkadaşlar' . ( $sf_user->getAttribute('nbFriendRequests') ? '(' . $sf_user->getAttribute('nbFriendRequests') . ')' : ''), '@friends'); ?></li>
         <li><?php echo link_to('mesajlar ' . ( $sf_user->getAttribute('nbUnreadMessages') ? '(' . $sf_user->getAttribute('nbUnreadMessages') . ')' : ''), '@conversations?folder=&page='); ?></li>
-        <li><?php echo link_to('hesabım', '@user_edit_profile'); ?></li>
+        <li><?php echo link_to('hesabım', '@user_edit'); ?></li>
         <li class="last"><?php echo link_to('çıkış', '@logout'); ?></li>
         <?php } else { ?>
         <li><?php echo link_to('kuyabiye nedir?', '@article?stripped_title=kuyabiye-nedir') ?></li>

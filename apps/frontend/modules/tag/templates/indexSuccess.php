@@ -45,6 +45,13 @@
             <?php foreach ($hated_tags as $tag): ?>
               <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
             <?php endforeach; ?>
+          </div> 
+
+          <h2 class="home-header"><a class="sticky" href="#">bugünlerde dikkat çekenler</a></h2>
+          <div class="tag-cloud">
+            <?php foreach ($sticky_tags as $tag): ?>
+              <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
+            <?php endforeach; ?>
           </div>
         </div>
 

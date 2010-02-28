@@ -46,7 +46,14 @@ class Tag extends BaseTag
     
     if ( $total )
     {
+      if ( $this->getLovers() > $this->getHaters() )
+      {
       $weight = round( ( $this->getLovers() / $total ) * ( $total / $max ) * 100 );
+      }
+      else
+      {
+        $weight = round( ( $this->getHaters() / $total ) * ( $total / $max ) * 100 );      
+      }
     }
     else 
     {

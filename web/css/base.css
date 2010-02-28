@@ -155,6 +155,7 @@ body {
 .tag-flash {
 	float: left;
 	height: 250px;
+  overflow: hidden;
   width: 600px;
 }
 
@@ -435,6 +436,16 @@ h2.sub-header {
   margin: 0 0 20px;
 }
 
+h3.sub-header {
+  font-size: 1.5em;
+  margin: 0 0 10px;
+}
+
+h3.sub-header a {
+  color: #0060ff;
+  text-decoration: underline;
+}
+
 .blog-entry 
 {
   margin: 0 0 30px;
@@ -464,7 +475,7 @@ h2.sub-header {
   display: inline;
 	float: left;
   font-size: 1.167em;
-  font-family: "lucida grande", "lucida sans unicode", sans-serif;
+  font-family: "lucida grande", arial, sans-serif;
   line-height: 1.5em;
   margin: 0 0 0 20px;
   padding: 0 0 10px;
@@ -604,6 +615,11 @@ h2.sub-header {
   
   .markdown-body a:hover {
     color: #154ba4;
+  }
+  
+  .markdown-body a.out-link {
+    background: url(../images/out-link.gif) no-repeat right 6px;
+    padding: 0 11px 0 0;
   }
   
 .markdown-help {
@@ -792,14 +808,65 @@ h2.sub-header {
 }
   #profile .data {
     float: left;
-    margin: 0 0 0 20px;
-    width: 300px;
+    margin: 4px 0 0 25px;
+    width: 390px;
+  }
+  
+  #profile h1.user-header {
+    font-size: 2em;
+  }
+  
+  h1.user-header small {
+    font-size: 0.5em;
+    color: #8B8B8B;
+    padding: 0 0 0 10px;
   }
 
   #profile .data .account {
+    background: url(../images/gender.gif) no-repeat 0 0;
     font-size: 1.333em;
-    height: 50px;
+    height: 30px;
+    margin: 30px 0 20px;
+    padding: 3px 0 0 25px;
   }
+   
+  #profile .data .male {
+    background-position: 0 -40px;
+  }
+  
+  .tag-counts {
+    font-size: 1.333em;
+  }
+  
+  .harmony {
+    font-size: 1.333em;
+    margin: 30px 0 0;
+  }
+  
+  .harmony h3 {
+    color: #545454;
+  }
+  
+  .harmony-meter {
+    background: #FFE9C7;
+    height: 8px;
+    width: 380px;
+    margin: 10px 0;
+  }
+  
+  .harmony-fill {
+    background: #FFC364;
+    height: 8px;
+  }
+  
+  .harmony-text a {
+    color: #0060ff;
+  }
+  
+  .harmony-text a:hover {
+    color: #154ba4;
+  }
+  
   
 #profile .buttons li a {
   font-size: 1.333em;
@@ -816,6 +883,32 @@ h2.sub-header {
     .buttons li.tag-icon {
       background: url(../images/tag_blue.png) no-repeat 0 5px;
     }
+    
+.user-sidebar {
+  float: left;
+  width: 179px;
+}
+  .user-sidebar .user {
+    float: left;
+    margin: 0 0 10px;
+  }
+  .user-sidebar-actions {
+    float: left;
+  }
+
+  .user-sidebar-actions  li {
+    display: block;
+    border-bottom: 1px solid #ffe6bf;
+    font-size: 1.333em;
+    padding: 6px 5px;
+    width: 169px;
+    vertical-align: bottom;
+  }
+  
+  .user-sidebar-actions li a:hover {
+    color: #154ba4;
+  }
+
 .main-header {
 	background: url(../images/dotted.gif) repeat-x 0 40px;
 	font-size: 2.5em;
@@ -860,6 +953,18 @@ h2.sub-header {
 	color: #971298;
 }
 
+.sticky {
+  color: #4c4c4c;
+}
+
+.permission-box {
+  margin: 30px 0 0;
+}
+
+.permission-box a {
+  color: #d51289;
+}
+
 .notice div {
   font-size: 1.333em;
   margin: 0 0 20px;
@@ -880,6 +985,10 @@ h2.sub-header {
   
 .push {
   height: 50px;
+}
+
+.lucida {
+  font-family: "lucida grande", arial, sans-serif;
 }
 #footer {
 	background: #dc369a;

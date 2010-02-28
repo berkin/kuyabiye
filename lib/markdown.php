@@ -753,7 +753,16 @@ class Markdown_Parser {
 
 		$url = $this->encodeAttribute($url);
     
-    $result = link_to($link_text, '@tag_search', array('class' => 'tag-link', 'query_string' => 'ara=' . $url));
+    $pattern = '/^(([\w]+:)?\/\/)?(([\d\w]|%[a-fA-f\d]{2,2})+(:([\d\w]|%[a-fA-f\d]{2,2})+)?@)?([\d\w][-\d\w]{0,253}[\d\w]\.)+[\w]{2,4}(:[\d]+)?(\/([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)*(\?(&amp;?([-+_~.\d\w]|%[a-fA-f\d]{2,2})=?)*)?(#([-+_~.\d\w]|%[a-fA-f\d]{2,2})*)?$/';
+    
+    if ( preg_match($pattern, $url) )
+    {
+      $result = "<a class=\"out-link\" target=\"_blank\" href=\"$url\">$link_text</a>";
+    } 
+    else 
+    {
+      $result = link_to($link_text, '@tag_search', array('class' => 'tag-link', 'query_string' => 'ara=' . $url));
+    }
 		// $result = "<a href=\"" . url_for('@tag_search') . "$url\"";
 		// if (isset($title)) {
 			// $title = $this->encodeAttribute($title);

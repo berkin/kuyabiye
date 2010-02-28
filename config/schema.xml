@@ -72,6 +72,15 @@
     <column name="city" type="VARCHAR" size="2" />
     <column name="gender" type="TINYINT" size="1" />
     <column name="dob" type="DATE" />
+    <column name="quote" type="varchar" size="140" />
+    <column name="nb_loves" type="integer" default="0" />
+    <column name="nb_hates" type="integer" default="0" />
+    <column name="fb_is_on" type="tinyint" required="true" default="0" />
+    <column name="fb_uuid" type="varchar" size="64" />
+    <column name="fb_session_key" type="varchar" size="64" />
+    <column name="fb_publish_status" type="tinyint" required="true" default="1" size="1" />
+    <column name="fb_publish_love" type="tinyint" required="true" default="1" size="1" />
+    <column name="fb_publish_comment" type="tinyint" required="true" default="1" size="1" />
     <column name="created_at" type="TIMESTAMP" />
   </table>
   

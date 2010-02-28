@@ -37,7 +37,7 @@ class UserToTagPeer extends BaseUserToTagPeer
     return $counts;
   }
   
-  static function updateCountOfLovers($tag)
+  public static function updateCountOfLovers($tag)
   {
   
     $love = myTools::isTagLoved($tag);
@@ -76,7 +76,34 @@ class UserToTagPeer extends BaseUserToTagPeer
 
     $stmt = $conn->prepareStatement($sql);
     $stmt->executeQuery();
-   }
+   
+  }
+  
+  public static function getCommonTags($subscriber, $user)
+  {
+    $conn = Propel::getConnection();
+    $query = 'SELECT ' . TagPeer::ID . ' as tags_id, ' . TagPeer::TAG . ' as tag, ' . TagPeer::STRIPPED_TAG . ' as stripped_tag, u1.love as love
+                FROM ' . UserToTagPeer::TABLE_NAME . ' as u1 , ' . UserToTagPeer::TABLE_NAME . ' as u2 , ' . TagPeer::TABLE_NAME . '
+                WHERE u1.tags_id = u2.tags_id 
+                  AND u1.love = u2.love 
+                  AND u1.users_id = ? 
+                  AND u2.users_id = ? 
+                  AND ' . TagPeer::ID . ' = u1.tags_id';
+    
+    $stmt = $conn->prepareStatement($query);
+    $stmt->setInt(1, $subscriber);
+    $stmt->setInt(2, $user);
+    $rs = $stmt->executeQuery();
+    
+    $tags = array();
+    while ( $rs->next() ) 
+    {
+      $sense = $rs->getInt('love') ? 'love' : 'hate';
+      $tags[$sense][] = array('tags_id' => $rs->getInt('tags_id'), 'tag' => $rs->getString('tag'), 'stripped_tag' => $rs->getString('stripped_tag'), 'love' => $rs->getInt('love'));
+    }
+    
+    return $tags;
+  }
    
   public static function getUserTagsPager($user, $love, $page)
   {

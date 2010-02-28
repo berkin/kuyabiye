@@ -133,9 +133,13 @@ class conversationActions extends sfActions
     $this->message->setBody($this->getRequestParameter('body'));
     $this->message->setConversationId($this->conversation->getConversation());
     $this->message->save();
+    
+    //mail recipent conversation id
+    // $email_conversation_id = ( $reply_to->getId() == $this->conversation->getOwner() ? $this->conversation->getId() : $this->replied->getId() ); 
+
       
     //sent mail    
-    $this->sendEmailNotice($reply_to->getEmail(), $this->getUser()->getNickname(), $this->conversation->getId());
+    $this->sendEmailNotice($reply_to->getEmail(), $this->getUser()->getNickname(), $this->conversation->getConversation());
   }
   
   public function executeCompose()

@@ -60,6 +60,24 @@ class UserMapBuilder {
 
 		$tMap->addColumn('DOB', 'Dob', 'int', CreoleTypes::DATE, false, null);
 
+		$tMap->addColumn('QUOTE', 'Quote', 'string', CreoleTypes::VARCHAR, false, 140);
+
+		$tMap->addColumn('NB_LOVES', 'NbLoves', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('NB_HATES', 'NbHates', 'int', CreoleTypes::INTEGER, false, null);
+
+		$tMap->addColumn('FB_IS_ON', 'FbIsOn', 'int', CreoleTypes::TINYINT, true, null);
+
+		$tMap->addColumn('FB_UUID', 'FbUuid', 'string', CreoleTypes::VARCHAR, false, 64);
+
+		$tMap->addColumn('FB_SESSION_KEY', 'FbSessionKey', 'string', CreoleTypes::VARCHAR, false, 64);
+
+		$tMap->addColumn('FB_PUBLISH_STATUS', 'FbPublishStatus', 'int', CreoleTypes::TINYINT, true, 1);
+
+		$tMap->addColumn('FB_PUBLISH_LOVE', 'FbPublishLove', 'int', CreoleTypes::TINYINT, true, 1);
+
+		$tMap->addColumn('FB_PUBLISH_COMMENT', 'FbPublishComment', 'int', CreoleTypes::TINYINT, true, 1);
+
 		$tMap->addColumn('CREATED_AT', 'CreatedAt', 'int', CreoleTypes::TIMESTAMP, false, null);
 
 	} 

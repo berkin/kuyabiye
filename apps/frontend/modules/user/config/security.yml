@@ -17,6 +17,19 @@ pictureRemove:
 pictureSetAvatar:
   is_secure: on
   credentials: subscriber
+
+facebook:
+  is_secure: on
+  credentials: subscriber
+  
+userEdit:
+  is_secure: on
+  credentials: subscriber
+  
+facebookSettings:
+  is_secure: on
+  credentials: subscriber  
+
   
 # all:
   # is_secure: off

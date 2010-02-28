@@ -38,7 +38,7 @@ class tagActions extends sfActions
 
     $this->loved_tags   = TagPeer::getPopularTags(true);
     $this->hated_tags   = TagPeer::getPopularTags(false);
-    // $this->sticky_tags  = TagPeer::getPopularTags(null, true);
+    $this->sticky_tags  = TagPeer::getPopularTags(null, true);
     
     $this->showcase_tags = TagPeer::getShowcaseTags();
     
@@ -193,11 +193,21 @@ class tagActions extends sfActions
     
     if ( $sense == 'seviyorum' || $sense == 'sevmiyorum' )
     {
+      $user = $this->getUser()->getSubscriber();
+      $love = $sense == 'seviyorum' ? true : false;
+      
       $user_tag = new UserToTag();
-      $user_tag->setUser($this->getUser()->getSubscriber());
+      $user_tag->setUser($user);
       $user_tag->setTag($tag);
-      $user_tag->setLove($sense == 'seviyorum' ? true : false);
+      $user_tag->setLove($love);
       $user_tag->save();
+      
+      if ( $user->getFbIsOn() && $user->getFbPublishLove() )
+      {
+        facebookPublishStream::publishLoveStream($user, $tag, $love);
+      }
+      
+      
     }
         
     $this->redirect('@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=');

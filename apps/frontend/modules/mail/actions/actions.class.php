@@ -21,7 +21,7 @@ class mailActions extends sfActions
     $mail->setContentType('text/html');
     $mail->addAddress($this->email);
     $mail->setFrom('Kuyabiye <info@kuyabiye.com>');
-    $mail->setSubject($this->nickname . ' size mesaj gönderdi');
+    $mail->setSubject($this->nickname . ' size mesaj gÃ¶nderdi');
 
     $this->mail = $mail;
   }
@@ -29,31 +29,32 @@ class mailActions extends sfActions
   public function executeSendPassword()
   {
     $this->email = $this->getRequest()->getAttribute('email');
+    $this->password = $this->getRequest()->getAttribute('password');
+    $this->nickname = $this->getRequest()->getAttribute('nickname');
   
     $mail = new sfMail();
     $mail->setCharset('utf-8');      
     $mail->setContentType('text/html');
     $mail->addAddress($this->email);
     $mail->setFrom('Kuyabiye <info@kuyabiye.com>');
-    $mail->setSubject('Yeni Şifre İsteği');
+    $mail->setSubject('Yeni ÅŸifre isteÄŸi');
 
     $this->mail = $mail;  
-    
-    $this->password = $this->getRequest()->getAttribute('password');
+  
   }
   
   public function executeUserRegister()
   {
     $this->email = $this->getRequest()->getAttribute('email');
     $this->nickname = $this->getRequest()->getAttribute('nickname');
-    $this->conversation = $this->getRequest()->getAttribute('password');  
+    $this->password = $this->getRequest()->getAttribute('password');  
     
     $mail = new sfMail();
     $mail->setCharset('utf-8');      
     $mail->setContentType('text/html');
     $mail->addAddress($this->email);
     $mail->setFrom('Kuyabiye <info@kuyabiye.com>');
-    $mail->setSubject('Üyelik bilgileriniz');
+    $mail->setSubject('Ãœyelik bilgileriniz');
 
     $this->mail = $mail;
   }

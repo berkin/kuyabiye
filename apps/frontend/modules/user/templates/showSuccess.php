@@ -1,10 +1,10 @@
 <?php use_helper('Javascript', 'User') ?>
 <ul class="breadcrumb">
   <li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li>
-  <li><?php echo link_to($subscriber->getNickname(), '@user_profile?nick=' . $subscriber->getNickname()) ?></li>
+  <li><?php echo link_to(ucwords($subscriber->getNickname()), '@user_profile?nick=' . $subscriber->getNickname()) ?></li>
 </ul>
 
-<?php include_partial('user/user', array('subscriber' => $subscriber, 'nbPictures' => $nbPictures, 'owner' => $owner)) ?>
+<?php include_partial('user/user', array('subscriber' => $subscriber, 'nbPictures' => $nbPictures, 'nbLovedTags' => $nbLovedTags, 'nbHatedTags' => $nbHatedTags, 'tags' => $tags, 'harmony' => $harmony, 'owner' => $owner)) ?>
 
 <div class="tags">
 <?php if ( $loved_tags ) { ?>

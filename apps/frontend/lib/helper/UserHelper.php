@@ -184,7 +184,7 @@ function link_to_friend_request($user, $friend)
           return 'Arkadaşlık İsteği Gönderildi';
           break;
         case 1:
-          return 'Listemde';
+          return 'Arkadaş Listemde';
           break;
         case 2:
           return 'Bloklandı';
@@ -197,6 +197,6 @@ function link_to_friend_request($user, $friend)
   }
   else
   {
-    return link_to('Arkadaş Olarak Ekle?', '@login');
+    return link_to('Arkadaş Olarak Ekle', '@login');
   } 
 }

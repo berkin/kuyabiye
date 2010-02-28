@@ -76,6 +76,9 @@ legend {
 .inputs label.short {
   width: 76px;
 }
+.inputs label.very-short {
+  width: 34px;
+}
 .inputs label.long {
   width: 166px;
 }

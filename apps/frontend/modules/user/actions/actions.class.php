@@ -18,6 +18,7 @@ class userActions extends sfActions
 {
   public function executeShow()
   {
+    
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
     $this->forward404Unless($this->subscriber);
 
@@ -28,11 +29,37 @@ class userActions extends sfActions
     $response = $this->getResponse();
     $response->setTitle($this->subscriber->getNickname()  . ' - kuyabiye.com');
     
+    $user_id = $this->subscriber->getId();
     $c = new Criteria();
-    $c->add(PicturePeer::USER_ID, $this->subscriber->getId());
+    $c->add(PicturePeer::USER_ID, $user_id);
     $this->nbPictures = PicturePeer::doCount($c);
     
+    // count tags
+    $c = new Criteria();
+    $c->add(UserToTagPeer::USERS_ID, $user_id);
+    $c->add(UserToTagPeer::LOVE, true);
+    $this->nbLovedTags = UserToTagPeer::doCount($c);
+    
+    $c = new Criteria();
+    $c->add(UserToTagPeer::USERS_ID, $user_id);
+    $c->add(UserToTagPeer::LOVE, false);
+    $this->nbHatedTags = UserToTagPeer::doCount($c);
+    
     $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
+    
+    //harmony
+    $this->tags = array();
+    $this->harmony = 20;
+    if ( !$this->owner && $this->getUser()->isAuthenticated() )
+    {
+      $this->tags = UserToTagPeer::getCommonTags($this->subscriber->getId(), $this->getUser()->getSubscriberId());
+      
+      $this->harmony += (count($this->tags) * 5);
+      
+      $this->harmony = ( $this->harmony > 90 ? 90 : $this->harmony);
+
+    }
+    
   }
 
   public function executeTags()
@@ -109,7 +136,88 @@ class userActions extends sfActions
       $this->setFlash('notice', 'Profiliniz güncellendi.');
     }    
   }
+  
+  public function executeUserEdit()
+  {
+    $this->user = $this->getUser()->getSubscriber();
     
+  }
+  
+  public function executeFacebookSettings()
+  {
+    $this->user = $this->getUser()->getSubscriber();
+    
+    // save user
+    if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
+    {
+      $this->user->setFbPublishStatus($this->getRequestParameter('fb_publish_status'));
+      $this->user->setFbPublishLove($this->getRequestParameter('fb_publish_love'));
+      $this->user->setFbPublishComment($this->getRequestParameter('fb_publish_comment'));
+      $this->user->save();
+      
+      $this->setFlash('notice', 'Ayarlarınız güncellendi.');
+    }    
+  }
+  
+  public function executeFacebook()
+  {
+    $this->facebook = 'xmlns:fb="http://www.facebook.com/2008/fbml"';
+    $this->user = $this->getUser()->getSubscriber();
+     
+    // user has granted the permissions, we display "facebook and kuyabiye connected successfully" and we can display a sharing checboxes(loves, comments, status)
+    // if the user did not grant the permissions, we show connect to facebook button
+    // we will get the has_permission_stream and has_permission_offline values using the session_key and uuid
+    $appapikey = sfConfig::get('app_facebook_api_key');
+    $appsecret = sfConfig::get('app_facebook_api_secret');
+    $facebook = new Facebook($appapikey, $appsecret);
+    
+    if ( $this->getRequestParameter('save_user') )
+    {
+      $this->user->setFbIsOn(true);
+      $this->user->setFbUuid($facebook->api_client->users_getLoggedInUser());
+      $this->user->setFbSessionKey($facebook->api_client->session_key);
+      $this->user->save();
+      $this->redirect('@facebook');
+    }    
+    
+    $this->has_permission_stream = $this->has_permission_offline = false;
+    
+    if ( $this->user->getFbIsOn() )
+    {
+      // check the database that user has a session key?
+      $facebook->set_user($this->user->getFbUuid(), $this->user->getFbSessionKey());
+
+      if ( $this->getRequestParameter('passive') )
+      {
+        $facebook->api_client->auth_revokeExtendedPermission('publish_stream');
+        $facebook->api_client->auth_revokeExtendedPermission('offline_access');
+        
+        $this->user->setFbIsOn('false');
+        $this->user->setFbUuid('');
+        $this->user->setFbSessionKey('');
+        $this->user->save();
+        
+        $this->redirect('@facebook');
+      }
+      
+      // store these at database
+      $this->facebook_user = $facebook->get_loggedin_user();
+      // print_r($facebook->api_client->users_getInfo($this->user->getFbUuid(), 'pic_square_with_logo, sex, first_name, last_name'));
+
+      
+      if ( $this->facebook_user )
+      {
+        //check for publish stream permission
+        $this->has_permission_stream = $facebook->api_client->users_hasAppPermission("publish_stream");
+
+
+        //check for offline access
+        $this->has_permission_offline = $facebook->api_client->users_hasAppPermission("offline_access"); 
+      }
+    }
+
+  }
+   
   public function executeLogin()
   {
     $user = $this->getUser();
@@ -163,6 +271,12 @@ class userActions extends sfActions
       $user_tag->setLove($love);
       $user_tag->setNew($new);
       $flag = $user_tag->save();
+      
+      //facebook      
+      if ( $user->getFbIsOn() && $user->getFbPublishLove() )
+      {
+        facebookPublishStream::publishLoveStream($user, $this->tag, $love);
+      }
     }
     $this->setFlash('tag_notice', 'Seçiminiz kaydedildi.');
     $this->redirect('@tag?stripped_tag=' . $this->tag->getStrippedTag() . '&page=');
@@ -293,6 +407,7 @@ class userActions extends sfActions
       $password = substr(md5(rand(100000, 999999)), 0, 6);
       $user->setPassword($password);
    
+      $this->getRequest()->setAttribute('email', $user->getEmail());
       $this->getRequest()->setAttribute('password', $password);
       $this->getRequest()->setAttribute('nickname', $user->getNickname());
    

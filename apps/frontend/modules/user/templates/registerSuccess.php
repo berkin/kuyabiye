@@ -6,7 +6,7 @@
 <h1 class="home-header love">Üye Ol!</h1>
   <div class="notice">
     <div class="success">
-      <?php echo 'Merhaba, sitemiz henüz test aşamasında olduğundan sadece davetiye ile üye alımı yapmaktadır. Davetiye isteği için bizi twitter.com veya facebook\'dan takip edin!' ?>
+      <?php echo 'Merhaba, sitemiz henüz test aşamasında olduğundan sadece davetiye ile üye alımı yapmaktadır. Davetiye isteği için bizi ' . link_to('twitter', 'http://twitter.com/kuyabiye', 'class=underline target=_blank') . ' veya ' . link_to('facebook', 'http://www.facebook.com/apps/application.php?id=498915420625', 'class=underline target=_blank')  . '\'dan takip edin!' ?>
     </div>      
   </div>  
   <?php 

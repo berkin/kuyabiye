@@ -13,7 +13,7 @@ abstract class BaseUserPeer {
 	const CLASS_DEFAULT = 'lib.model.User';
 
 	
-	const NUM_COLUMNS = 15;
+	const NUM_COLUMNS = 24;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -62,6 +62,33 @@ abstract class BaseUserPeer {
 	const DOB = 'users.DOB';
 
 	
+	const QUOTE = 'users.QUOTE';
+
+	
+	const NB_LOVES = 'users.NB_LOVES';
+
+	
+	const NB_HATES = 'users.NB_HATES';
+
+	
+	const FB_IS_ON = 'users.FB_IS_ON';
+
+	
+	const FB_UUID = 'users.FB_UUID';
+
+	
+	const FB_SESSION_KEY = 'users.FB_SESSION_KEY';
+
+	
+	const FB_PUBLISH_STATUS = 'users.FB_PUBLISH_STATUS';
+
+	
+	const FB_PUBLISH_LOVE = 'users.FB_PUBLISH_LOVE';
+
+	
+	const FB_PUBLISH_COMMENT = 'users.FB_PUBLISH_COMMENT';
+
+	
 	const CREATED_AT = 'users.CREATED_AT';
 
 	
@@ -70,18 +97,18 @@ abstract class BaseUserPeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'Nickname', 'Email', 'Sha1Password', 'Salt', 'RememberKey', 'Avatar', 'ActivationCode', 'FirstName', 'LastName', 'Country', 'City', 'Gender', 'Dob', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::NICKNAME, UserPeer::EMAIL, UserPeer::SHA1_PASSWORD, UserPeer::SALT, UserPeer::REMEMBER_KEY, UserPeer::AVATAR, UserPeer::ACTIVATION_CODE, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::COUNTRY, UserPeer::CITY, UserPeer::GENDER, UserPeer::DOB, UserPeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'nickname', 'email', 'sha1_password', 'salt', 'remember_key', 'avatar', 'activation_code', 'first_name', 'last_name', 'country', 'city', 'gender', 'dob', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'Nickname', 'Email', 'Sha1Password', 'Salt', 'RememberKey', 'Avatar', 'ActivationCode', 'FirstName', 'LastName', 'Country', 'City', 'Gender', 'Dob', 'Quote', 'NbLoves', 'NbHates', 'FbIsOn', 'FbUuid', 'FbSessionKey', 'FbPublishStatus', 'FbPublishLove', 'FbPublishComment', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID, UserPeer::NICKNAME, UserPeer::EMAIL, UserPeer::SHA1_PASSWORD, UserPeer::SALT, UserPeer::REMEMBER_KEY, UserPeer::AVATAR, UserPeer::ACTIVATION_CODE, UserPeer::FIRST_NAME, UserPeer::LAST_NAME, UserPeer::COUNTRY, UserPeer::CITY, UserPeer::GENDER, UserPeer::DOB, UserPeer::QUOTE, UserPeer::NB_LOVES, UserPeer::NB_HATES, UserPeer::FB_IS_ON, UserPeer::FB_UUID, UserPeer::FB_SESSION_KEY, UserPeer::FB_PUBLISH_STATUS, UserPeer::FB_PUBLISH_LOVE, UserPeer::FB_PUBLISH_COMMENT, UserPeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'nickname', 'email', 'sha1_password', 'salt', 'remember_key', 'avatar', 'activation_code', 'first_name', 'last_name', 'country', 'city', 'gender', 'dob', 'quote', 'nb_loves', 'nb_hates', 'fb_is_on', 'fb_uuid', 'fb_session_key', 'fb_publish_status', 'fb_publish_love', 'fb_publish_comment', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nickname' => 1, 'Email' => 2, 'Sha1Password' => 3, 'Salt' => 4, 'RememberKey' => 5, 'Avatar' => 6, 'ActivationCode' => 7, 'FirstName' => 8, 'LastName' => 9, 'Country' => 10, 'City' => 11, 'Gender' => 12, 'Dob' => 13, 'CreatedAt' => 14, ),
-		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::NICKNAME => 1, UserPeer::EMAIL => 2, UserPeer::SHA1_PASSWORD => 3, UserPeer::SALT => 4, UserPeer::REMEMBER_KEY => 5, UserPeer::AVATAR => 6, UserPeer::ACTIVATION_CODE => 7, UserPeer::FIRST_NAME => 8, UserPeer::LAST_NAME => 9, UserPeer::COUNTRY => 10, UserPeer::CITY => 11, UserPeer::GENDER => 12, UserPeer::DOB => 13, UserPeer::CREATED_AT => 14, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nickname' => 1, 'email' => 2, 'sha1_password' => 3, 'salt' => 4, 'remember_key' => 5, 'avatar' => 6, 'activation_code' => 7, 'first_name' => 8, 'last_name' => 9, 'country' => 10, 'city' => 11, 'gender' => 12, 'dob' => 13, 'created_at' => 14, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'Nickname' => 1, 'Email' => 2, 'Sha1Password' => 3, 'Salt' => 4, 'RememberKey' => 5, 'Avatar' => 6, 'ActivationCode' => 7, 'FirstName' => 8, 'LastName' => 9, 'Country' => 10, 'City' => 11, 'Gender' => 12, 'Dob' => 13, 'Quote' => 14, 'NbLoves' => 15, 'NbHates' => 16, 'FbIsOn' => 17, 'FbUuid' => 18, 'FbSessionKey' => 19, 'FbPublishStatus' => 20, 'FbPublishLove' => 21, 'FbPublishComment' => 22, 'CreatedAt' => 23, ),
+		BasePeer::TYPE_COLNAME => array (UserPeer::ID => 0, UserPeer::NICKNAME => 1, UserPeer::EMAIL => 2, UserPeer::SHA1_PASSWORD => 3, UserPeer::SALT => 4, UserPeer::REMEMBER_KEY => 5, UserPeer::AVATAR => 6, UserPeer::ACTIVATION_CODE => 7, UserPeer::FIRST_NAME => 8, UserPeer::LAST_NAME => 9, UserPeer::COUNTRY => 10, UserPeer::CITY => 11, UserPeer::GENDER => 12, UserPeer::DOB => 13, UserPeer::QUOTE => 14, UserPeer::NB_LOVES => 15, UserPeer::NB_HATES => 16, UserPeer::FB_IS_ON => 17, UserPeer::FB_UUID => 18, UserPeer::FB_SESSION_KEY => 19, UserPeer::FB_PUBLISH_STATUS => 20, UserPeer::FB_PUBLISH_LOVE => 21, UserPeer::FB_PUBLISH_COMMENT => 22, UserPeer::CREATED_AT => 23, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'nickname' => 1, 'email' => 2, 'sha1_password' => 3, 'salt' => 4, 'remember_key' => 5, 'avatar' => 6, 'activation_code' => 7, 'first_name' => 8, 'last_name' => 9, 'country' => 10, 'city' => 11, 'gender' => 12, 'dob' => 13, 'quote' => 14, 'nb_loves' => 15, 'nb_hates' => 16, 'fb_is_on' => 17, 'fb_uuid' => 18, 'fb_session_key' => 19, 'fb_publish_status' => 20, 'fb_publish_love' => 21, 'fb_publish_comment' => 22, 'created_at' => 23, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, )
 	);
 
 	
@@ -162,6 +189,24 @@ abstract class BaseUserPeer {
 		$criteria->addSelectColumn(UserPeer::GENDER);
 
 		$criteria->addSelectColumn(UserPeer::DOB);
+
+		$criteria->addSelectColumn(UserPeer::QUOTE);
+
+		$criteria->addSelectColumn(UserPeer::NB_LOVES);
+
+		$criteria->addSelectColumn(UserPeer::NB_HATES);
+
+		$criteria->addSelectColumn(UserPeer::FB_IS_ON);
+
+		$criteria->addSelectColumn(UserPeer::FB_UUID);
+
+		$criteria->addSelectColumn(UserPeer::FB_SESSION_KEY);
+
+		$criteria->addSelectColumn(UserPeer::FB_PUBLISH_STATUS);
+
+		$criteria->addSelectColumn(UserPeer::FB_PUBLISH_LOVE);
+
+		$criteria->addSelectColumn(UserPeer::FB_PUBLISH_COMMENT);
 
 		$criteria->addSelectColumn(UserPeer::CREATED_AT);
 

@@ -127,11 +127,12 @@ class myTools
   
   public static function isTagSticky($tag)
   {
+    $max = Tag::getMax() * 0.1;
     $total = $tag->getLovers() + $tag->getHaters();
     $diff = abs($tag->getLovers() - $tag->getHaters());
     
-    // the difference must be less than the %10 of total value, and total must be greater than 50
-    if ( $total > 50 && $diff < ceil( $total * 0.1 ) )
+    // the difference must be less than the %10 of total value, and total must be greater than max
+    if ( $total > $max && $diff < ceil( $total * 0.3 ) )
     {
       return 1;
     }

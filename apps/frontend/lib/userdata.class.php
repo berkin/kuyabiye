@@ -11,6 +11,7 @@ class userdataFilter extends sfFilter
       {
         $user_id = $user->getSubscriberId();
         $c = new Criteria();
+        $c->add(ConversationPeer::IS_DELETED, false);
         $c->add(ConversationPeer::IS_READ, false);
         $c->add(ConversationPeer::OWNER, $user_id);
         $user->setAttribute('nbUnreadMessages', ConversationPeer::doCount($c));

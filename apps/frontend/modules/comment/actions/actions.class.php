@@ -58,9 +58,10 @@ class commentActions extends sfActions
         }
 
         CommentPeer::updateCommentsTree($tree_left);
-     
+        
+        $user = $this->getUser()->getSubscriber();
         $comment = new Comment();
-        $comment->setUser($this->getUser()->getSubscriber());
+        $comment->setUser($user);
         $comment->setTag($tag);
         $comment->setBody($body);
         $comment->setTreeLeft($tree_left + 1);
@@ -70,6 +71,10 @@ class commentActions extends sfActions
         
         $page = CommentPeer::getTagPage($tag->getId(), $comment_id, $comment->getTreeLeft());
         
+        if ( $user->getFbIsOn() && $user->getFbPublishComment() )
+        {
+          facebookPublishStream::publishCommentStream($user, $tag, $comment);
+        }
         $this->setFlash('comment', $comment->getId());
         $this->setFlash('notice', 'Yorumunuz eklendi.');
         
