@@ -20,7 +20,7 @@ logout:
   param: { module: user, action: logout }
 
 tag_add:
-  url:    /etiket-ekle/:search/:sense/*
+  url:    /etiket-ekle/:sense/*
   param:  { module: tag, action: add, sense: ' ' }
 
 tag_search:

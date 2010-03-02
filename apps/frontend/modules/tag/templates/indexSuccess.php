@@ -7,7 +7,7 @@
         
        	<div id="welcome" class="clearfix">
           <div class="tag-flash" id="tag-slideshow">
-          <?php foreach ($showcase_tags as $tag): ?>
+          <?php foreach ($sf_data->get('showcase_tags') as $tag): ?>
         	<div class="flash">
             <h2 class="tag"><?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=') ?><small><?php echo link_to($tag->getUser()->getNickname(), '@user_profile?nick=' . $tag->getUser()->getNickname(), array('class' => 'love')) ?> ekledi.</small></h2>
           
@@ -34,23 +34,23 @@
         <div id="homepage" class="tags">
         	<h2 class="home-header"><a class="love" href="#">bugünlerde sevilenler</a></h2>
           <div class="tag-cloud">
-            <?php foreach ($loved_tags as $tag): ?>
-              <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
+            <?php foreach ($sf_data->get('loved_tags') as $tag): ?>
+              <?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
             <?php endforeach; ?>
           </div>
 
           
           <h2 class="home-header"><a class="hate" href="#">bugünlerde sevilmeyenler</a></h2>
           <div class="tag-cloud">
-            <?php foreach ($hated_tags as $tag): ?>
-              <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
+            <?php foreach ($sf_data->get('hated_tags') as $tag): ?>
+              <?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
             <?php endforeach; ?>
           </div> 
 
           <h2 class="home-header"><a class="sticky" href="#">bugünlerde dikkat çekenler</a></h2>
           <div class="tag-cloud">
-            <?php foreach ($sticky_tags as $tag): ?>
-              <?php echo link_to($tag->getTag(), '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
+            <?php foreach ($sf_data->get('sticky_tags') as $tag): ?>
+              <?php echo link_to($tag, '@tag?stripped_tag=' . $tag->getStrippedTag() . '&page=', array('class' => 'tag size' . $tag->getWeight())) ?>
             <?php endforeach; ?>
           </div>
         </div>

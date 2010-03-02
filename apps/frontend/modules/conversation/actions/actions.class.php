@@ -62,7 +62,7 @@ class conversationActions extends sfActions
     $pager = new sfPropelPager('Conversation', 10);    
     $pager->setCriteria($c);
     $pager->setPage($this->getRequestParameter('page', 1));
-    $pager->setPeerMethod( $this->folder == 'inbox' ? 'doSelectJoinUserRelatedBySender' : 'doSelectJoinUserRelatedByRecipent' );
+    $pager->setPeerMethod( $this->folder == 'gelen' ? 'doSelectJoinUserRelatedBySender' : 'doSelectJoinUserRelatedByRecipent' );
     $pager->init();
     
     
@@ -140,6 +140,11 @@ class conversationActions extends sfActions
       
     //sent mail    
     $this->sendEmailNotice($reply_to->getEmail(), $this->getUser()->getNickname(), $this->conversation->getConversation());
+    
+    if ( !$this->getRequest()->isXmlHttpRequest() )
+    {
+      $this->redirect('@conversation_read?id=' . $this->conversation->getConversation());
+    }
   }
   
   public function executeCompose()

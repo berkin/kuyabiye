@@ -58,12 +58,13 @@ class commentActions extends sfActions
         }
 
         CommentPeer::updateCommentsTree($tree_left);
+        require_once('markdown.php');
         
         $user = $this->getUser()->getSubscriber();
         $comment = new Comment();
         $comment->setUser($user);
         $comment->setTag($tag);
-        $comment->setBody($body);
+        $comment->setBody(markdown(htmlspecialchars($body, ENT_QUOTES, 'UTF-8')));
         $comment->setTreeLeft($tree_left + 1);
         $comment->setTreeRight($tree_left + 2);
         $comment->setParentId($comment_id);

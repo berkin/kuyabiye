@@ -21,7 +21,25 @@ class userActions extends sfActions
     
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
     $this->forward404Unless($this->subscriber);
+    
+    $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
+    
+    if ( $this->getRequest()->getMethod() == sfRequest::POST && $this->owner ) 
+    {
+      $this->subscriber->setQuote($this->getRequestParameter('quote'));
+      $this->subscriber->save();
+      
+      //facebook      
+      if ( $this->subscriber->getFbIsOn() && $this->subscriber->getFbPublishStatus() )
+      {
+        facebookPublishStream::publishStatusStream($this->subscriber, $this->subscriber->getQuote());
+      }
 
+      $this->setFlash('notice', 'Güncellendi.');
+      $this->redirect('@user_profile?nick=' . $this->getUser()->getNickname());
+    }
+    
+    
     $this->loved_tags = $this->subscriber->getUserToTagsJoinTag();
     $this->hated_tags = $this->subscriber->getUserToTagsJoinTag(false);
     // $this->comments = $this->subscriber->getCommentsJoinTag();
@@ -32,27 +50,14 @@ class userActions extends sfActions
     $user_id = $this->subscriber->getId();
     $c = new Criteria();
     $c->add(PicturePeer::USER_ID, $user_id);
-    $this->nbPictures = PicturePeer::doCount($c);
-    
-    // count tags
-    $c = new Criteria();
-    $c->add(UserToTagPeer::USERS_ID, $user_id);
-    $c->add(UserToTagPeer::LOVE, true);
-    $this->nbLovedTags = UserToTagPeer::doCount($c);
-    
-    $c = new Criteria();
-    $c->add(UserToTagPeer::USERS_ID, $user_id);
-    $c->add(UserToTagPeer::LOVE, false);
-    $this->nbHatedTags = UserToTagPeer::doCount($c);
-    
-    $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
+    $this->nbPictures = PicturePeer::doCount($c);    
     
     //harmony
-    $this->tags = array();
+    $this->common_tags = array();
     $this->harmony = 20;
-    if ( !$this->owner && $this->getUser()->isAuthenticated() )
+    if ( !$this->owner )
     {
-      $this->tags = UserToTagPeer::getCommonTags($this->subscriber->getId(), $this->getUser()->getSubscriberId());
+      $this->common_tags = UserToTagPeer::getCommonTags($this->subscriber->getId(), $this->getUser()->getSubscriberId());
       
       $this->harmony += (count($this->tags) * 5);
       
@@ -77,6 +82,19 @@ class userActions extends sfActions
     $this->nbPictures = PicturePeer::doCount($c);
     
     $this->owner = ( $this->subscriber->getNickname() == $this->getUser()->getNickname() ) ? true : false;
+    
+    //harmony
+    $this->common_tags = array();
+    $this->harmony = 20;
+    if ( !$this->owner )
+    {
+      $this->common_tags = UserToTagPeer::getCommonTags($this->subscriber->getId(), $this->getUser()->getSubscriberId());
+      
+      $this->harmony += (count($this->tags) * 5);
+      
+      $this->harmony = ( $this->harmony > 90 ? 90 : $this->harmony);
+
+    }
   }
   
   public function executeRegister()
@@ -130,6 +148,19 @@ class userActions extends sfActions
     // save user
     if ( $this->getRequest()->getMethod() == sfRequest::POST ) 
     {
+      $city = $this->getRequestParameter('city');
+      if ( $this->getRequestParameter('country') == 'TR' && !$city )
+      {
+        $this->getRequest()->setError('city', 'Şehir girmeniz gerekli');
+      }
+
+      if ( $city )
+      {
+        if ( !array_key_exists($city, $this->cities) )
+        {
+          $this->getRequest()->setError('city', 'Hatalı şehir');
+        }
+      }
       $this->updateProfileFromRequest();
       $this->user->save();
       
@@ -321,6 +352,7 @@ class userActions extends sfActions
     $user = $this->getUser()->getSubscriber();
 
     $this->picture = PicturePeer::getUserPicture($user, $this->getRequestParameter('id'));
+    $this->forward404Unless($this->picture);
     
     PicturePeer::saveAvatar($user, $this->picture->getName());
     
@@ -330,6 +362,11 @@ class userActions extends sfActions
   
   public function executeUpload()
   {
+    if ($this->getRequest()->getMethod() != sfRequest::POST)
+    {
+      $this->redirect('@user_pictures?nick=' . $this->getUser()->getNickname());
+    }
+
     $this->subscriber = $this->getUser()->getSubscriberByNick($this->getRequestParameter('nick', $this->getUser()->getNickname()));
     $this->forward404Unless($this->subscriber);
     

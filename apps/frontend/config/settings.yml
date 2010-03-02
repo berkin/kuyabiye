@@ -30,6 +30,8 @@ all:
     i18n: on
     validation_error_prefix:    ~
     validation_error_suffix:    ~
+    escaping_strategy:          bc 
+    escaping_method:            ESC_ENTITIES  
 #all:
 #  .actions:
 #    default_module:         default   # Default module and action to be called when

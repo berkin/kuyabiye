@@ -47,6 +47,6 @@ class TagPeer extends BaseTagPeer
     $c = new Criteria();
     $c->add(TagPeer::IS_ON_HOMEPAGE, true);
     
-    return TagPeer::doSelect($c);
+    return TagPeer::doSelectJoinUser($c);
   }
 }

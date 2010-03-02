@@ -50,11 +50,6 @@ class tagActions extends sfActions
     $this->last_users = UserPeer::doSelect($c);
   }
 
-  public function executeList()
-  {
-    $this->tags = TagPeer::doSelect(new Criteria());
-  }
-
   public function executeShow()
   {
     $c = new Criteria();
@@ -177,7 +172,7 @@ class tagActions extends sfActions
   {
     
     $c = new Criteria();
-    $c->add(TagPeer::TAG, mb_strtolower($this->getRequestParameter('search'), 'UTF-8'));
+    $c->add(TagPeer::TAG, mb_strtolower($this->getRequestParameter('ara'), 'UTF-8'));
     $search = TagPeer::doSelectOne($c);
     if ( $search )
     {
@@ -185,7 +180,7 @@ class tagActions extends sfActions
     }
 
     $tag = new Tag();
-    $tag->setTag($this->getRequestParameter('search'));
+    $tag->setTag($this->getRequestParameter('ara'));
     $tag->setCreatedBy($this->getUser()->getSubscriberId());
     $tag->save();
     

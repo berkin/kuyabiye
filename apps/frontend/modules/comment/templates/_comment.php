@@ -1,4 +1,4 @@
-<?php use_helper('Date', 'I18N', 'Formatter') ?>
+<?php use_helper('Date', 'I18N') ?>
 <?php
 $sense = '';
 $lovetext = '';
@@ -27,7 +27,7 @@ elseif ( $comment['love'] == '1' )
               </div>
             <?php } ?>
             
-            <div class="markdown-body"><?php echo formatter($comment['body']) ?></div>
+            <div class="markdown-body"><?php echo $comment['body'] ?></div>
             <div id="comment-<?php echo $comment['id'] ?>" class="add-comment clearfix">
               <?php 
               if ( $sf_user->isAuthenticated() ) 

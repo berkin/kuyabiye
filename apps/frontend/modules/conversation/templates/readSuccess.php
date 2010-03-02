@@ -8,7 +8,7 @@
 
 <h1 class="home-header love">Mesaj</h1>
 <?php if ( $conversation->getTitle() ) { ?>
-  <h2 class="message-header"><?php echo link_to($conversation->getTitle(), '@conversation_read?id=' . $conversation->getConversation()) ?></h2>
+  <h2 class="message-header"><?php echo link_to($sf_data->get('conversation')->getTitle(), '@conversation_read?id=' . $conversation->getConversation()) ?></h2>
 <?php } ?>
 <div class="clearfix" id="message-list">
 
@@ -17,7 +17,9 @@
     <?php include_partial('user/avatar', array('user' => $message->getUser())); ?>
     <div class="message-content">
     <h3><?php echo link_to($message->getUser()->getNickname(), '@user_profile?nick=' . $message->getUser()->getNickname(), 'class=user') ?><span title="<?php echo $message->getCreatedAt() ?>"><?php echo time_ago_in_words($message->getCreatedAt('U')) ?> önce</span></h3>
+    <div class="markdown-body">
     <?php echo $message->getHtmlBody() ?>
+    </div>
     </div>
   </div>
 <?php } ?>

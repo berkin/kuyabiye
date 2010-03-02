@@ -200,6 +200,7 @@ body {
   padding: 10px 0;
 }    
 	.love-buttons li {
+	  background: url(../images/sprite.gif) no-repeat 0 0;
 		display: inline-block;
     float: left;
     font-size: 1.5em;
@@ -209,7 +210,7 @@ body {
 	}
 
     .love-buttons li.love {
-	  	background: url(../images/love.gif) no-repeat 0 3px;
+      background-position: 0 -68px;
     	color: #d51289;
     }
     .love-buttons li.love a {
@@ -217,7 +218,7 @@ body {
     }
 
     .love-buttons li.hate {
-	  	background: url(../images/hate.gif) no-repeat 0 3px;
+      background-position: 0 -92px;
     	color: #971298;
     }
     .love-buttons li.hate a {
@@ -333,10 +334,14 @@ body {
 	display: block;
 }
 .users li .nick {
-  background: url(../images/tag-bullet.gif) no-repeat 0 9px;
+  /*background: url(../images/tag-bullet.gif) no-repeat 0 9px; */
+  display: block;
+  color: #595959;
   overflow: hidden;
-  padding: 3px 3px 10px 9px;
-  width: 64px;
+  white-space: nowrap;
+  padding: 3px 0 10px;
+  height: 10px;
+  width: 75px;
 }
 
 #gallery span.action {
@@ -823,7 +828,7 @@ h3.sub-header a {
   }
 
   #profile .data .account {
-    background: url(../images/gender.gif) no-repeat 0 0;
+    background: url(../images/sprite.gif) no-repeat 0 0;
     font-size: 1.333em;
     height: 30px;
     margin: 30px 0 20px;
@@ -909,6 +914,14 @@ h3.sub-header a {
     color: #154ba4;
   }
 
+.quote-form {
+  margin: 20px 0;
+}  
+  .quote-form  h3 {
+    font-size: 1.333em;
+    margin: 0 0 10px;
+  }
+  
 .main-header {
 	background: url(../images/dotted.gif) repeat-x 0 40px;
 	font-size: 2.5em;
@@ -989,6 +1002,16 @@ h3.sub-header a {
 
 .lucida {
   font-family: "lucida grande", arial, sans-serif;
+}
+
+#indicator {
+  background: url(../images/indicator.gif) no-repeat 0 0;
+  height: 32px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 32px;
+  z-index: 999;
 }
 #footer {
 	background: #dc369a;

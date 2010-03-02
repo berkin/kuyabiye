@@ -11,16 +11,16 @@ use_helper('Date', 'Validation');
 
 <div id="welcome" class="clearfix">
   <div class="tag-flash">
-    <h1 class="tag"><a href="#"><?php echo $search ?></a></h1>
+    <h1 class="tag"><a href="#"><?php echo $sf_data->get('search') ?></a></h1>
       <div class="love-buttons-wrap">
         <ul class="love-buttons">
-          <li class="love"><?php echo link_to('Seviyor musun?', '@tag_add?sense=seviyorum&search=' . $search) ?></li>
-          <li class="hate"><?php echo link_to('Sevmiyor musun?', '@tag_add?sense=sevmiyorum&search=' . $search) ?></li>
+          <li class="love"><?php echo link_to('Seviyor musun?', '@tag_add?sense=seviyorum', array('query_string' => 'ara=' . urlencode($search))) ?></li>
+          <li class="hate"><?php echo link_to('Sevmiyor musun?', '@tag_add?sense=sevmiyorum', array('query_string' => 'ara=' . urlencode($search))) ?></li>
         </ul>
       </div>
       <div class="notice">
         <div class="success">
-          <?php echo 'Bu etiket henüz eklenmemiş, bu etiketi profiline yukarıdaki seviyor musun veya sevmiyor musun bağlantılarına tıklayarak ekleyebilirsin. Sadece yorum yapmak için ' . link_to('buraya', '@tag_add?search=' . $search . '&sense=', 'class=bold') . ' tıklayın.' ?>
+          <?php echo 'Bu etiket henüz eklenmemiş, bu etiketi profiline yukarıdaki seviyor musun veya sevmiyor musun bağlantılarına tıklayarak ekleyebilirsin. Sadece yorum yapmak için ' . link_to('buraya', '@tag_add?sense=', array('class' => 'bold', 'query_string' => 'ara=' . urlencode($search))) . ' tıklayın.' ?>
         </div>      
       </div>
   </div>
@@ -30,9 +30,9 @@ use_helper('Date', 'Validation');
 
 <?php if ( $sounds ) { ?>
 <div class="sounds-like">
-  <h2 class="love">Aradığınız bu olabilir mi?</h1>
+  <h2 class="love">Aradığınız bu olabilir mi?</h2>
   <ul class="tag-list">
-  <?php foreach ( $sounds as $sound ) { ?>
+  <?php foreach ( $sf_data->get('sounds') as $sound ) { ?>
     <li><?php echo link_to($sound['tag'], '@tag?stripped_tag=' . $sound['stripped_tag'] . '&page=') ?></li>
   <?php } ?>
   </ul>

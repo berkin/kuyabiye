@@ -1,6 +1,15 @@
 <?php
 class facebookPublishStream
 {
+  static public function publishStatusStream($user, $status)
+  {
+    $appapikey = sfConfig::get('app_facebook_api_key');
+    $appsecret = sfConfig::get('app_facebook_api_secret');
+    $facebook = new Facebook($appapikey, $appsecret);
+    $facebook->set_user($user->getFbUuid(), $user->getFbSessionKey());
+    
+    $facebook->api_client->stream_publish($status);  
+  }
   static public function publishLoveStream($user, $tag, $love)
   {
     $appapikey = sfConfig::get('app_facebook_api_key');

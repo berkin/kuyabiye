@@ -2,7 +2,7 @@
   <?php include_partial('user/avatar', array('user' => $sf_user)); ?>
   <div class="message-content">
     <?php
-      echo form_tag('@conversation_reply', 'method=post');
+      echo form_tag('@conversation_reply', 'method=post id=reply-form');
       echo input_hidden_tag('conversation', $conversation->getConversation());
       echo input_hidden_tag('reply_to', $conversation->getReplyTo());
 
@@ -18,13 +18,15 @@
                 'update'   => array( 'success' => 'message-list', 'failure' => ''),
                 'url'      => '@conversation_reply',
                 'position' => 'bottom',
-                'complete' => "document.getElementById('body').value = '';"
+                'loading'  => "Element.show('indicator');$('reply-form').disable();",
+                'complete' => "Element.hide('indicator');$('reply-form').enable();$('body').value = '';"
               ), array(
+                'id'    => 'reply-button',
                 'class' => 'send-button'
               )) ?>
       <?php end_if_javascript(); ?>
       <noscript>
-        <?php echo submit_image_tag('send-button') ?>
+        <?php echo submit_image_tag('send-button.gif', 'id=reply-button') ?>
       </noscript>    
       </div>
 

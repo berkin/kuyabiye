@@ -36,7 +36,7 @@
     
     <div class="inputs">  
       <label for="send">&nbsp;</label>
-      <?php echo submit_image_tag('send-button.gif') ?>
+      <?php echo submit_image_tag('send-button.gif', 'alt=Mesaj Gönder') ?>
     </div>
 
   </form>

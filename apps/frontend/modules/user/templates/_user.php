@@ -3,37 +3,50 @@
   <div class="user-sidebar">
     <?php echo link_to(image_tag('/'.sfConfig::get('sf_upload_dir_name') . '/users/medium/' . ( $subscriber->getAvatar() ? $subscriber->getAvatar() : '404.gif' ), array('alt' => $subscriber->getNickname(), 'title' => $subscriber->getNickname() . ' - resimler')), '@user_profile?nick=' . $subscriber->getNickname(), array('title' => $subscriber->getNickname(), 'class' => 'user')); ?>    
     <ul class="user-sidebar-actions">
+      <?php if ( $owner ) { ?>      
+      <li><?php echo link_to('Arkadaşlarım', '@friends'); ?></li>
+      <li><?php echo link_to('Fotağraf Yükle', '@user_pictures?nick=' . $subscriber->getNickname()); ?></li>
+      <?php } else { ?>
       <li><?php echo link_to('Mesaj Gönder', '@conversation_compose?recipent=' . $subscriber->getNickname()) ?></li>
-      <?php if ( !$owner ) { ?>
       <li><div id="friend-request-<?php echo $subscriber->getId() ?>">
           <?php include_partial('friend_request', array('subscriber' => $subscriber)); ?>
           </div>
       </li>
-      <?php } ?>
-      <li><?php echo link_to('Fotoğraflar (' . $nbPictures . ')', '@user_pictures?nick=' . $subscriber->getNickname()); ?></li>      
-      <?php if ( $owner ) { ?>
-      <li><?php echo link_to('Fotağraf Yükle', '@user_pictures?nick=' . $subscriber->getNickname()); ?></li>
+      <li><?php echo link_to('Fotoğraflar (' . $nbPictures . ')', '@user_pictures?nick=' . $subscriber->getNickname()); ?></li>
       <?php } ?>
       <li><?php echo link_to('Etiketleri', '@user_tags?nick=' . $subscriber->getNickname() . '&sense=hepsi&page=') ?></li>
     </ul>
   </div>
   
   <div class="data">
-    <h1 class="user-header lucida"><?php echo link_to($subscriber->getNickname(), '@user_profile?nick=' . $subscriber->getNickname()) ?> <?php if ( $subscriber->getQuote() ) { ?><small><?php echo $subscriber->getQuote() ?></small><?php } ?></h1>
+    <h1 class="user-header lucida"><?php echo link_to($subscriber->getNickname(), '@user_profile?nick=' . $subscriber->getNickname()) ?> <?php if ( $subscriber->getQuote() ) { ?><small><?php echo $sf_data->get('subscriber')->getQuote() ?><?php echo ( $sf_flash->has('notice') ? ' <span class="notice"><span class="success">' . $sf_flash->get('notice') : '</span></span>'); ?></small><?php } ?></h1>
+    <?php if ( $owner ) { ?>
+    <?php echo form_tag('@user_profile?nick=' . $subscriber->getNickname(), array('class' => 'quote-form clearfix')) ?>
+      <h3 class="lucida">Ne düşünüyorsun?</h3>
+      <div class="left">
+        <?php echo input_tag('quote', $sf_params->get('quote'), array('class' => 'text long')) ?>
+        <?php if ( $sf_request->hasError('quote') ) { ?>
+        <div class="form-error"><?php echo $sf_request->getError('quote'); ?></div>
+        <?php } ?>
+      </div>
+      <div class="left">
+        <?php echo submit_image_tag('quote_submit.gif', 'alt=Ne düşünüyorsun?') ?>
+      </div>
+    </form>
+    <?php } ?>
     <div class="account lucida <?php echo ($subscriber->getGender() ? 'female' : 'male') ?>">
       <?php $cities = sfConfig::get('app_city'); ?>
       <?php echo ( $subscriber->getDob() ? get_age($subscriber->getDob('U')) . ' yaşında' : '' ); ?><?php echo ( $subscriber->getCountry() && $subscriber->getCountry() != 'TR' ? ', ' . format_country($subscriber->getCountry()) : '' ); ?><?php echo ( $subscriber->getCity() ? ', ' . $cities[$subscriber->getCity()] : '' ); ?>
     </div>
     <div class="tag-counts">
-    <span class="love">
-      <?php if ( $nbLovedTags && $nbHatedTags ) { ?>
-        <?php if ( $nbLovedTags ) { ?>
-          <?php echo $nbLovedTags ?></span> etiketi sevdiklerine eklemiş. 
+      <?php if ( $subscriber->getNbLoves() && $subscriber->getNbHates() ) { ?>
+        <?php if ( $subscriber->getNbLoves() ) { ?>
+          <span class="love"><?php echo $subscriber->getNbLoves() ?></span> etiketi sevdiklerine eklemiş. 
         <?php } else { ?>
         Sevdiklerine henüz birşey eklememiş.
         <?php } ?>
-        <?php if ( $nbHatedTags ) { ?>
-        <span class="hate"><?php echo $nbHatedTags ?></span> etiketi sevmediklerine eklemiş.
+        <?php if ( $subscriber->getNbHates() ) { ?>
+        <span class="hate"><?php echo $subscriber->getNbHates() ?></span> etiketi sevmediklerine eklemiş.
         <?php } else { ?>
         Sevmediklerine henüz birşey eklememiş.
         <?php } ?>

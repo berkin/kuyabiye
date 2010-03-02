@@ -79,6 +79,26 @@ class UserToTagPeer extends BaseUserToTagPeer
    
   }
   
+  public static function updateCountOfUserLoves($user)
+  {
+    $conn = Propel::getConnection(self::DATABASE_NAME);
+    $sql = 'UPDATE ' . UserPeer::TABLE_NAME . ' 
+              SET ' . UserPeer::NB_LOVES . ' = (
+                SELECT COUNT(' . UserToTagPeer::LOVE . ') 
+                  FROM ' . UserToTagPeer::TABLE_NAME  . ' 
+                WHERE ' . UserToTagPeer::USERS_ID . ' = ' . $user->getId() . '
+                  AND ' . UserToTagPeer::LOVE . ' = 1), ' .
+                UserPeer::NB_HATES . ' = (
+                SELECT COUNT(' . UserToTagPeer::LOVE . ') 
+                  FROM ' . UserToTagPeer::TABLE_NAME  . ' 
+                WHERE ' . UserToTagPeer::USERS_ID . ' = ' . $user->getId() . '
+                  AND ' . UserToTagPeer::LOVE . ' = 0)
+              WHERE ' . UserPeer::ID . ' = ' . $user->getId() . ';';
+
+    $stmt = $conn->prepareStatement($sql);
+    $stmt->executeQuery();  
+  }
+  
   public static function getCommonTags($subscriber, $user)
   {
     $conn = Propel::getConnection();

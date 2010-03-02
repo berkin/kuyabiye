@@ -9,7 +9,7 @@ use_helper('Date', 'Validation', 'User', 'Pagination', 'Javascript');
         <li><a href="#">Etiketler</a></li>
       </ul>
         
-      <?php include_partial('tag/tag', array('tag' => $tag)) ?>
+      <?php include_partial('tag/tag', array('tag' => $sf_data->get('tag'))) ?>
 
         
 			<div id="scale" class="clearfix">
@@ -120,7 +120,7 @@ if ( $sf_user->isAuthenticated() )
                                 <p>[kelime](kuyabiye) => " . link_to('kelime', '@tag_search', array('query_string' => 'ara=Kuyabiye')) . ", kuyabiye etiketine gider. <\/p>\
                                 <h6>Web Adresi Linkleme:<\/h6>\
                                 <p>http:\/\/kuyabiye.com => " . link_to('http://kuyabiye.com', '', 'class=out-link') . ", http:\/\/kuyabiye.com adresine gider.<\/p>\
-                                <p>[kelime][http:\/\/kuyabiye.com] => " . link_to('kelime', 'http://www.kuyabiye.com') . ", http:\/\/kuyabiye.com adresine gider.<\/p>\
+                                <p>[kelime](http:\/\/kuyabiye.com) => " . link_to('kelime', 'http://www.kuyabiye.com') . ", http:\/\/kuyabiye.com adresine gider.<\/p>\
                               <\/div>\
                               <\/div>\
                          <\/form>';

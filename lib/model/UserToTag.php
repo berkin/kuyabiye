@@ -19,6 +19,7 @@ class UserToTag extends BaseUserToTag
       parent::save();  
       
       UserToTagPeer::updateCountOfLovers($this->getTag());
+      UserToTagPeer::updateCountOfUserLoves($this->getUser());
       
       $conn->commit();
       return true;
@@ -41,6 +42,7 @@ class UserToTag extends BaseUserToTag
       parent::delete();
       
       UserToTagPeer::updateCountOfLovers($this->getTag());
+      UserToTagPeer::updateCountOfUserLoves($this->getUser());
      
       $conn->commit();
       return true;

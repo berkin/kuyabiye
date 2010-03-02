@@ -4,7 +4,7 @@
   <li><?php echo link_to(ucwords($subscriber->getNickname()), '@user_profile?nick=' . $subscriber->getNickname()) ?></li>
 </ul>
 
-<?php include_partial('user/user', array('subscriber' => $subscriber, 'nbPictures' => $nbPictures, 'nbLovedTags' => $nbLovedTags, 'nbHatedTags' => $nbHatedTags, 'tags' => $tags, 'harmony' => $harmony, 'owner' => $owner)) ?>
+<?php include_partial('user/user', array('subscriber' => $subscriber, 'nbPictures' => $nbPictures, 'tags' => $common_tags, 'harmony' => $harmony, 'owner' => $owner)) ?>
 
 <div class="tags">
 <?php if ( $loved_tags ) { ?>

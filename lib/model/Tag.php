@@ -40,7 +40,7 @@ class Tag extends BaseTag
   public function getWeight()
   {
     
-    $max = $this->getMax();
+    // $max = $this->getMax();
       
     $total = $this->getTotal();
     
@@ -48,11 +48,13 @@ class Tag extends BaseTag
     {
       if ( $this->getLovers() > $this->getHaters() )
       {
-      $weight = round( ( $this->getLovers() / $total ) * ( $total / $max ) * 100 );
+        // $weight = round( ( $this->getLovers() / $total ) * ( $total / $max ) * 100 );
+        $weight = Rating::ratingAverage($this->getLovers(), $total) * 100;
       }
       else
       {
-        $weight = round( ( $this->getHaters() / $total ) * ( $total / $max ) * 100 );      
+        // $weight = round( ( $this->getHaters() / $total ) * ( $total / $max ) * 100 );      
+        $weight = Rating::ratingAverage($this->getHaters(), $total) * 100;
       }
     }
     else 

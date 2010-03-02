@@ -9,7 +9,7 @@
 
 </head>
 <body>
-  <div id="indicator"><!-- indicator--></div>
+  <div style="display: none;" id="indicator"><!-- indicator--></div>
   <div class="wrap">
     
     <div id="header" class="clearfix">
@@ -31,9 +31,10 @@
 	      <?php echo link_to(image_tag('kuyabiye-logo.gif', array('alt' => 'kuyabiye logo', 'title' => 'Ana sayfaya dönmek için tıklayın')), '@homepage', array('class' => 'logo', 'title' => 'Sevdiğin sevmediğin herşeyi profiline ekle, arkadaşlarınla paylaş!')) ?>
         <div class="search">
           <?php echo form_tag('etiket/ara', array('method' => 'get', 'onsubmit' => 'this.submit();return false;')) ?>
+          <?php //echo form_tag('etiket/ara', array('method' => 'get', 'onsubmit' => 'document.location.href = \'' . url_for('@tag_search') . '?ara=\' + escape(this.ara.value);return false')) ?>
           <?php echo label_for('ara', 'Sevdiğin / Sevmediğin Herşey') ?>
           <?php echo input_tag('ara', $sf_params->get('ara'), array('class' => 'search-input')) ?>
-          <?php echo submit_image_tag('search-button.gif') ?>
+          <?php echo submit_image_tag('search-button.gif', 'alt=Etiket Ara') ?>
           </form>
         </div>
       </div>

@@ -11,7 +11,7 @@
       <li><?php echo link_to('Giden Mesajlar', '@conversations?page=&folder=giden') ?></li>
     </ul>
     
-    <?php echo form_tag('@conversation_remove') ?>
+    <?php echo form_tag('@conversation_remove', 'id=remove-form') ?>
     <div class="action clearfix">
       <ul class="right">
         <li class="compose"><?php echo link_to('Yeni Mesaj', '@conversation_compose?recipent=', 'class=love') ?></li>
@@ -19,8 +19,8 @@
           <?php if_javascript(); ?>
           <?php echo submit_to_remote('delete', 'Sil', array(
               'url'      => '@conversation_remove',
-              'loading'   => "Element.show('indicator');",
-              'complete'  => "Element.hide('indicator');updateJSON(request, json);",
+              'loading'   => "Element.show('indicator');$('remove-form').disable();",
+              'complete'  => "Element.hide('indicator');$('remove-form').enable();updateJSON(request, json);",
               '404'       => "return false;"
             ), array(
               'class'   => 'text-submit'
@@ -41,7 +41,7 @@
     <div class="arrow">&nbsp;</div>
     
     <div class="mailbox">
-    <?php foreach ($conversations->getResults() as $conversation) { $i++; ?>      
+    <?php foreach ($sf_data->get('conversations')->getResults() as $conversation) { $i++; ?>      
       <div id="message-<?php echo $conversation->getConversation() ?>" class="conversation <?php echo ( $conversation->getIsRead() ) ? 'read' : 'unread' ?>">
           <?php include_partial('user/avatar', array('user' => ( $folder == 'gelen' ? $conversation->getUserRelatedBySender() : $conversation->getUserRelatedByRecipent()))); ?>
           <div class="message-from">
