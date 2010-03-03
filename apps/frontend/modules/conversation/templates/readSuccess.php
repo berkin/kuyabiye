@@ -18,7 +18,7 @@
     <div class="message-content">
     <h3><?php echo link_to($message->getUser()->getNickname(), '@user_profile?nick=' . $message->getUser()->getNickname(), 'class=user') ?><span title="<?php echo $message->getCreatedAt() ?>"><?php echo time_ago_in_words($message->getCreatedAt('U')) ?> önce</span></h3>
     <div class="markdown-body">
-    <?php echo $message->getHtmlBody() ?>
+    <?php echo $message->getBody() ?>
     </div>
     </div>
   </div>

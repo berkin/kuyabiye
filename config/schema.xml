@@ -142,7 +142,6 @@
         <reference local="writer" foreign="id"/>
       </foreign-key>
     <column name="body" type="longvarchar" />
-    <column name="html_body" type="longvarchar" />
     <column name="read" type="tinyint" required="true" default="0" size="1" />
     <column name="created_at" type="timestamp" />
   </table>

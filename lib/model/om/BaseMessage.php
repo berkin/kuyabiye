@@ -25,10 +25,6 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 
 	
-	protected $html_body;
-
-
-	
 	protected $read = 0;
 
 
@@ -73,13 +69,6 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 	{
 
 		return $this->body;
-	}
-
-	
-	public function getHtmlBody()
-	{
-
-		return $this->html_body;
 	}
 
 	
@@ -184,22 +173,6 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 	} 
 	
-	public function setHtmlBody($v)
-	{
-
-		
-		
-		if ($v !== null && !is_string($v)) {
-			$v = (string) $v; 
-		}
-
-		if ($this->html_body !== $v) {
-			$this->html_body = $v;
-			$this->modifiedColumns[] = MessagePeer::HTML_BODY;
-		}
-
-	} 
-	
 	public function setRead($v)
 	{
 
@@ -245,17 +218,15 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 
 			$this->body = $rs->getString($startcol + 3);
 
-			$this->html_body = $rs->getString($startcol + 4);
+			$this->read = $rs->getInt($startcol + 4);
 
-			$this->read = $rs->getInt($startcol + 5);
-
-			$this->created_at = $rs->getTimestamp($startcol + 6, null);
+			$this->created_at = $rs->getTimestamp($startcol + 5, null);
 
 			$this->resetModified();
 
 			$this->setNew(false);
 
-						return $startcol + 7; 
+						return $startcol + 6; 
 		} catch (Exception $e) {
 			throw new PropelException("Error populating Message object", $e);
 		}
@@ -463,12 +434,9 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 				return $this->getBody();
 				break;
 			case 4:
-				return $this->getHtmlBody();
-				break;
-			case 5:
 				return $this->getRead();
 				break;
-			case 6:
+			case 5:
 				return $this->getCreatedAt();
 				break;
 			default:
@@ -485,9 +453,8 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 			$keys[1] => $this->getConversationId(),
 			$keys[2] => $this->getWriter(),
 			$keys[3] => $this->getBody(),
-			$keys[4] => $this->getHtmlBody(),
-			$keys[5] => $this->getRead(),
-			$keys[6] => $this->getCreatedAt(),
+			$keys[4] => $this->getRead(),
+			$keys[5] => $this->getCreatedAt(),
 		);
 		return $result;
 	}
@@ -516,12 +483,9 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 				$this->setBody($value);
 				break;
 			case 4:
-				$this->setHtmlBody($value);
-				break;
-			case 5:
 				$this->setRead($value);
 				break;
-			case 6:
+			case 5:
 				$this->setCreatedAt($value);
 				break;
 		} 	}
@@ -535,9 +499,8 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		if (array_key_exists($keys[1], $arr)) $this->setConversationId($arr[$keys[1]]);
 		if (array_key_exists($keys[2], $arr)) $this->setWriter($arr[$keys[2]]);
 		if (array_key_exists($keys[3], $arr)) $this->setBody($arr[$keys[3]]);
-		if (array_key_exists($keys[4], $arr)) $this->setHtmlBody($arr[$keys[4]]);
-		if (array_key_exists($keys[5], $arr)) $this->setRead($arr[$keys[5]]);
-		if (array_key_exists($keys[6], $arr)) $this->setCreatedAt($arr[$keys[6]]);
+		if (array_key_exists($keys[4], $arr)) $this->setRead($arr[$keys[4]]);
+		if (array_key_exists($keys[5], $arr)) $this->setCreatedAt($arr[$keys[5]]);
 	}
 
 	
@@ -549,7 +512,6 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		if ($this->isColumnModified(MessagePeer::CONVERSATION_ID)) $criteria->add(MessagePeer::CONVERSATION_ID, $this->conversation_id);
 		if ($this->isColumnModified(MessagePeer::WRITER)) $criteria->add(MessagePeer::WRITER, $this->writer);
 		if ($this->isColumnModified(MessagePeer::BODY)) $criteria->add(MessagePeer::BODY, $this->body);
-		if ($this->isColumnModified(MessagePeer::HTML_BODY)) $criteria->add(MessagePeer::HTML_BODY, $this->html_body);
 		if ($this->isColumnModified(MessagePeer::READ)) $criteria->add(MessagePeer::READ, $this->read);
 		if ($this->isColumnModified(MessagePeer::CREATED_AT)) $criteria->add(MessagePeer::CREATED_AT, $this->created_at);
 
@@ -587,8 +549,6 @@ abstract class BaseMessage extends BaseObject  implements Persistent {
 		$copyObj->setWriter($this->writer);
 
 		$copyObj->setBody($this->body);
-
-		$copyObj->setHtmlBody($this->html_body);
 
 		$copyObj->setRead($this->read);
 

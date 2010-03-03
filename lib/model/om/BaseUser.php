@@ -270,7 +270,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 	}
 
 	
-	public function getDob($format = 'Y-m-d')
+	public function getDob($format = 'Y-m-d H:i:s')
 	{
 
 		if ($this->dob === null || $this->dob === '') {
@@ -797,7 +797,7 @@ abstract class BaseUser extends BaseObject  implements Persistent {
 
 			$this->gender = $rs->getInt($startcol + 12);
 
-			$this->dob = $rs->getDate($startcol + 13, null);
+			$this->dob = $rs->getTimestamp($startcol + 13, null);
 
 			$this->quote = $rs->getString($startcol + 14);
 

@@ -13,7 +13,7 @@ abstract class BaseMessagePeer {
 	const CLASS_DEFAULT = 'lib.model.Message';
 
 	
-	const NUM_COLUMNS = 7;
+	const NUM_COLUMNS = 6;
 
 	
 	const NUM_LAZY_LOAD_COLUMNS = 0;
@@ -32,9 +32,6 @@ abstract class BaseMessagePeer {
 	const BODY = 'messages.BODY';
 
 	
-	const HTML_BODY = 'messages.HTML_BODY';
-
-	
 	const READ = 'messages.READ';
 
 	
@@ -46,18 +43,18 @@ abstract class BaseMessagePeer {
 
 	
 	private static $fieldNames = array (
-		BasePeer::TYPE_PHPNAME => array ('Id', 'ConversationId', 'Writer', 'Body', 'HtmlBody', 'Read', 'CreatedAt', ),
-		BasePeer::TYPE_COLNAME => array (MessagePeer::ID, MessagePeer::CONVERSATION_ID, MessagePeer::WRITER, MessagePeer::BODY, MessagePeer::HTML_BODY, MessagePeer::READ, MessagePeer::CREATED_AT, ),
-		BasePeer::TYPE_FIELDNAME => array ('id', 'conversation_id', 'writer', 'body', 'html_body', 'read', 'created_at', ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id', 'ConversationId', 'Writer', 'Body', 'Read', 'CreatedAt', ),
+		BasePeer::TYPE_COLNAME => array (MessagePeer::ID, MessagePeer::CONVERSATION_ID, MessagePeer::WRITER, MessagePeer::BODY, MessagePeer::READ, MessagePeer::CREATED_AT, ),
+		BasePeer::TYPE_FIELDNAME => array ('id', 'conversation_id', 'writer', 'body', 'read', 'created_at', ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
 	private static $fieldKeys = array (
-		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'ConversationId' => 1, 'Writer' => 2, 'Body' => 3, 'HtmlBody' => 4, 'Read' => 5, 'CreatedAt' => 6, ),
-		BasePeer::TYPE_COLNAME => array (MessagePeer::ID => 0, MessagePeer::CONVERSATION_ID => 1, MessagePeer::WRITER => 2, MessagePeer::BODY => 3, MessagePeer::HTML_BODY => 4, MessagePeer::READ => 5, MessagePeer::CREATED_AT => 6, ),
-		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'conversation_id' => 1, 'writer' => 2, 'body' => 3, 'html_body' => 4, 'read' => 5, 'created_at' => 6, ),
-		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+		BasePeer::TYPE_PHPNAME => array ('Id' => 0, 'ConversationId' => 1, 'Writer' => 2, 'Body' => 3, 'Read' => 4, 'CreatedAt' => 5, ),
+		BasePeer::TYPE_COLNAME => array (MessagePeer::ID => 0, MessagePeer::CONVERSATION_ID => 1, MessagePeer::WRITER => 2, MessagePeer::BODY => 3, MessagePeer::READ => 4, MessagePeer::CREATED_AT => 5, ),
+		BasePeer::TYPE_FIELDNAME => array ('id' => 0, 'conversation_id' => 1, 'writer' => 2, 'body' => 3, 'read' => 4, 'created_at' => 5, ),
+		BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
 	);
 
 	
@@ -118,8 +115,6 @@ abstract class BaseMessagePeer {
 		$criteria->addSelectColumn(MessagePeer::WRITER);
 
 		$criteria->addSelectColumn(MessagePeer::BODY);
-
-		$criteria->addSelectColumn(MessagePeer::HTML_BODY);
 
 		$criteria->addSelectColumn(MessagePeer::READ);
 

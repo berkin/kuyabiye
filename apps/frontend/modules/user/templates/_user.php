@@ -1,7 +1,9 @@
 <?php use_helper('Date', 'Age', 'I18N') ?>
 <div class="clearfix" id="profile">
   <div class="user-sidebar">
-    <?php echo link_to(image_tag('/'.sfConfig::get('sf_upload_dir_name') . '/users/medium/' . ( $subscriber->getAvatar() ? $subscriber->getAvatar() : '404.gif' ), array('alt' => $subscriber->getNickname(), 'title' => $subscriber->getNickname() . ' - resimler')), '@user_profile?nick=' . $subscriber->getNickname(), array('title' => $subscriber->getNickname(), 'class' => 'user')); ?>    
+    <?php 
+    $_404 = ( $owner ? '404_owner.gif' : '404.gif' );
+    echo link_to(image_tag('/'.sfConfig::get('sf_upload_dir_name') . '/users/medium/' . ( $subscriber->getAvatar() ? $subscriber->getAvatar() : $_404 ), array('alt' => $subscriber->getNickname(), 'title' => $subscriber->getNickname() . ' - resimler')), '@user_pictures?nick=' . $subscriber->getNickname(), array('title' => $subscriber->getNickname(), 'class' => 'user')); ?>    
     <ul class="user-sidebar-actions">
       <?php if ( $owner ) { ?>      
       <li><?php echo link_to('Arkadaşlarım', '@friends'); ?></li>

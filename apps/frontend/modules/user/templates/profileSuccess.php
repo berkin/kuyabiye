@@ -89,7 +89,18 @@
     </div>
     
     <div class="inputs">
-      <label for="dob">Doğum Tarihi:</label>
+      <label for="dob">Doğum Tarihi*:</label>
+      <?php 
+      $dob = '';
+      if ( $sf_params->get('dob') )
+      {
+        $_dob = $sf_params->get('dob');
+        if ( $_dob['day'] != '' && $_dob['month'] != '' && $_dob['year'] )
+        {
+          $dob = ($_dob['day'] != '' ? $_dob['day'] : '') . '-' . ($_dob['month'] != '' ? $_dob['month'] : '') . '-' . ($_dob['year'] != '' ? $_dob['year'] : '');
+        }
+      }
+      ?>
       <?php echo object_input_date_tag($user, 'getDob', array('include_blank' => true, 'culture' => 'tr_TR', 'year_start' => '1920', 'year_end' => date('Y') - 18), '')?>
       <?php if ( $sf_request->hasError('dob') ) { ?>
       <div class="form-error"><?php echo $sf_request->getError('dob'); ?></div>
