@@ -4,3 +4,4 @@
 /log/*
 /config/*
 /web/.htaccess
+/web/frontend_dev.php

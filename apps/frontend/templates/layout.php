@@ -6,7 +6,9 @@
 <?php include_metas() ?>
 
 <?php include_title() ?>
-
+<meta name="AdNetwork" value="adhood - www.adhood.com" acceptcode="e8a76ea3b0ee0e386af5">
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <div style="display: none;" id="indicator"><!-- indicator--></div>

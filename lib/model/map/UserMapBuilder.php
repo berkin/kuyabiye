@@ -58,7 +58,7 @@ class UserMapBuilder {
 
 		$tMap->addColumn('GENDER', 'Gender', 'int', CreoleTypes::TINYINT, false, 1);
 
-		$tMap->addColumn('DOB', 'Dob', 'int', CreoleTypes::TIMESTAMP, false, null);
+		$tMap->addColumn('DOB', 'Dob', 'int', CreoleTypes::DATE, false, null);
 
 		$tMap->addColumn('QUOTE', 'Quote', 'string', CreoleTypes::VARCHAR, false, 140);
 

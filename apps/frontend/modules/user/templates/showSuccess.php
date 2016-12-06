@@ -1,7 +1,7 @@
 <?php use_helper('Javascript', 'User') ?>
 <ul class="breadcrumb">
   <li class="first"><?php echo link_to('Ana Sayfa', '@homepage') ?>::</li>
-  <li><?php echo link_to(ucwords($subscriber->getNickname()), '@user_profile?nick=' . $subscriber->getNickname()) ?></li>
+  <li><?php echo link_to($subscriber->getNickname(), '@user_profile?nick=' . $subscriber->getNickname()) ?></li>
 </ul>
 
 <?php include_partial('user/user', array('subscriber' => $subscriber, 'nbPictures' => $nbPictures, 'tags' => $common_tags, 'harmony' => $harmony, 'owner' => $owner)) ?>

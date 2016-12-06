@@ -1,0 +1,22 @@
+prod:
+  propel:
+    class:    sfPropelDatabase
+    param:
+      phptype:  mysql
+      host:     mysql2.kuyabiye.com
+      database: kuyabiye
+      username: xtinaricci
+      password: theone1love
+      encoding: utf8
+
+all:
+  propel:
+    class:      sfPropelDatabase
+    param:
+      phptype:  mysql
+      host:     mysql2.kuyabiye.com
+      database: kuyabiye
+      username: xtinaricci
+      password: theone1love
+      encoding: utf8
+

@@ -761,7 +761,7 @@ class Markdown_Parser {
     } 
     else 
     {
-      $result = "<a class=\"tag-link\" href=\"" . sfContext::getInstance()->getController()->genUrl('@tag_search', array('query_string' => 'ara=' . $url))  . "\">$link_text</a>";
+      $result = "<a class=\"tag-link\" href=\"" . sfContext::getInstance()->getController()->genUrl('@tag_search', true) . '?ara=' . $url  . "\">$link_text</a>";
       // $result = link_to($link_text, '@tag_search', array('class' => 'tag-link', 'query_string' => 'ara=' . $url));
     }
 		// $result = "<a href=\"" . url_for('@tag_search') . "$url\"";
@@ -786,7 +786,7 @@ class Markdown_Parser {
   function _doInlineTagAnchors_callback($matches)
   {
     $match = $matches[1];
-    $result = "<a class=\"tag-link\" href=\"" . sfContext::getInstance()->getController()->genUrl('@tag_search', array('query_string' => 'ara=' . $match))  . "\">$match</a>";
+    $result = "<a class=\"tag-link\" href=\"" . sfContext::getInstance()->getController()->genUrl('@tag_search', true)  . '?ara=' . $match . "\">$match</a>";
     // sfLoader::loadHelpers(array('Url', 'Tag'));
     // $result = link_to($match, '@tag_search', array('class' => 'tag-link', 'query_string' => 'ara=' . $match));
     
