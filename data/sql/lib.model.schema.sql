@@ -25,7 +25,7 @@ CREATE TABLE `friends`
 	CONSTRAINT `friends_FK_2`
 		FOREIGN KEY (`user_to`)
 		REFERENCES `users` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- tags
@@ -56,7 +56,7 @@ CREATE TABLE `tags`
 	CONSTRAINT `tags_FK_1`
 		FOREIGN KEY (`created_by`)
 		REFERENCES `users` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- tags_comments
@@ -84,7 +84,7 @@ CREATE TABLE `tags_comments`
 	CONSTRAINT `tags_comments_FK_2`
 		FOREIGN KEY (`users_id`)
 		REFERENCES `users` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- users
@@ -124,7 +124,7 @@ CREATE TABLE `users`
 	CONSTRAINT `users_FK_1`
 		FOREIGN KEY (`activation_code`)
 		REFERENCES `activation_codes` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- pictures
@@ -144,7 +144,7 @@ CREATE TABLE `pictures`
 	CONSTRAINT `pictures_FK_1`
 		FOREIGN KEY (`user_id`)
 		REFERENCES `users` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- users_to_tags
@@ -167,7 +167,7 @@ CREATE TABLE `users_to_tags`
 	CONSTRAINT `users_to_tags_FK_2`
 		FOREIGN KEY (`tags_id`)
 		REFERENCES `tags` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- conversations
@@ -204,7 +204,7 @@ CREATE TABLE `conversations`
 	CONSTRAINT `conversations_FK_3`
 		FOREIGN KEY (`recipent`)
 		REFERENCES `users` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- messages
@@ -230,7 +230,7 @@ CREATE TABLE `messages`
 	CONSTRAINT `messages_FK_2`
 		FOREIGN KEY (`writer`)
 		REFERENCES `users` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- activation_codes
@@ -246,7 +246,7 @@ CREATE TABLE `activation_codes`
 	`total` INTEGER,
 	`available` INTEGER,
 	PRIMARY KEY (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- articles
@@ -275,7 +275,7 @@ CREATE TABLE `articles`
 	CONSTRAINT `articles_FK_2`
 		FOREIGN KEY (`categories_id`)
 		REFERENCES `articles_categories` (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 #-----------------------------------------------------------------------------
 #-- articles_categories
@@ -290,7 +290,7 @@ CREATE TABLE `articles_categories`
 	`title` VARCHAR(64),
 	`stripped_title` VARCHAR(100),
 	PRIMARY KEY (`id`)
-)Type=MyISAM;
+)ENGINE = MyISAM ;
 
 # This restores the fkey checks, after having unset them earlier
 SET FOREIGN_KEY_CHECKS = 1;
