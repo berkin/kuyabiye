@@ -1,2 +1,8 @@
 /cache/*
 /log/*
+/config/databases.yml
+/config/propel.ini
+/config/properties.ini
+/data/fixtures/test_data.yml
+/apps/frontend/config/app.yml
+/.openshift/*

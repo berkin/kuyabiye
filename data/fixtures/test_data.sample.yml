@@ -1,0 +1,1038 @@
+User:
+  berkin:
+    nickname:   berkin
+    email:      berkin@kuyabiye.com
+    password:   32141809
+    first_name: Berkin Berkcan
+    last_name:  Çırak
+    gender:     1
+    avatar:     n614266424_3052147_1914200.jpg
+
+  kuyabiye:
+    nickname:   kuyabiye
+    email:      info@kuyabiye.com
+    password:   32141809
+    first_name: Site
+    last_name:  Admin
+    gender:     0
+    avatar:     28096331.jpg
+
+  gilbert:
+    nickname:   gilbert
+    email:      gulberk@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     0
+    avatar:     28096367.jpg
+
+  gilbert1:
+    nickname:   deniz
+    email:      gulberk1@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     0
+    avatar:     28096458.jpg
+
+  gilbert2:
+    nickname:   awakeone
+    email:      gulberk2@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     0
+    avatar:     28096605.jpg
+
+  gilbert3:
+    nickname:   gorkem
+    email:      gulberk3@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     1
+    avatar:     28096743.jpg
+
+  gilbert4:
+    nickname:   carlena
+    email:      gulberk4@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     0
+    avatar:     07489310011798593633814.jpg
+
+  gilbert5:
+    nickname:   carolina
+    email:      gulberk5@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     1
+    avatar:     n673718911_706735_896.jpg
+
+  gilbert6:
+    nickname:   shosho
+    email:      gulberk6@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     0
+    avatar:     n673718911_706736_1254.jpg
+
+  gilbert7:
+    nickname:   detex
+    email:      gulberk7@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     0
+    avatar:     SSPX0532.jpg
+
+  gilbert8:
+    nickname:   3daysgrace
+    email:      gulberk8@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     1
+    avatar:     SSPX0533.jpg
+
+  gilbert9:
+    nickname:   milla
+    email:      gulberk9@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     0
+    avatar:     28096331.jpg
+
+  gilbert10:
+    nickname:   bogdan
+    email:      gulberk10@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     1
+    avatar:     28096331.jpg
+
+  gilbert11:
+    nickname:   kopek
+    email:      gulberk11@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     1
+    avatar:     28096331.jpg
+
+  gilbert12:
+    nickname:   durul
+    email:      gulberk12@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     0
+    avatar:     28096331.jpg
+
+  gilbert13:
+    nickname:   angelina
+    email:      gulberk13@kuyabiye.com
+    password:   32141809
+    first_name: Gülberk
+    last_name:  Çırak
+    gender:     1
+    avatar:     28096331.jpg
+
+Conversation:
+  c1:
+    sender: gilbert
+    recipent: berkin
+    title: gilbertcan çok özledim seni ya
+    conversation: 1
+
+Message:
+  m1:
+    conversation_id: c1
+    body: bak sölemedi deme, çok kırıldım sana... Bu üç nokta ne anlama gelior anladın sen...
+    writer: gilbert
+  m2:
+    conversation_id: c1
+    body: gel gel sarışınım gel, takulak mı takulak mı haaa
+    writer: berkin
+
+Tag:
+  issiz-adam:
+    tag:          ıssız adam
+    stripped_tag: issiz-adam
+    created_by:   berkin
+    is_on_homepage: true
+
+  fight-club:
+    tag:          fight club
+    stripped_tag: fight-club
+    created_by:   gilbert
+    is_on_homepage: true
+
+  elif-safak:
+    tag:          elif şafak
+    stripped_tag: elif-safak
+    created_by:   berkin
+    is_on_homepage: true
+    
+  12-dev-adam:
+    tag:              12 dev adam       
+    stripped_tag:     12-dev-adam
+    created_by:       gilbert4
+    is_on_homepage:   false
+    
+  gossip-girl:
+    tag:              gossip girl       
+    stripped_tag:     gossip-girl
+    created_by:       gilbert5
+    is_on_homepage:   false
+    
+  pirasa:
+    tag:              pırasa    
+    stripped_tag:     pirasa
+    created_by:       gilbert 
+    is_on_homepage:   false
+    
+  kurtlar-vadisi:
+    tag:              kurtlar vadisi    
+    stripped_tag:     kurtlar-vadisi
+    created_by:       gilbert6
+    is_on_homepage:   false
+    
+  var-misin-yok-musun:
+    tag:              var mısın yok musun
+    stripped_tag:     var-misin-yok-musun
+    created_by:       gilbert7
+    is_on_homepage:   false
+    
+  3uncu-kisi-olmak:
+    tag:              3. kisi olmak  
+    stripped_tag:     3-kisi-olmak
+    created_by:       berkin
+    is_on_homepage:   false
+    
+  istanbulu-bilmemek:
+    tag:              istanbul'u bilmemek
+    stripped_tag:     istanbulu-bilmemek
+    created_by:       gilbert8
+    is_on_homepage:   false
+    
+  ankarada-kis-gunu:
+    tag:              ankara'da kış günü 
+    stripped_tag:     ankara-da-kis-gunu
+    created_by:       gilbert9
+    is_on_homepage:   false
+    
+  big-bang-theory:
+    tag:              big bang theory   
+    stripped_tag:     big-bang-theory
+    created_by:       berkin
+    is_on_homepage:   false
+    
+  how-i-met-your-mother:
+    tag:              how i met your mother
+    stripped_tag:     how-i-met-your-mother 
+    created_by:       gilbert10
+    is_on_homepage:   false
+    
+  lost:
+    tag:              lost
+    stripped_tag:     lost
+    created_by:       berkin   
+    is_on_homepage:   false
+
+Comment:
+  c1:
+    tags_id: issiz-adam
+    users_id: berkin
+    body: farklı gözlerle izledim, nasıl güzel bi film
+    tree_left: 1
+    tree_right: 8
+
+  c2:
+    tags_id: issiz-adam
+    users_id: gilbert
+    body: erkek oyuncu adı neydi unuttum ama gerçekten çok başarılıydı, bayan oyuncu bana çok yapmacık geldi. cem hünalın yanında sönük kalmıştı. aaa ismini hatırlıyorum, eheheh:)
+    tree_left: 2
+    tree_right: 5
+
+  c3:
+    tags_id: issiz-adam
+    users_id: gilbert
+    body: sen ne anlarsin filmden, ben cok tatlıyım. piki konusmuyom.
+    tree_left: 3
+    tree_right: 4
+
+  c4:
+    tags_id: issiz-adam
+    users_id: kuyabiye
+    body: sen ne sölersen söle adam yapmış filmi arkadaşım.
+    tree_left: 6
+    tree_right: 7
+  
+  c5:
+    tags_id: issiz-adam
+    users_id: berkin
+    body: inanamıyorum size ya, ne sığ adamlarsınız, sizi gidi godikler. böle bi tartışmanın içinde olmaktan hicap duydum ayrıca daha önce hiç hicap duymamıştım
+    tree_left: 9
+    tree_right: 10
+
+  c6:
+    tags_id: issiz-adam
+    users_id: gilbert
+    body: tatlıyım ben, tatlıyım, tatlıyım :O:):)
+    tree_left: 11
+    tree_right: 14
+
+  c7:
+    tags_id: issiz-adam
+    users_id: berkin
+    body: en tatlı sensin, canum benim, çok seviyorum seni
+    tree_left: 12
+    tree_right: 13
+    
+UserToTag:
+  ut1:
+    users_id:   berkin
+    tags_id:    issiz-adam
+    love:       1
+
+  ut2:
+    users_id:   kuyabiye
+    tags_id:    issiz-adam
+    love:       1
+
+  ut3:
+    users_id:   gilbert
+    tags_id:    issiz-adam
+    love:       1
+
+  ut4:
+    users_id:   gilbert1
+    tags_id:    issiz-adam
+    love:       0
+
+  ut5:
+    users_id:   gilbert2
+    tags_id:    issiz-adam
+    love:       0
+
+  ut6:
+    users_id:   gilbert3
+    tags_id:    issiz-adam
+    love:       1
+
+  ut7:
+    users_id:   gilbert4
+    tags_id:    issiz-adam
+    love:       1
+
+  ut8:
+    users_id:   gilbert5
+    tags_id:    issiz-adam
+    love:       0
+
+  ut9:
+    users_id:   gilbert6
+    tags_id:    issiz-adam
+    love:       1
+
+  ut10:
+    users_id:   gilbert7
+    tags_id:    issiz-adam
+    love:       1
+
+  ut11:
+    users_id:   gilbert8
+    tags_id:    issiz-adam
+    love:       1
+
+  ut12:
+    users_id:   gilbert9
+    tags_id:    issiz-adam
+    love:       0
+
+  ut13:
+    users_id:   gilbert10
+    tags_id:    issiz-adam
+    love:       1
+
+  ut14:
+    users_id:   gilbert11
+    tags_id:    issiz-adam
+    love:       0
+
+  ut15:
+    users_id:   gilbert12
+    tags_id:    issiz-adam
+    love:       1
+
+  ut16:
+    users_id:   gilbert13
+    tags_id:    issiz-adam
+    love:       0
+
+  ut17:
+    users_id:   berkin
+    tags_id:    fight-club
+    love:       1
+
+
+    
+  ut21:
+    users_id:   berkin
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut22:
+    users_id:   kuyabiye
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut23:
+    users_id:   gilbert
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut24:
+    users_id:   gilbert1
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut25:
+    users_id:   gilbert2
+    tags_id:    how-i-met-your-mother
+    love:       0
+
+  ut26:
+    users_id:   gilbert3
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut27:
+    users_id:   gilbert4
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut28:
+    users_id:   gilbert5
+    tags_id:    how-i-met-your-mother
+    love:       0
+
+  ut29:
+    users_id:   gilbert6
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut20:
+    users_id:   gilbert7
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut211:
+    users_id:   gilbert8
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut212:
+    users_id:   gilbert9
+    tags_id:    how-i-met-your-mother
+    love:       0
+
+  ut213:
+    users_id:   gilbert10
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut214:
+    users_id:   gilbert11
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut215:
+    users_id:   gilbert12
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+  ut216:
+    users_id:   gilbert13
+    tags_id:    how-i-met-your-mother
+    love:       1
+
+
+    
+  ut31:
+    users_id:   berkin
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut32:
+    users_id:   kuyabiye
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut33:
+    users_id:   gilbert
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut34:
+    users_id:   gilbert1
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut35:
+    users_id:   gilbert2
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut36:
+    users_id:   gilbert3
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut37:
+    users_id:   gilbert4
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut38:
+    users_id:   gilbert5
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut39:
+    users_id:   gilbert6
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut40:
+    users_id:   gilbert7
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut311:
+    users_id:   gilbert8
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut312:
+    users_id:   gilbert9
+    tags_id:    big-bang-theory
+    love:       0
+
+  ut313:
+    users_id:   gilbert10
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut314:
+    users_id:   gilbert11
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut315:
+    users_id:   gilbert12
+    tags_id:    big-bang-theory
+    love:       1
+
+  ut316:
+    users_id:   gilbert13
+    tags_id:    big-bang-theory
+    love:       1
+    
+    
+  ut41:
+    users_id:   berkin
+    tags_id:    pirasa
+    love:       1
+
+  ut42:
+    users_id:   kuyabiye
+    tags_id:    pirasa
+    love:       1
+
+  ut43:
+    users_id:   gilbert
+    tags_id:    pirasa
+    love:       1
+
+  ut44:
+    users_id:   gilbert1
+    tags_id:    pirasa
+    love:       0
+
+  ut45:
+    users_id:   gilbert2
+    tags_id:    pirasa
+    love:       0
+
+  ut46:
+    users_id:   gilbert3
+    tags_id:    pirasa
+    love:       1
+
+  ut47:
+    users_id:   gilbert4
+    tags_id:    pirasa
+    love:       1
+
+  ut48:
+    users_id:   gilbert5
+    tags_id:    pirasa
+    love:       0
+
+  ut49:
+    users_id:   gilbert6
+    tags_id:    pirasa
+    love:       0
+
+  ut410:
+    users_id:   gilbert7
+    tags_id:    pirasa
+    love:       1
+
+  ut411:
+    users_id:   gilbert8
+    tags_id:    pirasa
+    love:       1
+
+  ut412:
+    users_id:   gilbert9
+    tags_id:    pirasa
+    love:       0
+
+  ut413:
+    users_id:   gilbert10
+    tags_id:    pirasa
+    love:       1
+
+  ut414:
+    users_id:   gilbert11
+    tags_id:    pirasa
+    love:       0
+
+  ut415:
+    users_id:   gilbert12
+    tags_id:    pirasa
+    love:       0
+
+  ut416:
+    users_id:   gilbert13
+    tags_id:    pirasa
+    love:       0
+    
+    
+  ut51:
+    users_id:   berkin
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut52:
+    users_id:   kuyabiye
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut53:
+    users_id:   gilbert
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut54:
+    users_id:   gilbert1
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut55:
+    users_id:   gilbert2
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut56:
+    users_id:   gilbert3
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut57:
+    users_id:   gilbert4
+    tags_id:    var-misin-yok-musun
+    love:       1
+
+  ut58:
+    users_id:   gilbert5
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut59:
+    users_id:   gilbert6
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut510:
+    users_id:   gilbert7
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut511:
+    users_id:   gilbert8
+    tags_id:    var-misin-yok-musun
+    love:       1
+
+  ut512:
+    users_id:   gilbert9
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut513:
+    users_id:   gilbert10
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut514:
+    users_id:   gilbert11
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut515:
+    users_id:   gilbert12
+    tags_id:    var-misin-yok-musun
+    love:       0
+
+  ut516:
+    users_id:   gilbert13
+    tags_id:    var-misin-yok-musun
+    love:       0
+    
+    
+  ut61:
+    users_id:   berkin
+    tags_id:    3uncu-kisi-olmak
+    love:       1
+
+  ut62:
+    users_id:   kuyabiye
+    tags_id:    3uncu-kisi-olmak
+    love:       1
+
+  ut63:
+    users_id:   gilbert
+    tags_id:    3uncu-kisi-olmak
+    love:       1
+
+  ut64:
+    users_id:   gilbert1
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+  ut65:
+    users_id:   gilbert2
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+  ut66:
+    users_id:   gilbert3
+    tags_id:    3uncu-kisi-olmak
+    love:       1
+
+  ut67:
+    users_id:   gilbert4
+    tags_id:    3uncu-kisi-olmak
+    love:       1
+
+  ut68:
+    users_id:   gilbert5
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+  ut69:
+    users_id:   gilbert6
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+  ut610:
+    users_id:   gilbert7
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+  ut611:
+    users_id:   gilbert8
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+  ut612:
+    users_id:   gilbert9
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+  ut613:
+    users_id:   gilbert10
+    tags_id:    3uncu-kisi-olmak
+    love:       1
+
+  ut614:
+    users_id:   gilbert11
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+  ut615:
+    users_id:   gilbert12
+    tags_id:    3uncu-kisi-olmak
+    love:       1
+
+  ut616:
+    users_id:   gilbert13
+    tags_id:    3uncu-kisi-olmak
+    love:       0
+
+    
+  ut71:
+    users_id:   berkin
+    tags_id:    lost
+    love:       1
+
+  ut72:
+    users_id:   kuyabiye
+    tags_id:    lost
+    love:       1
+
+  ut73:
+    users_id:   gilbert
+    tags_id:    lost
+    love:       1
+
+  ut74:
+    users_id:   gilbert1
+    tags_id:    lost
+    love:       0
+
+  ut75:
+    users_id:   gilbert2
+    tags_id:    lost
+    love:       0
+
+  ut76:
+    users_id:   gilbert3
+    tags_id:    lost
+    love:       1
+
+  ut77:
+    users_id:   gilbert4
+    tags_id:    lost
+    love:       1
+
+  ut78:
+    users_id:   gilbert5
+    tags_id:    lost
+    love:       1
+
+  ut79:
+    users_id:   gilbert6
+    tags_id:    lost
+    love:       1
+
+  ut710:
+    users_id:   gilbert7
+    tags_id:    lost
+    love:       1
+
+  ut711:
+    users_id:   gilbert8
+    tags_id:    lost
+    love:       1
+
+  ut712:
+    users_id:   gilbert9
+    tags_id:    lost
+    love:       1
+
+  ut713:
+    users_id:   gilbert10
+    tags_id:    lost
+    love:       1
+
+  ut714:
+    users_id:   gilbert11
+    tags_id:    lost
+    love:       1
+
+  ut715:
+    users_id:   gilbert12
+    tags_id:    lost
+    love:       1
+
+  ut716:
+    users_id:   gilbert13
+    tags_id:    lost
+    love:       0
+    
+    
+  ut81:
+    users_id:   berkin
+    tags_id:    kurtlar-vadisi
+    love:       1
+
+  ut82:
+    users_id:   kuyabiye
+    tags_id:    kurtlar-vadisi
+    love:       1
+
+  ut83:
+    users_id:   gilbert
+    tags_id:    kurtlar-vadisi
+    love:       1
+
+  ut84:
+    users_id:   gilbert1
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut85:
+    users_id:   gilbert2
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut86:
+    users_id:   gilbert3
+    tags_id:    kurtlar-vadisi
+    love:       1
+
+  ut87:
+    users_id:   gilbert4
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut88:
+    users_id:   gilbert5
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut89:
+    users_id:   gilbert6
+    tags_id:    kurtlar-vadisi
+    love:       1
+
+  ut810:
+    users_id:   gilbert7
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut811:
+    users_id:   gilbert8
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut812:
+    users_id:   gilbert9
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut813:
+    users_id:   gilbert10
+    tags_id:    kurtlar-vadisi
+    love:       1
+
+  ut814:
+    users_id:   gilbert11
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut815:
+    users_id:   gilbert12
+    tags_id:    kurtlar-vadisi
+    love:       0
+
+  ut816:
+    users_id:   gilbert13
+    tags_id:    kurtlar-vadisi
+    love:       0
+    
+    
+  ut91:
+    users_id:   berkin
+    tags_id:    istanbulu-bilmemek
+    love:       1
+
+  ut92:
+    users_id:   kuyabiye
+    tags_id:    istanbulu-bilmemek
+    love:       1
+
+  ut93:
+    users_id:   gilbert
+    tags_id:    istanbulu-bilmemek
+    love:       1
+
+  ut94:
+    users_id:   gilbert1
+    tags_id:    istanbulu-bilmemek
+    love:       0
+
+  ut95:
+    users_id:   gilbert2
+    tags_id:    istanbulu-bilmemek
+    love:       0
+
+  ut96:
+    users_id:   gilbert3
+    tags_id:    ankarada-kis-gunu
+    love:       1
+
+  ut97:
+    users_id:   gilbert4
+    tags_id:    ankarada-kis-gunu
+    love:       1
+
+  ut98:
+    users_id:   gilbert5
+    tags_id:    ankarada-kis-gunu
+    love:       0
+
+  ut99:
+    users_id:   gilbert6
+    tags_id:    ankarada-kis-gunu
+    love:       1
+
+  ut910:
+    users_id:   gilbert7
+    tags_id:    ankarada-kis-gunu
+    love:       1
+
+  ut911:
+    users_id:   gilbert8
+    tags_id:    elif-safak
+    love:       1
+
+  ut912:
+    users_id:   gilbert9
+    tags_id:    elif-safak
+    love:       0
+
+  ut913:
+    users_id:   gilbert10
+    tags_id:    elif-safak
+    love:       1
+
+  ut914:
+    users_id:   gilbert11
+    tags_id:    elif-safak
+    love:       0
+
+  ut915:
+    users_id:   gilbert12
+    tags_id:    elif-safak
+    love:       1
+
+  ut916:
+    users_id:   gilbert13
+    tags_id:    elif-safak
+    love:       0
+    
+Activation:
+  activation1:
+    code: neolursanolyinegel
+    total: 500
+    available: 500
