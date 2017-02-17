@@ -1,4 +1,4 @@
-﻿function showReply(comment_id, tag_id, depth) {
+function showReply(comment_id, tag_id, depth) {
   var aHref = 'href-' + comment_id;
   var objHref = $(aHref);
   var commentHolder = 'comment-' + comment_id;
@@ -6,6 +6,7 @@
   var commentFormHolder = $('comment-form-' + comment_id);
   var objCommentFormHolder = $(commentFormHolder);
   csrf = document.forms['main-comment'].elements['_csrf_token'].value;
+	document::
   
   if ( objCommentFormHolder ) {
     if ( objCommentFormHolder.style.display == 'none' ) {
