@@ -1,0 +1,47 @@
+version: "2"
+services:
+    www:
+        build: .
+        ports:
+            - "8001:80"
+        volumes:
+            - ./web:/var/www/html/
+            - ./apps:/var/www/apps/
+            - ./config:/var/www/config/
+            - ./lib:/var/www/lib/
+            - ./data:/var/www/data/
+            - ./plugins:/var/www/plugins/
+            - ./cache:/var/www/cache/
+            - ./batch:/var/www/batch/
+            - ./symfony:/var/www/symfony
+            - ./symfony.php:/var/www/symfony.php
+        links:
+            - db
+        networks:
+            - default
+    db:
+        image: mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_DATABASE: myDb
+            MYSQL_USER: user
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+        volumes:
+            - ./data/sql/:/docker-entrypoint-initdb.d
+            - persistent:/var/lib/mysql
+        networks:
+            - default
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+            - db:db
+        ports:
+            - 8000:80
+        environment:
+            MYSQL_USER: user
+            MYSQL_PASSWORD: test
+            MYSQL_ROOT_PASSWORD: test
+volumes:
+    persistent:

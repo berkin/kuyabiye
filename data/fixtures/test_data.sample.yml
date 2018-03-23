@@ -4,7 +4,7 @@ User:
     email:      berkin@kuyabiye.com
     password:   32141809
     first_name: Berkin Berkcan
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     1
     avatar:     n614266424_3052147_1914200.jpg
 
@@ -22,7 +22,7 @@ User:
     email:      gulberk@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     0
     avatar:     28096367.jpg
 
@@ -31,7 +31,7 @@ User:
     email:      gulberk1@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     0
     avatar:     28096458.jpg
 
@@ -40,7 +40,7 @@ User:
     email:      gulberk2@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     0
     avatar:     28096605.jpg
 
@@ -49,7 +49,7 @@ User:
     email:      gulberk3@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     1
     avatar:     28096743.jpg
 
@@ -58,7 +58,7 @@ User:
     email:      gulberk4@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     0
     avatar:     07489310011798593633814.jpg
 
@@ -67,7 +67,7 @@ User:
     email:      gulberk5@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     1
     avatar:     n673718911_706735_896.jpg
 
@@ -76,7 +76,7 @@ User:
     email:      gulberk6@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     0
     avatar:     n673718911_706736_1254.jpg
 
@@ -85,7 +85,7 @@ User:
     email:      gulberk7@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     0
     avatar:     SSPX0532.jpg
 
@@ -94,7 +94,7 @@ User:
     email:      gulberk8@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     1
     avatar:     SSPX0533.jpg
 
@@ -103,7 +103,7 @@ User:
     email:      gulberk9@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     0
     avatar:     28096331.jpg
 
@@ -112,7 +112,7 @@ User:
     email:      gulberk10@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     1
     avatar:     28096331.jpg
 
@@ -121,7 +121,7 @@ User:
     email:      gulberk11@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     1
     avatar:     28096331.jpg
 
@@ -130,7 +130,7 @@ User:
     email:      gulberk12@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  Cirak
     gender:     0
     avatar:     28096331.jpg
 
@@ -139,7 +139,7 @@ User:
     email:      gulberk13@kuyabiye.com
     password:   32141809
     first_name: Gülberk
-    last_name:  Çırak
+    last_name:  CiraCiraCirak
     gender:     1
     avatar:     28096331.jpg
 
@@ -147,22 +147,22 @@ Conversation:
   c1:
     sender: gilbert
     recipent: berkin
-    title: gilbertcan çok özledim seni ya
+    title: test
     conversation: 1
 
 Message:
   m1:
     conversation_id: c1
-    body: bak sölemedi deme, çok kırıldım sana... Bu üç nokta ne anlama gelior anladın sen...
+    body: test
     writer: gilbert
   m2:
     conversation_id: c1
-    body: gel gel sarışınım gel, takulak mı takulak mı haaa
+    body: test
     writer: berkin
 
 Tag:
   issiz-adam:
-    tag:          ıssız adam
+    tag:          issiz adam
     stripped_tag: issiz-adam
     created_by:   berkin
     is_on_homepage: true
@@ -174,127 +174,127 @@ Tag:
     is_on_homepage: true
 
   elif-safak:
-    tag:          elif şafak
+    tag:          elif safak
     stripped_tag: elif-safak
     created_by:   berkin
     is_on_homepage: true
-    
+
   12-dev-adam:
-    tag:              12 dev adam       
+    tag:              12 dev adam
     stripped_tag:     12-dev-adam
     created_by:       gilbert4
     is_on_homepage:   false
-    
+
   gossip-girl:
-    tag:              gossip girl       
+    tag:              gossip girl
     stripped_tag:     gossip-girl
     created_by:       gilbert5
     is_on_homepage:   false
-    
+
   pirasa:
-    tag:              pırasa    
+    tag:              pirasa
     stripped_tag:     pirasa
-    created_by:       gilbert 
+    created_by:       gilbert
     is_on_homepage:   false
-    
+
   kurtlar-vadisi:
-    tag:              kurtlar vadisi    
+    tag:              kurtlar vadisi
     stripped_tag:     kurtlar-vadisi
     created_by:       gilbert6
     is_on_homepage:   false
-    
+
   var-misin-yok-musun:
-    tag:              var mısın yok musun
+    tag:              var misin yok musun
     stripped_tag:     var-misin-yok-musun
     created_by:       gilbert7
     is_on_homepage:   false
-    
+
   3uncu-kisi-olmak:
-    tag:              3. kisi olmak  
+    tag:              3. kisi olmak
     stripped_tag:     3-kisi-olmak
     created_by:       berkin
     is_on_homepage:   false
-    
+
   istanbulu-bilmemek:
     tag:              istanbul'u bilmemek
     stripped_tag:     istanbulu-bilmemek
     created_by:       gilbert8
     is_on_homepage:   false
-    
+
   ankarada-kis-gunu:
-    tag:              ankara'da kış günü 
+    tag:              ankara'da kis günü
     stripped_tag:     ankara-da-kis-gunu
     created_by:       gilbert9
     is_on_homepage:   false
-    
+
   big-bang-theory:
-    tag:              big bang theory   
+    tag:              big bang theory
     stripped_tag:     big-bang-theory
     created_by:       berkin
     is_on_homepage:   false
-    
+
   how-i-met-your-mother:
     tag:              how i met your mother
-    stripped_tag:     how-i-met-your-mother 
+    stripped_tag:     how-i-met-your-mother
     created_by:       gilbert10
     is_on_homepage:   false
-    
+
   lost:
     tag:              lost
     stripped_tag:     lost
-    created_by:       berkin   
+    created_by:       berkin
     is_on_homepage:   false
 
 Comment:
   c1:
     tags_id: issiz-adam
     users_id: berkin
-    body: farklı gözlerle izledim, nasıl güzel bi film
+    body: farkli gözlerle izledim, nasil güzel bi film
     tree_left: 1
     tree_right: 8
 
   c2:
     tags_id: issiz-adam
     users_id: gilbert
-    body: erkek oyuncu adı neydi unuttum ama gerçekten çok başarılıydı, bayan oyuncu bana çok yapmacık geldi. cem hünalın yanında sönük kalmıştı. aaa ismini hatırlıyorum, eheheh:)
+    body: erkek oyuncu adi neydi unuttum ama gerçekten çok basariliydi, bayan oyuncu bana çok yapmacik geldi. cem hünalin yaninda sönük kalmisti. aaa ismini hatirliyorum, eheheh:)
     tree_left: 2
     tree_right: 5
 
   c3:
     tags_id: issiz-adam
     users_id: gilbert
-    body: sen ne anlarsin filmden, ben cok tatlıyım. piki konusmuyom.
+    body: sen ne anlarsin filmden, ben cok tatliyim. piki konusmuyom.
     tree_left: 3
     tree_right: 4
 
   c4:
     tags_id: issiz-adam
     users_id: kuyabiye
-    body: sen ne sölersen söle adam yapmış filmi arkadaşım.
+    body: sen ne sölersen söle adam yapmis filmi arkadasim.
     tree_left: 6
     tree_right: 7
-  
+
   c5:
     tags_id: issiz-adam
     users_id: berkin
-    body: inanamıyorum size ya, ne sığ adamlarsınız, sizi gidi godikler. böle bi tartışmanın içinde olmaktan hicap duydum ayrıca daha önce hiç hicap duymamıştım
+    body: inanamiyorum size ya, ne siğ adamlarsiniz, sizi gidi godikler. böle bi tartismanin içinde olmaktan hicap duydum ayrica daha önce hiç hicap duymamistim
     tree_left: 9
     tree_right: 10
 
   c6:
     tags_id: issiz-adam
     users_id: gilbert
-    body: tatlıyım ben, tatlıyım, tatlıyım :O:):)
+    body: tatliyim ben, tatliyim, tatliyim :O:):)
     tree_left: 11
     tree_right: 14
 
   c7:
     tags_id: issiz-adam
     users_id: berkin
-    body: en tatlı sensin, canum benim, çok seviyorum seni
+    body: en tatli sensin, canum benim, çok seviyorum seni
     tree_left: 12
     tree_right: 13
-    
+
 UserToTag:
   ut1:
     users_id:   berkin
@@ -382,7 +382,7 @@ UserToTag:
     love:       1
 
 
-    
+
   ut21:
     users_id:   berkin
     tags_id:    how-i-met-your-mother
@@ -464,7 +464,7 @@ UserToTag:
     love:       1
 
 
-    
+
   ut31:
     users_id:   berkin
     tags_id:    big-bang-theory
@@ -544,8 +544,8 @@ UserToTag:
     users_id:   gilbert13
     tags_id:    big-bang-theory
     love:       1
-    
-    
+
+
   ut41:
     users_id:   berkin
     tags_id:    pirasa
@@ -625,8 +625,8 @@ UserToTag:
     users_id:   gilbert13
     tags_id:    pirasa
     love:       0
-    
-    
+
+
   ut51:
     users_id:   berkin
     tags_id:    var-misin-yok-musun
@@ -706,8 +706,8 @@ UserToTag:
     users_id:   gilbert13
     tags_id:    var-misin-yok-musun
     love:       0
-    
-    
+
+
   ut61:
     users_id:   berkin
     tags_id:    3uncu-kisi-olmak
@@ -788,7 +788,7 @@ UserToTag:
     tags_id:    3uncu-kisi-olmak
     love:       0
 
-    
+
   ut71:
     users_id:   berkin
     tags_id:    lost
@@ -868,8 +868,8 @@ UserToTag:
     users_id:   gilbert13
     tags_id:    lost
     love:       0
-    
-    
+
+
   ut81:
     users_id:   berkin
     tags_id:    kurtlar-vadisi
@@ -949,8 +949,8 @@ UserToTag:
     users_id:   gilbert13
     tags_id:    kurtlar-vadisi
     love:       0
-    
-    
+
+
   ut91:
     users_id:   berkin
     tags_id:    istanbulu-bilmemek
@@ -1030,7 +1030,7 @@ UserToTag:
     users_id:   gilbert13
     tags_id:    elif-safak
     love:       0
-    
+
 Activation:
   activation1:
     code: neolursanolyinegel
